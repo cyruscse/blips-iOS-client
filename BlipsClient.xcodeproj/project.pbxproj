@@ -14,6 +14,7 @@
 		6E2086371FA2100F00C824D9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E2086351FA2100F00C824D9 /* LaunchScreen.storyboard */; };
 		6E2086421FA2100F00C824D9 /* BlipsClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2086411FA2100F00C824D9 /* BlipsClientTests.swift */; };
 		6E20864D1FA2100F00C824D9 /* BlipsClientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E20864C1FA2100F00C824D9 /* BlipsClientUITests.swift */; };
+		6E20865D1FA2106100C824D9 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E20865C1FA2106100C824D9 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,8 @@
 		6E2086481FA2100F00C824D9 /* BlipsClientUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlipsClientUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E20864C1FA2100F00C824D9 /* BlipsClientUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlipsClientUITests.swift; sourceTree = "<group>"; };
 		6E20864E1FA2100F00C824D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6E20865A1FA2105900C824D9 /* BlipsClient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BlipsClient.entitlements; sourceTree = "<group>"; };
+		6E20865C1FA2106100C824D9 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6E20865D1FA2106100C824D9 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,6 +85,7 @@
 				6E2086401FA2100F00C824D9 /* BlipsClientTests */,
 				6E20864B1FA2100F00C824D9 /* BlipsClientUITests */,
 				6E20862A1FA2100F00C824D9 /* Products */,
+				6E20865B1FA2106100C824D9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,6 +102,7 @@
 		6E20862B1FA2100F00C824D9 /* BlipsClient */ = {
 			isa = PBXGroup;
 			children = (
+				6E20865A1FA2105900C824D9 /* BlipsClient.entitlements */,
 				6E20862C1FA2100F00C824D9 /* AppDelegate.swift */,
 				6E20862E1FA2100F00C824D9 /* ViewController.swift */,
 				6E2086301FA2100F00C824D9 /* Main.storyboard */,
@@ -123,6 +129,14 @@
 				6E20864E1FA2100F00C824D9 /* Info.plist */,
 			);
 			path = BlipsClientUITests;
+			sourceTree = "<group>";
+		};
+		6E20865B1FA2106100C824D9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6E20865C1FA2106100C824D9 /* MapKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -194,6 +208,17 @@
 					6E2086281FA2100F00C824D9 = {
 						CreatedOnToolsVersion = 9.1;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Maps.iOS = {
+								enabled = 1;
+							};
+							com.apple.NearFieldCommunicationTagReading = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					6E20863C1FA2100F00C824D9 = {
 						CreatedOnToolsVersion = 9.1;
@@ -426,10 +451,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BlipsClient/BlipsClient.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = FY36VGL2Q2;
 				INFOPLIST_FILE = BlipsClient/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.fourth.BlipsClient;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fouryear.BlipsClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -440,10 +467,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = BlipsClient/BlipsClient.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = FY36VGL2Q2;
 				INFOPLIST_FILE = BlipsClient/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.fourth.BlipsClient;
+				PRODUCT_BUNDLE_IDENTIFIER = com.fouryear.BlipsClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
