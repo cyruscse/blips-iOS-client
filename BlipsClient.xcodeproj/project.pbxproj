@@ -15,6 +15,7 @@
 		6E2086421FA2100F00C824D9 /* BlipsClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2086411FA2100F00C824D9 /* BlipsClientTests.swift */; };
 		6E20864D1FA2100F00C824D9 /* BlipsClientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E20864C1FA2100F00C824D9 /* BlipsClientUITests.swift */; };
 		6E20865D1FA2106100C824D9 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E20865C1FA2106100C824D9 /* MapKit.framework */; };
+		6EAD4E831FBB8748003C2E30 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EAD4E821FBB8748003C2E30 /* Default-568h@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +51,7 @@
 		6E20864E1FA2100F00C824D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E20865A1FA2105900C824D9 /* BlipsClient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BlipsClient.entitlements; sourceTree = "<group>"; };
 		6E20865C1FA2106100C824D9 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		6EAD4E821FBB8748003C2E30 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 		6E2086201FA2100F00C824D9 = {
 			isa = PBXGroup;
 			children = (
+				6EAD4E821FBB8748003C2E30 /* Default-568h@2x.png */,
 				6E20862B1FA2100F00C824D9 /* BlipsClient */,
 				6E2086401FA2100F00C824D9 /* BlipsClientTests */,
 				6E20864B1FA2100F00C824D9 /* BlipsClientUITests */,
@@ -258,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E2086371FA2100F00C824D9 /* LaunchScreen.storyboard in Resources */,
+				6EAD4E831FBB8748003C2E30 /* Default-568h@2x.png in Resources */,
 				6E2086341FA2100F00C824D9 /* Assets.xcassets in Resources */,
 				6E2086321FA2100F00C824D9 /* Main.storyboard in Resources */,
 			);

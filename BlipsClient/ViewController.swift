@@ -6,6 +6,7 @@
 //  Copyright © 2017 Cyrus Sadeghi. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import MapKit
 
@@ -15,14 +16,33 @@ class ViewController: UIViewController {
     let initialLocation = CLLocation(latitude: 21.282778, longitude: -157.829444)
     let regionRadius: CLLocationDistance = 10
     
-    let jsonRequest = ["cityID": "1", "type": "lodging"]
+    let jsonRequest = ["cityID": "5", "type": "lodging"]
     let session = URLSession.shared
-    let url:URL = URL(string: "http://172.16.0.2:3000")!
+    let url:URL = URL(string: "http://www.blipsserver-env.us-east-2.elasticbeanstalk.com")!
     
     func centerMapOnLocation(location: CLLocation) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius, regionRadius)
         
         mapView.setRegion(coordinateRegion, animated: true)
+    }
+    
+    func readJSON(data: Data) {
+        do {
+            let string1 = String(data: data, encoding: String.Encoding.utf8) ?? "Data could not be printed"
+            print(string1)
+            
+            let json = try JSONSerialization.jsonObject(with: data, options: [])
+            
+            if let object = json as? [String: Any] {
+                print(object)
+            } else if let object = json as? [Any] {
+                print(object)
+            } else {
+                print("invalid")
+            }
+        } catch {
+            print (error.localizedDescription)
+        }
     }
     
     func postBlipsServer() {
@@ -41,7 +61,6 @@ class ViewController: UIViewController {
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         
         let task = session.dataTask(with: request as URLRequest, completionHandler : { data, response, error in
-            
             guard error == nil else {
                 return
             }
@@ -50,12 +69,7 @@ class ViewController: UIViewController {
                 return
             }
             
-            do {
-                print(data)
-            }
-            /*catch let error {
-                print(error.localizedDescription)
-            }*/
+            self.readJSON(data: data)
         })
         
         task.resume()
@@ -73,7 +87,5 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
-
 }
 
