@@ -28,17 +28,21 @@ class ViewController: UIViewController {
     
     func readJSON(data: Data) {
         do {
-            let string1 = String(data: data, encoding: String.Encoding.utf8) ?? "Data could not be printed"
-            print(string1)
+            let json = try JSONSerialization.jsonObject(with: data)
             
-            let json = try JSONSerialization.jsonObject(with: data, options: [])
-            
-            if let object = json as? [String: Any] {
-                print(object)
-            } else if let object = json as? [Any] {
-                print(object)
-            } else {
-                print("invalid")
+            if let dictionary = json as? [String: Any] {
+                if let array = dictionary["blip"] as? NSArray {
+                    print(array[0])
+                    
+                    let blipDict = array[0] as! Dictionary<String, Any>
+
+                    for (key, value) in blipDict {
+                        print(key)
+                        print(value)
+                    }
+                    
+                    print(blipDict["state"])
+                }
             }
         } catch {
             print (error.localizedDescription)
