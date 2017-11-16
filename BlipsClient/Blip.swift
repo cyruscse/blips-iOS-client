@@ -32,4 +32,12 @@ extension Blip {
     func getName() -> String {
         return self.name
     }
+    
+    func getLatitude() -> Double {
+        return self.coordinates.latitude
+    }
+    
+    func getLongitude() -> Double {
+        return self.coordinates.longitude
+    }
 }
