@@ -14,7 +14,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
     
-    let jsonRequest = ["cityID": String(arc4random_uniform(100)), "type": "lodging"]
+    let jsonRequest = ["cityID": String(arc4random_uniform(400)), "type": "lodging"]
     let session = URLSession.shared
     let url:URL = URL(string: "http://www.blipsserver-env.us-east-2.elasticbeanstalk.com")!
     let regionRadius: CLLocationDistance = 250
