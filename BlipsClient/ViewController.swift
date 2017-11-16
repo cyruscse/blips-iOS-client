@@ -16,9 +16,11 @@ class ViewController: UIViewController {
     let initialLocation = CLLocation(latitude: 21.282778, longitude: -157.829444)
     let regionRadius: CLLocationDistance = 10
     
-    let jsonRequest = ["cityID": "5", "type": "lodging"]
+    let jsonRequest = ["cityID": "7", "type": "lodging"]
     let session = URLSession.shared
     let url:URL = URL(string: "http://www.blipsserver-env.us-east-2.elasticbeanstalk.com")!
+    
+    var blips = [Blip]()
     
     func centerMapOnLocation(location: CLLocation) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location.coordinate, regionRadius, regionRadius)
@@ -26,29 +28,45 @@ class ViewController: UIViewController {
         mapView.setRegion(coordinateRegion, animated: true)
     }
     
-    func readJSON(data: Data) {
+    func readJSON(data: Data) -> Dictionary<String, Any> {
         do {
             let json = try JSONSerialization.jsonObject(with: data)
             
             if let dictionary = json as? [String: Any] {
-                if let array = dictionary["blip"] as? NSArray {
-                    print(array[0])
-                    
-                    let blipDict = array[0] as! Dictionary<String, Any>
-
-                    for (key, value) in blipDict {
-                        print(key)
-                        print(value)
-                    }
-                    
-                    print(blipDict["state"])
-                }
+                return dictionary
             }
         } catch {
-            print (error.localizedDescription)
+            print (error)
         }
+        
+        //temporarily return empty dictionary, change this method to throw an error if json parse fails (i.e, remove do catch block)
+        let myDict: [String: Any] = [:]
+        
+        return myDict
     }
-    
+
+    func populateMap(serverDict: Dictionary<String, Any>) {
+        for (key, value) in serverDict {
+            // Skip non-blip JSON
+            if Int(key) == nil {
+                continue
+            }
+            
+            // Change these force casts, crash waiting to happen
+            let dictEntry = (value as! NSArray).mutableCopy() as! NSMutableArray
+            let blipEntry = dictEntry[0] as? [String: Any] ?? [:]
+            let blip = Blip(json: blipEntry)
+            
+            blips.append(blip!)
+        }
+        
+        for value in blips {
+            print(value.getName())
+        }
+
+        //let testLocation = CLLocation(latitude: serverDict[2)
+    }
+ 
     func postBlipsServer() {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -73,7 +91,8 @@ class ViewController: UIViewController {
                 return
             }
             
-            self.readJSON(data: data)
+            let serverResponse = self.readJSON(data: data)
+            self.populateMap(serverDict: serverResponse)
         })
         
         task.resume()
