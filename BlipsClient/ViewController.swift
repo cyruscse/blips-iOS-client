@@ -14,7 +14,7 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
     
-    let jsonRequest = ["cityID": "7", "type": "lodging"]
+    let jsonRequest = ["cityID": String(arc4random_uniform(100)), "type": "lodging"]
     let session = URLSession.shared
     let url:URL = URL(string: "http://www.blipsserver-env.us-east-2.elasticbeanstalk.com")!
     let regionRadius: CLLocationDistance = 250
@@ -30,9 +30,6 @@ class ViewController: UIViewController {
     func placePinForBlip(blip: Blip) {
         let annotation = MKPointAnnotation()
         let coordinate = CLLocationCoordinate2D(latitude: blip.getLatitude(), longitude: blip.getLongitude())
-        
-        print(coordinate.latitude)
-        print(coordinate.longitude)
         
         annotation.coordinate = coordinate
         annotation.title = blip.getName()
@@ -65,6 +62,7 @@ class ViewController: UIViewController {
             // Skip non-blip JSON
             if Int(key) == nil {
                 skippedBlipCount += 1
+                print(value)
                 continue
             }
             
@@ -84,8 +82,6 @@ class ViewController: UIViewController {
         let averageLatitude = totalLatitude / Double(serverDict.count - skippedBlipCount)
         let averageLongitude = totalLongitude / Double(serverDict.count - skippedBlipCount)
         let averageCoordinate = CLLocationCoordinate2D(latitude: averageLatitude, longitude: averageLongitude)
-        
-        print("Average coordinate \(averageCoordinate.latitude) \(averageCoordinate.longitude)")
         
         centerMapOnBlipCity(location: averageCoordinate)
         
