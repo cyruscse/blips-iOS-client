@@ -13,8 +13,20 @@ import MapKit
 class ViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
+    @IBAction func newBlip(_ sender: Any) {
+        let senderAsButton = sender as? UIButton
+        
+        senderAsButton?.isEnabled = false
+        
+        let jsonRequest = ["cityID": String(arc4random_uniform(400)), "type": "lodging"]
+        
+        blips.removeAll()
+        
+        postBlipsServer(jsonRequest: jsonRequest)
+        
+        senderAsButton?.isEnabled = true
+    }
     
-    let jsonRequest = ["cityID": String(arc4random_uniform(400)), "type": "lodging"]
     let session = URLSession.shared
     let url:URL = URL(string: "http://www.blipsserver-env.us-east-2.elasticbeanstalk.com")!
     let regionRadius: CLLocationDistance = 250
@@ -69,19 +81,28 @@ class ViewController: UIViewController {
             // Change these force casts, crash waiting to happen
             let dictEntry = (value as! NSArray).mutableCopy() as! NSMutableArray
             let blipEntry = dictEntry[0] as? [String: Any] ?? [:]
-            let blip = Blip(json: blipEntry)
-            
-            // Replace force calls with nil checks
-            totalLatitude += blip!.getLatitude()
-            totalLongitude += blip!.getLongitude()
-            
-            blips.append(blip!)
+            if let blip = Blip(json: blipEntry) {
+                print(value)
+                totalLatitude += blip.getLatitude()
+                totalLongitude += blip.getLongitude()
+                
+                blips.append(blip)
+            }
+            else {
+                print("Failed to unwrap blip!")
+                print(value)
+                abort()
+            }
         }
         
         // Subtract 1 from blip count to account for non-blip in JSON
         let averageLatitude = totalLatitude / Double(serverDict.count - skippedBlipCount)
         let averageLongitude = totalLongitude / Double(serverDict.count - skippedBlipCount)
         let averageCoordinate = CLLocationCoordinate2D(latitude: averageLatitude, longitude: averageLongitude)
+        
+        print(averageLatitude)
+        print(averageLongitude)
+        print(averageCoordinate)
         
         centerMapOnBlipCity(location: averageCoordinate)
         
@@ -90,7 +111,9 @@ class ViewController: UIViewController {
         }
     }
  
-    func postBlipsServer() {
+    func postBlipsServer(jsonRequest: [String: String]) {
+        print(jsonRequest)
+        
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         
@@ -115,7 +138,10 @@ class ViewController: UIViewController {
             }
             
             let serverResponse = self.readJSON(data: data)
-            self.populateMap(serverDict: serverResponse)
+            
+            if (serverResponse.count != 0) {
+                self.populateMap(serverDict: serverResponse)
+            }
         })
         
         task.resume()
@@ -124,8 +150,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
-        postBlipsServer()
     }
 
     override func didReceiveMemoryWarning() {

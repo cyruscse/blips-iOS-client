@@ -11,7 +11,6 @@
 		6E20862F1FA2100F00C824D9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E20862E1FA2100F00C824D9 /* ViewController.swift */; };
 		6E2086321FA2100F00C824D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E2086301FA2100F00C824D9 /* Main.storyboard */; };
 		6E2086341FA2100F00C824D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E2086331FA2100F00C824D9 /* Assets.xcassets */; };
-		6E2086371FA2100F00C824D9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E2086351FA2100F00C824D9 /* LaunchScreen.storyboard */; };
 		6E2086421FA2100F00C824D9 /* BlipsClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2086411FA2100F00C824D9 /* BlipsClientTests.swift */; };
 		6E20864D1FA2100F00C824D9 /* BlipsClientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E20864C1FA2100F00C824D9 /* BlipsClientUITests.swift */; };
 		6E20865D1FA2106100C824D9 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E20865C1FA2106100C824D9 /* MapKit.framework */; };
@@ -42,7 +41,6 @@
 		6E20862E1FA2100F00C824D9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		6E2086311FA2100F00C824D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6E2086331FA2100F00C824D9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		6E2086361FA2100F00C824D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6E2086381FA2100F00C824D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E20863D1FA2100F00C824D9 /* BlipsClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BlipsClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2086411FA2100F00C824D9 /* BlipsClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlipsClientTests.swift; sourceTree = "<group>"; };
@@ -113,7 +111,6 @@
 				6ED47E7F1FBD027A003F4830 /* Blip.swift */,
 				6E2086301FA2100F00C824D9 /* Main.storyboard */,
 				6E2086331FA2100F00C824D9 /* Assets.xcassets */,
-				6E2086351FA2100F00C824D9 /* LaunchScreen.storyboard */,
 				6E2086381FA2100F00C824D9 /* Info.plist */,
 			);
 			path = BlipsClient;
@@ -263,7 +260,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E2086371FA2100F00C824D9 /* LaunchScreen.storyboard in Resources */,
 				6EAD4E831FBB8748003C2E30 /* Default-568h@2x.png in Resources */,
 				6E2086341FA2100F00C824D9 /* Assets.xcassets in Resources */,
 				6E2086321FA2100F00C824D9 /* Main.storyboard in Resources */,
@@ -335,14 +331,6 @@
 				6E2086311FA2100F00C824D9 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		6E2086351FA2100F00C824D9 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6E2086361FA2100F00C824D9 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
