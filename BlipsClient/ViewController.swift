@@ -10,9 +10,17 @@ import Foundation
 import UIKit
 import MapKit
 
-class ViewController: UIViewController {
+// SEPARATE CLASSES SOON
 
+class ViewController: UIViewController {
+    @IBAction func cityIDIn(_ sender: Any) {
+        let senderAsField = sender as? UITextField
+        
+        print(senderAsField?.text ?? "rip")
+    }
+    
     @IBOutlet weak var mapView: MKMapView!
+    
     @IBAction func newBlip(_ sender: Any) {
         let senderAsButton = sender as? UIButton
         
@@ -32,6 +40,7 @@ class ViewController: UIViewController {
     let regionRadius: CLLocationDistance = 250
     
     var blips = [Blip]()
+    var pickerData: [String] = [String]()
     
     func centerMapOnBlipCity(location: CLLocationCoordinate2D) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location, regionRadius, regionRadius)
@@ -149,6 +158,10 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //self.picker
+        
+        pickerData = ["Item 1", "Item 2", "Item 3"]
         // Do any additional setup after loading the view, typically from a nib.
     }
 
