@@ -21,6 +21,7 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
     
+    //remove this method
     @IBAction func newBlip(_ sender: Any) {
         let senderAsButton = sender as? UIButton
         
@@ -121,8 +122,7 @@ class ViewController: UIViewController {
     }
  
     func postBlipsServer(jsonRequest: [String: String]) {
-        print(jsonRequest)
-        
+        // pull this up into a JSON request model class, this code is duplicated in LookupModel
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         
@@ -146,6 +146,7 @@ class ViewController: UIViewController {
                 return
             }
             
+            //change this
             let serverResponse = self.readJSON(data: data)
             
             if (serverResponse.count != 0) {
@@ -158,8 +159,9 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let testLookup = LookupModel()
         
-        //self.picker
+        testLookup.syncWithServer()
         
         pickerData = ["Item 1", "Item 2", "Item 3"]
         // Do any additional setup after loading the view, typically from a nib.
