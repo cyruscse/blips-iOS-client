@@ -9,9 +9,11 @@
 import UIKit
 
 class LookupViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+    @IBOutlet weak var cityIDSlider: UISlider!
     @IBOutlet weak var picker: UIPickerView!
-    @IBOutlet weak var cityIDIn: UITextField!
+    @IBOutlet weak var cityIDLabel: UILabel!
     
+    var lookupModel: LookupModel? = nil
     var pickerData: [String] = [String]()
     
     override func viewDidLoad() {
@@ -20,13 +22,19 @@ class LookupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         self.picker.delegate = self
         self.picker.dataSource = self
         
-        pickerData = ["Test 1", "Test 2", "Test 3"]
-        // Do any additional setup after loading the view.
+        cityIDSlider.minimumValue = 0
+        cityIDSlider.maximumValue = Float(lookupModel?.numCities ?? 1)
+        
+        // default array needs to be changed
+        pickerData = lookupModel?.attractionTypes ?? ["Fail", "Fail"]
     }
 
+    @IBAction func sliderChanged(_ sender: UISlider) {
+        cityIDLabel.text = String(Int(sender.value))
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -40,15 +48,4 @@ class LookupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return pickerData[row]
     }
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

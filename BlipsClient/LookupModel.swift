@@ -9,65 +9,74 @@
 import Foundation
 
 class LookupModel {
-    let session = URLSession.shared
-    let url:URL = URL(string: "http://www.blipsserver-env.us-east-2.elasticbeanstalk.com")!
-    let jsonRequest = ["requestType": "dbsync"]
+    let attributesTag = "attributes"
+    let attractionTypeTag = "attraction_types"
+    let cityCountTag = "city_count"
     
-    func readJSON(data: Data) -> Dictionary<String, Any> {
-        do {
-            let json = try JSONSerialization.jsonObject(with: data)
-            
-            if let dictionary = json as? [String: Any] {
-                return dictionary
-            }
-        } catch {
-            print (error)
-        }
-        
-        //temporarily return empty dictionary, change this method to throw an error if json parse fails (i.e, remove do catch block)
-        let myDict: [String: Any] = [:]
-        
-        return myDict
-    }
-
-    func getLookupAttributes(jsonRequest: [String: String]) {
-        print (jsonRequest)
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: jsonRequest, options: .prettyPrinted)
-        } catch let error {
-            print (error.localizedDescription)
-            
+    var numCities: Int = 0
+    var attractionTypes = [String]()
+    
+    func parseAttributes(entry: [String: Any]) {
+        guard let cityCount = entry[cityCountTag] as? Int
+        else {
+            print("City ID parse failed!")
             return
         }
         
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        
-        let task = session.dataTask(with: request as URLRequest, completionHandler : { data, response, error in
-            guard error == nil else {
-                return
+        self.numCities = cityCount
+    }
+    
+    func parseAttractionTypes(entries: [String: Any]) {
+        for (key, value) in entries {
+            if (key == "Name") {
+               guard let typeName = value as? String
+                else {
+                    print("Attraction Type parse failed!")
+                    return
+                }
+             
+                self.attractionTypes.append(typeName)
             }
+        }
+    }
+    
+    func serverPostCallback(data: Data) {
+        do {
+            let responseContents = try ServerInterface.readJSON(data: data)
             
-            guard let data = data else {
-                return
+            for (key, value) in responseContents {
+                let jsonContents = (value as! NSArray).mutableCopy() as! NSMutableArray
+                
+                for (jsonEntry) in jsonContents {
+                    let entry = jsonEntry as? [String: Any] ?? [:]
+                    
+                    if (key == attributesTag) {
+                        parseAttributes(entry: entry)
+                    }
+                    else if (key == attractionTypeTag) {
+                        parseAttractionTypes(entries: entry)
+                    }
+                }
             }
-            
-            //change this
-            let serverResponse = self.readJSON(data: data)
-            
-            if (serverResponse.count != 0) {
-                print(serverResponse)
-            }
-        })
-        
-        task.resume()
+        } catch ServerInterfaceError.JSONParseFailed(description: let error) {
+            print(error)
+        } catch {
+            print("Other error")
+        }
     }
     
     func syncWithServer() {
-        getLookupAttributes(jsonRequest: jsonRequest)
+        let jsonRequest = ["requestType": "dbsync"]
+        
+        do {
+            try ServerInterface.postServer(jsonRequest: jsonRequest, callback: { (data) in self.serverPostCallback(data: data) })
+            //let respContents = try ServerInterface.readJSON(data: response)
+            
+           // print(respContents)
+        } catch ServerInterfaceError.badJSONRequest(description: let error) {
+            print(error)
+        } catch {
+            print("Other error")
+        }
     }
 }

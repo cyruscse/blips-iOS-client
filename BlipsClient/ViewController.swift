@@ -27,21 +27,30 @@ class ViewController: UIViewController {
         
         senderAsButton?.isEnabled = false
         
-        let jsonRequest = ["cityID": String(arc4random_uniform(400)), "type": "lodging"]
+        //let jsonRequest = ["cityID": String(arc4random_uniform(400)), "type": "lodging"]
         
         blips.removeAll()
-        
-        postBlipsServer(jsonRequest: jsonRequest)
-        
+    
+        /*do {
+            let response = try ServerInterface.postServer(jsonRequest: jsonRequest)
+            let dictionary = try ServerInterface.readJSON(data: response)
+            
+            print(dictionary)
+        } catch ServerInterfaceError.badJSONRequest(description: let error) {
+            print(error)
+        } catch ServerInterfaceError.badResponseFromServer(description: let error) {
+            print(error)
+        } catch {
+            print("Other error")
+        }
+        */
         senderAsButton?.isEnabled = true
     }
     
-    let session = URLSession.shared
-    let url:URL = URL(string: "http://www.blipsserver-env.us-east-2.elasticbeanstalk.com")!
     let regionRadius: CLLocationDistance = 250
+    let lookupModel = LookupModel()
     
     var blips = [Blip]()
-    var pickerData: [String] = [String]()
     
     func centerMapOnBlipCity(location: CLLocationCoordinate2D) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location, regionRadius, regionRadius)
@@ -58,23 +67,6 @@ class ViewController: UIViewController {
         mapView.addAnnotation(annotation)
     }
     
-    func readJSON(data: Data) -> Dictionary<String, Any> {
-        do {
-            let json = try JSONSerialization.jsonObject(with: data)
-            
-            if let dictionary = json as? [String: Any] {
-                return dictionary
-            }
-        } catch {
-            print (error)
-        }
-        
-        //temporarily return empty dictionary, change this method to throw an error if json parse fails (i.e, remove do catch block)
-        let myDict: [String: Any] = [:]
-        
-        return myDict
-    }
-
     func populateMap(serverDict: Dictionary<String, Any>) {
         var totalLatitude: Double = 0.0
         var totalLongitude: Double = 0.0
@@ -120,56 +112,24 @@ class ViewController: UIViewController {
             placePinForBlip(blip: blip)
         }
     }
- 
-    func postBlipsServer(jsonRequest: [String: String]) {
-        // pull this up into a JSON request model class, this code is duplicated in LookupModel
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        
-        do {
-            request.httpBody = try JSONSerialization.data(withJSONObject: jsonRequest, options: .prettyPrinted)
-        } catch let error {
-            print(error.localizedDescription)
-            
-            return
-        }
-        
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        
-        let task = session.dataTask(with: request as URLRequest, completionHandler : { data, response, error in
-            guard error == nil else {
-                return
-            }
-            
-            guard let data = data else {
-                return
-            }
-            
-            //change this
-            let serverResponse = self.readJSON(data: data)
-            
-            if (serverResponse.count != 0) {
-                self.populateMap(serverDict: serverResponse)
-            }
-        })
-        
-        task.resume()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let testLookup = LookupModel()
         
-        testLookup.syncWithServer()
+        lookupModel.syncWithServer()
         
-        pickerData = ["Item 1", "Item 2", "Item 3"]
         // Do any additional setup after loading the view, typically from a nib.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let lookupVC = segue.destination as? LookupViewController {
+            lookupVC.lookupModel = self.lookupModel
+        }
     }
 }
 
