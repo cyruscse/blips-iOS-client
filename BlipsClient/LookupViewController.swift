@@ -7,14 +7,17 @@
 //
 
 import UIKit
+import os.log
 
 class LookupViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     @IBOutlet weak var cityIDSlider: UISlider!
     @IBOutlet weak var picker: UIPickerView!
     @IBOutlet weak var cityIDLabel: UILabel!
+    @IBOutlet weak var doneButton: UIBarButtonItem!
     
     var lookupModel: LookupModel? = nil
     var pickerData: [String] = [String]()
+    var customLookup: CustomLookup?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,5 +50,24 @@ class LookupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return pickerData[row]
+    }
+    
+    //MARK: Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let button = sender as? UIBarButtonItem, button === doneButton else {
+            os_log("Cancel button pressed", log: OSLog.default, type: .debug)
+            return
+        }
+        
+        let cityID = cityIDSlider.value
+        let attractionType = pickerData[picker.selectedRow(inComponent: 0)]
+        
+        customLookup = CustomLookup(cityID: Int(cityID), attributeType: attractionType)
+        
+        super.prepare(for: segue, sender: sender)
+    }
+    
+    @IBAction func cancel(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
     }
 }

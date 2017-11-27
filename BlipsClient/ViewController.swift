@@ -13,39 +13,7 @@ import MapKit
 // SEPARATE CLASSES SOON
 
 class ViewController: UIViewController {
-    @IBAction func cityIDIn(_ sender: Any) {
-        let senderAsField = sender as? UITextField
-        
-        print(senderAsField?.text ?? "rip")
-    }
-    
     @IBOutlet weak var mapView: MKMapView!
-    
-    //remove this method
-    @IBAction func newBlip(_ sender: Any) {
-        let senderAsButton = sender as? UIButton
-        
-        senderAsButton?.isEnabled = false
-        
-        //let jsonRequest = ["cityID": String(arc4random_uniform(400)), "type": "lodging"]
-        
-        blips.removeAll()
-    
-        /*do {
-            let response = try ServerInterface.postServer(jsonRequest: jsonRequest)
-            let dictionary = try ServerInterface.readJSON(data: response)
-            
-            print(dictionary)
-        } catch ServerInterfaceError.badJSONRequest(description: let error) {
-            print(error)
-        } catch ServerInterfaceError.badResponseFromServer(description: let error) {
-            print(error)
-        } catch {
-            print("Other error")
-        }
-        */
-        senderAsButton?.isEnabled = true
-    }
     
     let regionRadius: CLLocationDistance = 250
     let lookupModel = LookupModel()
@@ -66,11 +34,26 @@ class ViewController: UIViewController {
         annotation.title = blip.getName()
         mapView.addAnnotation(annotation)
     }
+
+    //abstract this and same function in LookupModel
+    func serverPostCallback(data: Data) {
+        do {
+            let responseContents = try ServerInterface.readJSON(data: data)
+            
+            populateMap(serverDict: responseContents)
+        } catch ServerInterfaceError.JSONParseFailed(description: let error) {
+            print(error)
+        } catch {
+            print("Other error")
+        }
+    }
     
     func populateMap(serverDict: Dictionary<String, Any>) {
         var totalLatitude: Double = 0.0
         var totalLongitude: Double = 0.0
         var skippedBlipCount: Int = 0
+        
+        blips.removeAll()
         
         for (key, value) in serverDict {
             // Skip non-blip JSON
@@ -102,10 +85,6 @@ class ViewController: UIViewController {
         let averageLongitude = totalLongitude / Double(serverDict.count - skippedBlipCount)
         let averageCoordinate = CLLocationCoordinate2D(latitude: averageLatitude, longitude: averageLongitude)
         
-        print(averageLatitude)
-        print(averageLongitude)
-        print(averageCoordinate)
-        
         centerMapOnBlipCity(location: averageCoordinate)
         
         for blip in blips {
@@ -117,19 +96,33 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         lookupModel.syncWithServer()
-        
-        // Do any additional setup after loading the view, typically from a nib.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    }
+    
+    //MARK: Navigation
+    @IBAction func unwindToBlipMap(sender: UIStoryboardSegue) {
+        if let sourceViewController = sender.source as? LookupViewController, let customLookup = sourceViewController.customLookup {
+            let customRequest = BlipRequest(inLookup: customLookup)
+            
+            do {
+                //abstract up serverPostCallback from here and LookupModel
+                try ServerInterface.postServer(jsonRequest: (customRequest?.JSONify())!, callback: { (data) in self.serverPostCallback(data: data) })
+            } catch ServerInterfaceError.badJSONRequest(description: let error) {
+                print(error)
+            } catch {
+                print("Other error")
+            }
+        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let lookupVC = segue.destination as? LookupViewController {
-            lookupVC.lookupModel = self.lookupModel
+        if let destinationNC = segue.destination as? UINavigationController {
+            if let lookupVC = destinationNC.topViewController as? LookupViewController {
+                lookupVC.lookupModel = self.lookupModel
+            }
         }
     }
 }
-

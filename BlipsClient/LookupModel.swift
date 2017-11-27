@@ -70,9 +70,6 @@ class LookupModel {
         
         do {
             try ServerInterface.postServer(jsonRequest: jsonRequest, callback: { (data) in self.serverPostCallback(data: data) })
-            //let respContents = try ServerInterface.readJSON(data: response)
-            
-           // print(respContents)
         } catch ServerInterfaceError.badJSONRequest(description: let error) {
             print(error)
         } catch {

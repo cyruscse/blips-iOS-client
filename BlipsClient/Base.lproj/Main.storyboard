@@ -29,7 +29,7 @@
                     <navigationItem key="navigationItem" title="Blips" id="SOw-EL-MSc">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="ZV1-D1-g0C">
                             <connections>
-                                <segue destination="IZE-pE-ALY" kind="show" id="rY4-sE-lMa"/>
+                                <segue destination="QM7-nQ-Cp7" kind="presentation" identifier="CustomLookup" id="rY4-sE-lMa"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -41,7 +41,7 @@
             </objects>
             <point key="canvasLocation" x="477.60000000000002" y="131.52709359605913"/>
         </scene>
-        <!--Lookup View Controller-->
+        <!--Custom Lookup-->
         <scene sceneID="dZ1-pk-JNg">
             <objects>
                 <viewController id="IZE-pE-ALY" customClass="LookupViewController" customModule="BlipsClient" customModuleProvider="target" sceneMemberID="viewController">
@@ -72,16 +72,29 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="n4X-UQ-tFm"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Custom Lookup" id="80H-oj-0dy">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="O3g-iq-1Ek">
+                            <connections>
+                                <action selector="cancel:" destination="IZE-pE-ALY" id="ski-vO-cH2"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="DET-Qr-kJf">
+                            <connections>
+                                <segue destination="TAA-PP-qU1" kind="unwind" unwindAction="unwindToBlipMapWithSender:" id="hNm-er-ZsP"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="cityIDLabel" destination="H8t-1b-uJw" id="2Cp-kZ-iZu"/>
                         <outlet property="cityIDSlider" destination="eUm-0G-d3x" id="WaN-oZ-c0Q"/>
+                        <outlet property="doneButton" destination="DET-Qr-kJf" id="ZMq-HB-jnK"/>
                         <outlet property="picker" destination="ALq-b7-0dH" id="hPd-X5-8Mg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="apq-NI-Ezl" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="TAA-PP-qU1" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1341.5999999999999" y="129.31034482758622"/>
+            <point key="canvasLocation" x="2263" y="129"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Q9q-Sl-2Tu">
@@ -100,6 +113,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Tl-XX-JtM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-279" y="132"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="VJ8-IJ-kG1">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="QM7-nQ-Cp7" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="5kW-Vh-moY">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="IZE-pE-ALY" kind="relationship" relationship="rootViewController" id="WZN-iM-4Bh"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="w5k-dD-KG6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1340.8" y="129.31034482758622"/>
         </scene>
     </scenes>
 </document>
