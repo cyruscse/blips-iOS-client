@@ -40,7 +40,7 @@ class ViewController: UIViewController {
         do {
             let responseContents = try ServerInterface.readJSON(data: data)
             
-            populateMap(serverDict: responseContents)
+            populateMap(serverDict: responseContents as? Dictionary<String, Dictionary<String, Any>> ?? [:])
         } catch ServerInterfaceError.JSONParseFailed(description: let error) {
             print(error)
         } catch {
@@ -48,24 +48,19 @@ class ViewController: UIViewController {
         }
     }
     
-    func populateMap(serverDict: Dictionary<String, Any>) {
+    func populateMap(serverDict: Dictionary<String, Dictionary<String, Any>>) {
         var totalLatitude: Double = 0.0
         var totalLongitude: Double = 0.0
-        var skippedBlipCount: Int = 0
         
         blips.removeAll()
         
         for (key, value) in serverDict {
-            // Skip non-blip JSON
-            if Int(key) == nil {
-                skippedBlipCount += 1
-                print(value)
-                continue
-            }
+            print(key, value)
             
             // Change these force casts, crash waiting to happen
-            let dictEntry = (value as! NSArray).mutableCopy() as! NSMutableArray
-            let blipEntry = dictEntry[0] as? [String: Any] ?? [:]
+            let dictEntry = (value as NSDictionary).mutableCopy() as! NSMutableDictionary
+            
+            let blipEntry = dictEntry as? [String: Any] ?? [:]
             if let blip = Blip(json: blipEntry) {
                 print(value)
                 totalLatitude += blip.getLatitude()
@@ -80,9 +75,8 @@ class ViewController: UIViewController {
             }
         }
         
-        // Subtract 1 from blip count to account for non-blip in JSON
-        let averageLatitude = totalLatitude / Double(serverDict.count - skippedBlipCount)
-        let averageLongitude = totalLongitude / Double(serverDict.count - skippedBlipCount)
+        let averageLatitude = totalLatitude / Double(serverDict.count)
+        let averageLongitude = totalLongitude / Double(serverDict.count)
         let averageCoordinate = CLLocationCoordinate2D(latitude: averageLatitude, longitude: averageLongitude)
         
         centerMapOnBlipCity(location: averageCoordinate)
