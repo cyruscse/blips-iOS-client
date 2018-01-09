@@ -15,8 +15,10 @@ import MapKit
 class ViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     
-    let locManager = Location()
+    private var userLatitude: Double = 0.0
+    private var userLongitude: Double = 0.0
     
+    let locManager = Location()
     let regionRadius: CLLocationDistance = 250
     let lookupModel = LookupModel()
     
@@ -51,9 +53,6 @@ class ViewController: UIViewController {
     }
     
     func populateMap(serverDict: Dictionary<String, Dictionary<String, Any>>) {
-        var totalLatitude: Double = 0.0
-        var totalLongitude: Double = 0.0
-        
         blips.removeAll()
         
         for (_, value) in serverDict {
@@ -61,10 +60,8 @@ class ViewController: UIViewController {
             let dictEntry = (value as NSDictionary).mutableCopy() as! NSMutableDictionary
             
             let blipEntry = dictEntry as? [String: Any] ?? [:]
+            
             if let blip = Blip(json: blipEntry) {
-                totalLatitude += blip.getLatitude()
-                totalLongitude += blip.getLongitude()
-                
                 blips.append(blip)
             }
             else {
@@ -74,11 +71,9 @@ class ViewController: UIViewController {
             }
         }
         
-        let averageLatitude = totalLatitude / Double(serverDict.count)
-        let averageLongitude = totalLongitude / Double(serverDict.count)
-        let averageCoordinate = CLLocationCoordinate2D(latitude: averageLatitude, longitude: averageLongitude)
+        let userLocation = CLLocationCoordinate2D(latitude: userLatitude, longitude: userLongitude)
         
-        centerMapOnBlipCity(location: averageCoordinate)
+        centerMapOnBlipCity(location: userLocation)
         
         for blip in blips {
             placePinForBlip(blip: blip)
@@ -95,19 +90,24 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
+    func blipRequestCallback(request: [String: String], latitude: Double, longitude: Double) {
+        self.userLatitude = latitude
+        self.userLongitude = longitude
+        
+        do {
+            //abstract up serverPostCallback from here and LookupModel
+            try ServerInterface.postServer(jsonRequest: request, callback: { (data) in self.serverPostCallback(data: data) })
+        } catch ServerInterfaceError.badJSONRequest(description: let error) {
+            print(error)
+        } catch {
+            print("Other error")
+        }
+    }
+    
     //MARK: Navigation
     @IBAction func unwindToBlipMap(sender: UIStoryboardSegue) {
         if let sourceViewController = sender.source as? LookupViewController, let customLookup = sourceViewController.customLookup {
-            let customRequest = BlipRequest(inLookup: customLookup, locManager: locManager)
-            
-            do {
-                //abstract up serverPostCallback from here and LookupModel
-                try ServerInterface.postServer(jsonRequest: (customRequest?.JSONify())!, callback: { (data) in self.serverPostCallback(data: data) })
-            } catch ServerInterfaceError.badJSONRequest(description: let error) {
-                print(error)
-            } catch {
-                print("Other error")
-            }
+            _ = BlipRequest(inLookup: customLookup, locManager: locManager, callback: blipRequestCallback)
         }
     }
     

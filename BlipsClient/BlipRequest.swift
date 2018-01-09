@@ -24,13 +24,15 @@ class BlipRequest {
     
     private var latitude: Double
     private var longitude: Double
+    private var requestCallback: ([String: String], Double, Double) -> ()
     
-    init?(inLookup: CustomLookup, locManager: Location) {
+    init (inLookup: CustomLookup, locManager: Location, callback: @escaping (([String: String], Double, Double) -> ())) {
         self.lookup = inLookup
         self.locManager = locManager
         
         self.latitude = 0.0
         self.longitude = 0.0
+        self.requestCallback = callback
         
         locManager.getLocation(callback: { (coordinate) in self.locationCallback(coordinate: coordinate) })
     }
@@ -40,11 +42,14 @@ class BlipRequest {
         
         self.latitude = coordinate.latitude
         self.longitude = coordinate.longitude
+        
+        self.JSONify()
     }
     
-    func JSONify() -> [String: String] {
+    func JSONify() {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
+        numberFormatter.minimumFractionDigits = 8
         
         // Cast Doubles to NSNumbers
         let latNum = NSNumber(value: self.latitude)
@@ -53,9 +58,9 @@ class BlipRequest {
         // Format NSNumbers as Strings
         let latStr = numberFormatter.string(from: latNum) ?? "error"
         let lngStr = numberFormatter.string(from: lngNum) ?? "error"
+                
+        let request = [requestTypeTag: queryTag, latitudeTag: latStr, longitudeTag: lngStr, attractionTypeTag: self.lookup.attributeType, radiusTag: "6000", openNowTag: "true"]
         
-        let toReturn = [requestTypeTag: queryTag, latitudeTag: latStr, longitudeTag: lngStr, attractionTypeTag: self.lookup.attributeType, radiusTag: "6000", openNowTag: "true"]
-        
-        return toReturn
+        requestCallback(request, self.latitude, self.longitude)
     }
 }
