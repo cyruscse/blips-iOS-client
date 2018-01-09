@@ -15,6 +15,8 @@ import MapKit
 class ViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     
+    let locManager = Location()
+    
     let regionRadius: CLLocationDistance = 250
     let lookupModel = LookupModel()
     
@@ -54,15 +56,12 @@ class ViewController: UIViewController {
         
         blips.removeAll()
         
-        for (key, value) in serverDict {
-            print(key, value)
-            
+        for (_, value) in serverDict {
             // Change these force casts, crash waiting to happen
             let dictEntry = (value as NSDictionary).mutableCopy() as! NSMutableDictionary
             
             let blipEntry = dictEntry as? [String: Any] ?? [:]
             if let blip = Blip(json: blipEntry) {
-                print(value)
                 totalLatitude += blip.getLatitude()
                 totalLongitude += blip.getLongitude()
                 
@@ -99,7 +98,7 @@ class ViewController: UIViewController {
     //MARK: Navigation
     @IBAction func unwindToBlipMap(sender: UIStoryboardSegue) {
         if let sourceViewController = sender.source as? LookupViewController, let customLookup = sourceViewController.customLookup {
-            let customRequest = BlipRequest(inLookup: customLookup)
+            let customRequest = BlipRequest(inLookup: customLookup, locManager: locManager)
             
             do {
                 //abstract up serverPostCallback from here and LookupModel

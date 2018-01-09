@@ -74,9 +74,12 @@
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
-        <string>location-services</string>
-        <string>gps</string>
+		<string>gps</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>To find attractions near your location</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>To find attractions near your location</string>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

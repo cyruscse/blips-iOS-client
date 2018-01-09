@@ -11,19 +11,11 @@ import Foundation
 class LookupModel {
     let attributesTag = "attributes"
     let attractionTypeTag = "attraction_types"
-    let cityCountTag = "city_count"
     
-    var numCities: Int = 0
     var attractionTypes = [String]()
     
     func parseAttributes(entry: [String: Any]) {
-        guard let cityCount = entry[cityCountTag] as? Int
-        else {
-            print("City ID parse failed!")
-            return
-        }
-        
-        self.numCities = cityCount
+        print("Nothing yet...")
     }
     
     func parseAttractionTypes(entries: [String: Any]) {

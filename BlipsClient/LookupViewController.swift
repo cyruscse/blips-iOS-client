@@ -10,9 +10,7 @@ import UIKit
 import os.log
 
 class LookupViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-    @IBOutlet weak var cityIDSlider: UISlider!
     @IBOutlet weak var picker: UIPickerView!
-    @IBOutlet weak var cityIDLabel: UILabel!
     @IBOutlet weak var doneButton: UIBarButtonItem!
     
     var lookupModel: LookupModel? = nil
@@ -25,15 +23,8 @@ class LookupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
         self.picker.delegate = self
         self.picker.dataSource = self
         
-        cityIDSlider.minimumValue = 0
-        cityIDSlider.maximumValue = Float(lookupModel?.numCities ?? 1)
-        
         // default array needs to be changed
         pickerData = lookupModel?.attractionTypes ?? ["Fail", "Fail"]
-    }
-
-    @IBAction func sliderChanged(_ sender: UISlider) {
-        cityIDLabel.text = String(Int(sender.value))
     }
     
     override func didReceiveMemoryWarning() {
@@ -59,10 +50,9 @@ class LookupViewController: UIViewController, UIPickerViewDelegate, UIPickerView
             return
         }
         
-        let cityID = cityIDSlider.value
         let attractionType = pickerData[picker.selectedRow(inComponent: 0)]
         
-        customLookup = CustomLookup(cityID: Int(cityID), attributeType: attractionType)
+        customLookup = CustomLookup(attributeType: attractionType)
         
         super.prepare(for: segue, sender: sender)
     }

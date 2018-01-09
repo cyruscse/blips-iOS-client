@@ -7,27 +7,54 @@
 //
 
 import Foundation
+import CoreLocation
 
 // Abstract this up??? (maybe a protocol)
 let requestTypeTag = "requestType"
 let queryTag = "query"
 let latitudeTag = "latitude"
 let longitudeTag = "longitude"
-let attractionTypeTag = "type"
+let attractionTypeTag = "types"
 let radiusTag = "radius"
 let openNowTag = "openNow"
 
-struct BlipRequest {
+class BlipRequest {
     let lookup: CustomLookup
-}
-
-extension BlipRequest {
-    init?(inLookup: CustomLookup) {
+    let locManager: Location
+    
+    private var latitude: Double
+    private var longitude: Double
+    
+    init?(inLookup: CustomLookup, locManager: Location) {
         self.lookup = inLookup
+        self.locManager = locManager
+        
+        self.latitude = 0.0
+        self.longitude = 0.0
+        
+        locManager.getLocation(callback: { (coordinate) in self.locationCallback(coordinate: coordinate) })
+    }
+    
+    func locationCallback (coordinate: CLLocationCoordinate2D) {
+        print("loc callback \(coordinate.latitude) \(coordinate.longitude)")
+        
+        self.latitude = coordinate.latitude
+        self.longitude = coordinate.longitude
     }
     
     func JSONify() -> [String: String] {
-        let toReturn = [requestTypeTag: queryTag, latitudeTag: "40.7101898", longitudeTag: "-74.0079269", attractionTypeTag: self.lookup.attributeType, radiusTag: "400", openNowTag: "true"]
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        
+        // Cast Doubles to NSNumbers
+        let latNum = NSNumber(value: self.latitude)
+        let lngNum = NSNumber(value: self.longitude)
+        
+        // Format NSNumbers as Strings
+        let latStr = numberFormatter.string(from: latNum) ?? "error"
+        let lngStr = numberFormatter.string(from: lngNum) ?? "error"
+        
+        let toReturn = [requestTypeTag: queryTag, latitudeTag: latStr, longitudeTag: lngStr, attractionTypeTag: self.lookup.attributeType, radiusTag: "6000", openNowTag: "true"]
         
         return toReturn
     }

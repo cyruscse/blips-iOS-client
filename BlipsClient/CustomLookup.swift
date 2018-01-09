@@ -9,13 +9,11 @@
 import Foundation
 
 struct CustomLookup {
-    let cityID: Int
     let attributeType: String
 }
 
 extension CustomLookup {
-    init?(city: Int, attribute: String) {
-        self.cityID = city
+    init?(attribute: String) {
         self.attributeType = attribute
     }
 }
