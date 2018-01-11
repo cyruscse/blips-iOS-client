@@ -12,7 +12,11 @@ class LookupModel {
     let attributesTag = "attributes"
     let attractionTypeTag = "attraction_types"
     
-    var attractionTypes = [String]()
+    private var attractionTypes = [String]()
+    
+    func getAttractionTypes() -> [String] {
+        return attractionTypes
+    }
     
     func parseAttributes(entry: [String: Any]) {
         print("Nothing yet...")

@@ -9,50 +9,26 @@
 import UIKit
 import os.log
 
-class LookupViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-    @IBOutlet weak var picker: UIPickerView!
+class LookupViewController: UIViewController {
     @IBOutlet weak var doneButton: UIBarButtonItem!
+    @IBOutlet weak var attractionsTableView: UITableView!
     
     var lookupModel: LookupModel? = nil
-    var pickerData: [String] = [String]()
     var customLookup: CustomLookup?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.picker.delegate = self
-        self.picker.dataSource = self
-        
-        // default array needs to be changed
-        pickerData = lookupModel?.attractionTypes ?? ["Fail", "Fail"]
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerData.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerData[row]
-    }
-    
     //MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let button = sender as? UIBarButtonItem, button === doneButton else {
-            os_log("Cancel button pressed", log: OSLog.default, type: .debug)
-            return
+        if let destinationNC = segue.destination as? AttractionsTableViewController {
+            destinationNC.setAttractions(incAttractions: self.lookupModel?.getAttractionTypes() ?? ["fail"])
         }
-        
-        let attractionType = pickerData[picker.selectedRow(inComponent: 0)]
-        
-        customLookup = CustomLookup(attributeType: attractionType)
         
         super.prepare(for: segue, sender: sender)
     }
