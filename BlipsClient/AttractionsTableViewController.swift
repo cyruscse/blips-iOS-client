@@ -10,6 +10,7 @@ import UIKit
 
 class AttractionsTableViewController: UITableViewController {
     private var attractions: [String] = [String]()
+    private var selectedAttractions: [String] = [String]()
     
     func setAttractions(incAttractions: [String]) {
         self.attractions = incAttractions
@@ -50,7 +51,13 @@ class AttractionsTableViewController: UITableViewController {
         
         let attraction = attractions[indexPath.row]
         
-        cell.accessoryType = cell.isSelected ?.checkmark : .none
+        if (selectedAttractions.contains(attraction)) {
+            cell.accessoryType = .checkmark
+        }
+        else {
+            cell.accessoryType = cell.isSelected ?.checkmark : .none
+        }
+        
         cell.selectionStyle = .none
         cell.attractionName.text = attraction
 
@@ -58,11 +65,23 @@ class AttractionsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        guard let cell = tableView.cellForRow(at: indexPath) as? AttractionsTableViewCell else {
+            fatalError("Cell wasn't AttractionsTableViewCell")
+        }
+        
+        cell.accessoryType = .checkmark
+        selectedAttractions.append(attractions[indexPath.row])
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        guard let cell = tableView.cellForRow(at: indexPath) as? AttractionsTableViewCell else {
+            fatalError("Cell wasn't AttractionsTableViewCell")
+        }
+        
+        cell.accessoryType = .none
+        if let index = selectedAttractions.index(of: cell.attractionName.text!) {
+            selectedAttractions.remove(at: index)
+        }
     }
 
     /*
