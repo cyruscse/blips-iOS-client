@@ -16,6 +16,7 @@ class LookupViewController: UIViewController {
     private var lookupModel: LookupModel? = nil
     private var customLookup: CustomLookup?
     private var attractionsVC: AttractionsTableViewController?
+    private var attributesVC: AttributesTableViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,8 +26,16 @@ class LookupViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    func getSelectedAttributes() -> [String] {
+    func getSelectedAttractions() -> [String] {
         return attractionsVC?.getSelectedAttractions() ?? ["fail"]
+    }
+    
+    func getOpenNowValue() -> Bool {
+        return (attributesVC?.getOpenNowValue())!
+    }
+    
+    func getRadiusValue() -> Int {
+        return (attributesVC?.getRadiusValue())!
     }
     
     func setLookupModel(inLookupModel: LookupModel) {
@@ -38,6 +47,9 @@ class LookupViewController: UIViewController {
         if let destinationVC = segue.destination as? AttractionsTableViewController {
             attractionsVC = destinationVC
             destinationVC.setAttractions(incAttractions: self.lookupModel?.getAttractionTypes() ?? ["fail"])
+        }
+        else if let destinationVC = segue.destination as? AttributesTableViewController {
+            attributesVC = destinationVC
         }
         
         super.prepare(for: segue, sender: sender)

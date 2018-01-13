@@ -107,8 +107,11 @@ class ViewController: UIViewController {
     //MARK: Navigation
     @IBAction func unwindToBlipMap(sender: UIStoryboardSegue) {
         if let sourceViewController = sender.source as? LookupViewController {
-            let selectedAttributes = sourceViewController.getSelectedAttributes()
-            let customLookup = CustomLookup(attribute: selectedAttributes)
+            let selectedAttractions = sourceViewController.getSelectedAttractions()
+            let openNow = sourceViewController.getOpenNowValue()
+            let radius = sourceViewController.getRadiusValue()
+            
+            let customLookup = CustomLookup(attribute: selectedAttractions, openNow: openNow, radius: radius)
             
             _ = BlipRequest(inLookup: customLookup!, locManager: locManager, callback: blipRequestCallback)
         }

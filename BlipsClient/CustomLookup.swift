@@ -10,14 +10,26 @@ import Foundation
 
 struct CustomLookup {
     private let attributeType: [String]
+    private let openNow: Bool
+    private let radius: Int
 }
 
 extension CustomLookup {
-    init?(attribute: [String]) {
+    init?(attribute: [String], openNow: Bool, radius: Int) {
         self.attributeType = attribute
+        self.openNow = openNow
+        self.radius = radius
     }
     
     func getAttributes() -> [String] {
         return attributeType
+    }
+    
+    func getOpenNow() -> Bool {
+        return openNow
+    }
+    
+    func getRadius() -> Int {
+        return radius
     }
 }

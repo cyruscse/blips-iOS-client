@@ -60,8 +60,10 @@ class BlipRequest {
         let lngStr = numberFormatter.string(from: lngNum) ?? "error"
         
         let selectedAttributes = self.lookup.getAttributes()
+        let openNow = self.lookup.getOpenNow()
+        let radius = self.lookup.getRadius()
                 
-        let request = [requestTypeTag: queryTag, latitudeTag: latStr, longitudeTag: lngStr, attractionTypeTag: selectedAttributes, radiusTag: "6000", openNowTag: "true"] as [String : Any]
+        let request = [requestTypeTag: queryTag, latitudeTag: latStr, longitudeTag: lngStr, attractionTypeTag: selectedAttributes, radiusTag: radius, openNowTag: openNow] as [String : Any]
         
         requestCallback(request, self.latitude, self.longitude)
     }
