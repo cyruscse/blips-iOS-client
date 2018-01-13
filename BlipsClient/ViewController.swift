@@ -90,7 +90,7 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    func blipRequestCallback(request: [String: String], latitude: Double, longitude: Double) {
+    func blipRequestCallback(request: [String: Any], latitude: Double, longitude: Double) {
         self.userLatitude = latitude
         self.userLongitude = longitude
         
@@ -106,15 +106,18 @@ class ViewController: UIViewController {
     
     //MARK: Navigation
     @IBAction func unwindToBlipMap(sender: UIStoryboardSegue) {
-        if let sourceViewController = sender.source as? LookupViewController, let customLookup = sourceViewController.customLookup {
-            _ = BlipRequest(inLookup: customLookup, locManager: locManager, callback: blipRequestCallback)
+        if let sourceViewController = sender.source as? LookupViewController {
+            let selectedAttributes = sourceViewController.getSelectedAttributes()
+            let customLookup = CustomLookup(attribute: selectedAttributes)
+            
+            _ = BlipRequest(inLookup: customLookup!, locManager: locManager, callback: blipRequestCallback)
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationNC = segue.destination as? UINavigationController {
             if let lookupVC = destinationNC.topViewController as? LookupViewController {
-                lookupVC.lookupModel = self.lookupModel
+                lookupVC.setLookupModel(inLookupModel: self.lookupModel)
             }
         }
     }

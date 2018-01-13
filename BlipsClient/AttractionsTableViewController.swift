@@ -16,6 +16,10 @@ class AttractionsTableViewController: UITableViewController {
         self.attractions = incAttractions
     }
     
+    func getSelectedAttractions() -> [String] {
+        return self.selectedAttractions
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -51,6 +55,7 @@ class AttractionsTableViewController: UITableViewController {
         
         let attraction = attractions[indexPath.row]
         
+        // Check if this row had been selected, add a checkmark if it was selected before
         if (selectedAttractions.contains(attraction)) {
             cell.accessoryType = .checkmark
         }
@@ -69,6 +74,7 @@ class AttractionsTableViewController: UITableViewController {
             fatalError("Cell wasn't AttractionsTableViewCell")
         }
         
+        // Set checkmark for row and add this attraction to the array of selected attractions
         cell.accessoryType = .checkmark
         selectedAttractions.append(attractions[indexPath.row])
     }
@@ -78,6 +84,7 @@ class AttractionsTableViewController: UITableViewController {
             fatalError("Cell wasn't AttractionsTableViewCell")
         }
         
+        // Remove checkmark from row and remove this attraction from array of selected attractions
         cell.accessoryType = .none
         if let index = selectedAttractions.index(of: cell.attractionName.text!) {
             selectedAttractions.remove(at: index)

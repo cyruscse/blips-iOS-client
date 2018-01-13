@@ -9,11 +9,15 @@
 import Foundation
 
 struct CustomLookup {
-    let attributeType: String
+    private let attributeType: [String]
 }
 
 extension CustomLookup {
-    init?(attribute: String) {
+    init?(attribute: [String]) {
         self.attributeType = attribute
+    }
+    
+    func getAttributes() -> [String] {
+        return attributeType
     }
 }

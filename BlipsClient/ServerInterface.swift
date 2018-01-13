@@ -25,7 +25,7 @@ class ServerInterface {
         throw ServerInterfaceError.JSONParseFailed(description: "Failed to parse JSON")
     }
     
-    static func postServer(jsonRequest: [String: String], callback: @escaping (Data) -> ()) throws {
+    static func postServer(jsonRequest: [String: Any], callback: @escaping (Data) -> ()) throws {
         let serverURL:URL = URL(string: "http://www.blipsserver-env.us-east-2.elasticbeanstalk.com")!
         let session = URLSession.shared
         
