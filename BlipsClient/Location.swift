@@ -43,7 +43,6 @@ class Location: NSObject, CLLocationManagerDelegate {
     
     internal func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let locValue:CLLocationCoordinate2D = (manager.location?.coordinate)!
-        print("location = \(locValue.latitude) \(locValue.longitude)")
         
         locationCallback(locValue)
     }

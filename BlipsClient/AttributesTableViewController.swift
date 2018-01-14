@@ -19,6 +19,10 @@ class AttributesTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
+        tap.cancelsTouchesInView = false
+        self.view.addGestureRecognizer(tap)
+        
         openNowCell.selectionStyle = .none
         radiusCell.selectionStyle = .none
     }
