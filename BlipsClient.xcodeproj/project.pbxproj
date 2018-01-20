@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A351D145D80DB9B5A6D8D42 /* libPods-BlipsClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC402C54036475D1D037CE88 /* libPods-BlipsClient.a */; };
 		6E20862D1FA2100F00C824D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E20862C1FA2100F00C824D9 /* AppDelegate.swift */; };
 		6E20862F1FA2100F00C824D9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E20862E1FA2100F00C824D9 /* ViewController.swift */; };
 		6E2086321FA2100F00C824D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E2086301FA2100F00C824D9 /* Main.storyboard */; };
@@ -25,6 +26,9 @@
 		6EB651B11FC87BD200EAB5C0 /* ServerInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB651B01FC87BD200EAB5C0 /* ServerInterface.swift */; };
 		6EB847CC1FCCC5F800095862 /* CustomLookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EB847CB1FCCC5F800095862 /* CustomLookup.swift */; };
 		6ED47E801FBD027A003F4830 /* Blip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ED47E7F1FBD027A003F4830 /* Blip.swift */; };
+		6EF0C66D2013A9C300C967C6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */; };
+		6EF0C66E2013AA0100C967C6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */; };
+		6EF0C66F2013AA0100C967C6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +74,10 @@
 		6EB651B01FC87BD200EAB5C0 /* ServerInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerInterface.swift; sourceTree = "<group>"; };
 		6EB847CB1FCCC5F800095862 /* CustomLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLookup.swift; sourceTree = "<group>"; };
 		6ED47E7F1FBD027A003F4830 /* Blip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blip.swift; sourceTree = "<group>"; };
+		6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		AC402C54036475D1D037CE88 /* libPods-BlipsClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BlipsClient.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B11E4D0B8AFEA76033DF6A5A /* Pods-BlipsClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlipsClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BlipsClient/Pods-BlipsClient.debug.xcconfig"; sourceTree = "<group>"; };
+		F5C68D005D8613419F09CE03 /* Pods-BlipsClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlipsClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-BlipsClient/Pods-BlipsClient.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +86,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E20865D1FA2106100C824D9 /* MapKit.framework in Frameworks */,
+				0A351D145D80DB9B5A6D8D42 /* libPods-BlipsClient.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,15 +107,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		03CFAD3A1A431819A28CB2B6 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B11E4D0B8AFEA76033DF6A5A /* Pods-BlipsClient.debug.xcconfig */,
+				F5C68D005D8613419F09CE03 /* Pods-BlipsClient.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		6E2086201FA2100F00C824D9 = {
 			isa = PBXGroup;
 			children = (
 				6EAD4E821FBB8748003C2E30 /* Default-568h@2x.png */,
+				6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */,
 				6E20862B1FA2100F00C824D9 /* BlipsClient */,
 				6E2086401FA2100F00C824D9 /* BlipsClientTests */,
 				6E20864B1FA2100F00C824D9 /* BlipsClientUITests */,
 				6E20862A1FA2100F00C824D9 /* Products */,
 				6E20865B1FA2106100C824D9 /* Frameworks */,
+				03CFAD3A1A431819A28CB2B6 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -165,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				6E20865C1FA2106100C824D9 /* MapKit.framework */,
+				AC402C54036475D1D037CE88 /* libPods-BlipsClient.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -176,9 +197,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6E2086511FA2100F00C824D9 /* Build configuration list for PBXNativeTarget "BlipsClient" */;
 			buildPhases = (
+				231CEF9A933255817A447036 /* [CP] Check Pods Manifest.lock */,
 				6E2086251FA2100F00C824D9 /* Sources */,
 				6E2086261FA2100F00C824D9 /* Frameworks */,
 				6E2086271FA2100F00C824D9 /* Resources */,
+				8B5F63F8D562FCB4FEA63256 /* [CP] Embed Pods Frameworks */,
+				9C381D5F402C6C6B54F43914 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -288,6 +312,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EAD4E831FBB8748003C2E30 /* Default-568h@2x.png in Resources */,
+				6EF0C66D2013A9C300C967C6 /* GoogleService-Info.plist in Resources */,
 				6E2086341FA2100F00C824D9 /* Assets.xcassets in Resources */,
 				6E2086321FA2100F00C824D9 /* Main.storyboard in Resources */,
 			);
@@ -297,6 +322,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EF0C66E2013AA0100C967C6 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,10 +330,62 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6EF0C66F2013AA0100C967C6 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		231CEF9A933255817A447036 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-BlipsClient-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8B5F63F8D562FCB4FEA63256 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BlipsClient/Pods-BlipsClient-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9C381D5F402C6C6B54F43914 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-BlipsClient/Pods-BlipsClient-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6E2086251FA2100F00C824D9 /* Sources */ = {
@@ -481,6 +559,7 @@
 		};
 		6E2086521FA2100F00C824D9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B11E4D0B8AFEA76033DF6A5A /* Pods-BlipsClient.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = BlipsClient/BlipsClient.entitlements;
@@ -497,6 +576,7 @@
 		};
 		6E2086531FA2100F00C824D9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F5C68D005D8613419F09CE03 /* Pods-BlipsClient.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = BlipsClient/BlipsClient.entitlements;
