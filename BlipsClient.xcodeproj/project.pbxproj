@@ -75,6 +75,7 @@
 		6EB847CB1FCCC5F800095862 /* CustomLookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomLookup.swift; sourceTree = "<group>"; };
 		6ED47E7F1FBD027A003F4830 /* Blip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blip.swift; sourceTree = "<group>"; };
 		6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		6EF0C6732013AC0700C967C6 /* BlipsClient-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BlipsClient-Bridging-Header.h"; sourceTree = "<group>"; };
 		AC402C54036475D1D037CE88 /* libPods-BlipsClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BlipsClient.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B11E4D0B8AFEA76033DF6A5A /* Pods-BlipsClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlipsClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BlipsClient/Pods-BlipsClient.debug.xcconfig"; sourceTree = "<group>"; };
 		F5C68D005D8613419F09CE03 /* Pods-BlipsClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlipsClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-BlipsClient/Pods-BlipsClient.release.xcconfig"; sourceTree = "<group>"; };
@@ -159,6 +160,7 @@
 				6EB651AE1FC8796700EAB5C0 /* LookupModel.swift */,
 				6EB651B01FC87BD200EAB5C0 /* ServerInterface.swift */,
 				6E8A2B79200536A1009C3B6C /* Location.swift */,
+				6EF0C6732013AC0700C967C6 /* BlipsClient-Bridging-Header.h */,
 			);
 			path = BlipsClient;
 			sourceTree = "<group>";
@@ -261,6 +263,7 @@
 				TargetAttributes = {
 					6E2086281FA2100F00C824D9 = {
 						CreatedOnToolsVersion = 9.1;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
@@ -376,9 +379,14 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-BlipsClient/Pods-BlipsClient-resources.sh",
+				"${PODS_ROOT}/GTMOAuth2/Source/Touch/GTMOAuth2ViewTouch.xib",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GTMOAuth2ViewTouch.nib",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -562,6 +570,7 @@
 			baseConfigurationReference = B11E4D0B8AFEA76033DF6A5A /* Pods-BlipsClient.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = BlipsClient/BlipsClient.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FY36VGL2Q2;
@@ -569,6 +578,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fouryear.BlipsClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "BlipsClient/BlipsClient-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -579,6 +590,7 @@
 			baseConfigurationReference = F5C68D005D8613419F09CE03 /* Pods-BlipsClient.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = BlipsClient/BlipsClient.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = FY36VGL2Q2;
@@ -586,6 +598,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fouryear.BlipsClient;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "BlipsClient/BlipsClient-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
