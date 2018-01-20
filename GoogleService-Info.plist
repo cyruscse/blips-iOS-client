@@ -13,15 +13,17 @@
 	<key>PROJECT_ID</key>
 	<string>blips-182015</string>
 	<key>IS_ADS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_APPINVITE_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_GCM_ENABLED</key>
-	<false></false>
+	<false/>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true></true>
+	<true/>
+	<key>GCM_SENDER_ID</key>
+	<string>123456789012</string>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:562681472408:ios:90080979ff17be26</string>
 </dict>
