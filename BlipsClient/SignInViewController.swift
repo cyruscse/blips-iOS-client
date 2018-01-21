@@ -10,13 +10,30 @@ import UIKit
 import Firebase
 import GoogleSignIn
 
-class SignInViewController: UIViewController, GIDSignInUIDelegate {
-
+// NEED TO PROGRAMATICALLY CHANGE REMOVE SIGNIN BUTTON ON SIGNIN
+class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountObserver {
+    @IBOutlet weak var signInButton: GIDSignInButton!
+    @IBOutlet weak var logOutButton: UIButton!
+    @IBOutlet weak var profilePicture: UIImageView!     // Initially should show generic user picture
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var emailLabel: UILabel!
+    
+    func userLoggedIn(account: User) {
+        signInButton.isHidden = true
+        logOutButton.isHidden = false
+        
+        nameLabel.text = account.getName()
+        nameLabel.sizeToFit()
+        
+        emailLabel.text = account.getEmail()
+        emailLabel.sizeToFit()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        //print(self)
         GIDSignIn.sharedInstance().uiDelegate = self
-        //GIDSignIn.sharedInstance().signIn()
     }
 
     override func didReceiveMemoryWarning() {

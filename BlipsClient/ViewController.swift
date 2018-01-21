@@ -23,6 +23,7 @@ class ViewController: UIViewController {
     let lookupModel = LookupModel()
     
     var blips = [Blip]()
+    var userAccountObservers = [UserAccountObserver]()
     
     func centerMapOnBlipCity(location: CLLocationCoordinate2D) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location, regionRadius, regionRadius)
@@ -80,9 +81,20 @@ class ViewController: UIViewController {
         }
     }
     
+    func addUserAccountObserver(observer: UserAccountObserver) {
+        userAccountObservers.append(observer)
+    }
+    
+    func relayUserLogin(account: User) {
+        for observer in userAccountObservers {
+            observer.userLoggedIn(account: account)
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print(self)
         lookupModel.syncWithServer()
     }
 
@@ -121,6 +133,10 @@ class ViewController: UIViewController {
         if let destinationNC = segue.destination as? UINavigationController {
             if let lookupVC = destinationNC.topViewController as? LookupViewController {
                 lookupVC.setLookupModel(inLookupModel: self.lookupModel)
+            }
+            
+            if let signInVC = destinationNC.topViewController as? SignInViewController {
+                addUserAccountObserver(observer: signInVC)
             }
         }
     }

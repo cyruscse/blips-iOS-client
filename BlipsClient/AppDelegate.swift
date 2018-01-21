@@ -17,34 +17,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if (error == nil) {
-            // Perform any operations on signed in user here.
-            let userId = user.userID                  // For client-side use only!
-            let idToken = user.authentication.idToken // Safe to send to the server
-            let fullName = user.profile.name
-            let givenName = user.profile.givenName
-            let familyName = user.profile.familyName
-            let email = user.profile.email
-            // ...
-            print("\(userId) \(idToken) \(fullName)")
+            let account = User(firstName: user.profile.givenName, lastName: user.profile.familyName, idToken: user.authentication.idToken, email: user.profile.email)
+            
+            if let rootViewController = window?.rootViewController as? UINavigationController {
+                if let viewController = rootViewController.viewControllers.first as? ViewController {
+                    viewController.relayUserLogin(account: account)
+                }
+            }
         } else {
             print("\(error.localizedDescription)")
         }
-        /*if let error = error {
-            print("ERROR \(error)")
-            return
-        }
-        
-        guard let authentication = user.authentication else { return }
-        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
-       
-        Auth.auth().signIn(with: credential) { (user, error) in
-            if let error = error {
-                print("Error 2 \(error)")
-                return
-            }
-            
-            print("Signed in")
-        }*/
     }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
