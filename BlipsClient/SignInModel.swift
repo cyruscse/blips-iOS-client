@@ -21,6 +21,7 @@ class SignInModel: UserAccountObserver {
             let responseContents = try ServerInterface.readJSON(data: data)
             
             for (key, value) in responseContents {
+                // need to rewrite this to handle incoming UserPrefs (need to implement first)
                 /*let jsonContents = (value as! NSArray).mutableCopy() as! NSMutableArray
                 
                 for (jsonEntry) in jsonContents {
@@ -44,7 +45,7 @@ class SignInModel: UserAccountObserver {
     
     // protocol this and serverPostCallback with LookupModel
     func syncWithServer() {
-        let jsonRequest = ["requestType": "dbsync", "syncType": "login", "uid": account.getIdToken(), "name": account.getName(), "email": account.getEmail()]
+        let jsonRequest = ["requestType": "dbsync", "syncType": "login", "name": account.getName(), "email": account.getEmail()]
         
         do {
             try ServerInterface.postServer(jsonRequest: jsonRequest, callback: { (data) in self.serverPostCallback(data: data) })

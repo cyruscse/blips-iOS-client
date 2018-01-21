@@ -11,14 +11,14 @@ import Foundation
 class User {
     let firstName: String
     let lastName: String
-    let idToken: String
+    let imageURL: URL
     let email: String
     var attractionHistory: [String: Int]
 
-    init(firstName: String, lastName: String, idToken: String, email: String) {
+    init(firstName: String, lastName: String, imageURL: URL, email: String) {
         self.firstName = firstName
         self.lastName = lastName
-        self.idToken = idToken
+        self.imageURL = imageURL
         self.email = email
         
         attractionHistory = [:] //temporary
@@ -34,10 +34,6 @@ class User {
     
     func getName() -> String {
         return firstName + " " + lastName
-    }
-    
-    func getIdToken() -> String {
-        return idToken
     }
     
     func getEmail() -> String {
