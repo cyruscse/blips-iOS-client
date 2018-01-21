@@ -70,17 +70,24 @@
         <scene sceneID="ZRt-XM-eKs">
             <objects>
                 <viewController id="9ag-SI-sq6" customClass="SignInViewController" customModule="BlipsClient" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Hwo-CB-CV5">
+                    <view key="view" contentMode="scaleToFill" id="fM0-mT-hZK">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="453-L5-fPG" customClass="GIDSignInButton">
+                                <rect key="frame" x="16" y="501" width="343" height="58"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="wY5-Ed-5P8"/>
+                        <viewLayoutGuide key="safeArea" id="7Es-Ab-a0C"/>
                     </view>
                     <navigationItem key="navigationItem" id="3LD-Rz-vg9"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lBP-RD-33c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2404" y="-174"/>
+            <point key="canvasLocation" x="2404" y="-174.38423645320196"/>
         </scene>
         <!--Custom Lookup-->
         <scene sceneID="dZ1-pk-JNg">
