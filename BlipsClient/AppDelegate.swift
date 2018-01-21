@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if (error == nil) {
-            let account = User(firstName: user.profile.givenName, lastName: user.profile.familyName, idToken: user.authentication.idToken, email: user.profile.email)
+            let account = User(firstName: user.profile.givenName, lastName: user.profile.familyName, idToken: user.authentication.accessToken, email: user.profile.email)
             
             if let rootViewController = window?.rootViewController as? UINavigationController {
                 if let viewController = rootViewController.viewControllers.first as? ViewController {

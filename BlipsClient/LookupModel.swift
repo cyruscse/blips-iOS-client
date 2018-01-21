@@ -62,7 +62,7 @@ class LookupModel {
     }
     
     func syncWithServer() {
-        let jsonRequest = ["requestType": "dbsync"]
+        let jsonRequest = ["requestType": "dbsync", "syncType": "getattractions"]
         
         do {
             try ServerInterface.postServer(jsonRequest: jsonRequest, callback: { (data) in self.serverPostCallback(data: data) })
