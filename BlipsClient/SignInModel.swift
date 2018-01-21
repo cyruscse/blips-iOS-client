@@ -1,39 +1,19 @@
 //
-//  LookupModel.swift
+//  SignInModel.swift
 //  BlipsClient
 //
-//  Created by Cyrus Sadeghi on 2017-11-24.
-//  Copyright © 2017 Cyrus Sadeghi. All rights reserved.
+//  Created by Cyrus Sadeghi on 2018-01-21.
+//  Copyright © 2018 Cyrus Sadeghi. All rights reserved.
 //
 
 import Foundation
 
-class LookupModel {
-    let attributesTag = "attributes"
-    let attractionTypeTag = "attraction_types"
+class SignInModel: UserAccountObserver {
+    var account: User!
     
-    private var attractionTypes = [String]()
-    
-    func getAttractionTypes() -> [String] {
-        return attractionTypes
-    }
-    
-    func parseAttributes(entry: [String: Any]) {
-        print("Nothing yet...")
-    }
-    
-    func parseAttractionTypes(entries: [String: Any]) {
-        for (key, value) in entries {
-            if (key == "Name") {
-               guard let typeName = value as? String
-                else {
-                    print("Attraction Type parse failed!")
-                    return
-                }
-             
-                self.attractionTypes.append(typeName)
-            }
-        }
+    func userLoggedIn(account: User) {
+        self.account = account
+        syncWithServer()
     }
     
     func serverPostCallback(data: Data) {
@@ -41,7 +21,7 @@ class LookupModel {
             let responseContents = try ServerInterface.readJSON(data: data)
             
             for (key, value) in responseContents {
-                let jsonContents = (value as! NSArray).mutableCopy() as! NSMutableArray
+                /*let jsonContents = (value as! NSArray).mutableCopy() as! NSMutableArray
                 
                 for (jsonEntry) in jsonContents {
                     let entry = jsonEntry as? [String: Any] ?? [:]
@@ -52,7 +32,8 @@ class LookupModel {
                     else if (key == attractionTypeTag) {
                         parseAttractionTypes(entries: entry)
                     }
-                }
+                }*/
+                print("\(key) \(value)")
             }
         } catch ServerInterfaceError.JSONParseFailed(description: let error) {
             print(error)
@@ -61,9 +42,9 @@ class LookupModel {
         }
     }
     
-    // this method matches syncWithServer in SignInModel, we can abstract this up (at least protocol)
+    // protocol this and serverPostCallback with LookupModel
     func syncWithServer() {
-        let jsonRequest = ["requestType": "dbsync", "syncType": "getattractions"]
+        let jsonRequest = ["requestType": "dbsync", "syncType": "login", "uid": account.getIdToken(), "name": account.getName(), "email": account.getEmail()]
         
         do {
             try ServerInterface.postServer(jsonRequest: jsonRequest, callback: { (data) in self.serverPostCallback(data: data) })

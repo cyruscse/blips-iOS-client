@@ -17,6 +17,12 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountOb
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
     
+    private var signInModel: SignInModel!
+    
+    func setSignInModel(signInModel: SignInModel) {
+        self.signInModel = signInModel
+    }
+    
     func userLoggedIn(account: User) {
         signInButton.isHidden = true
         logOutButton.isHidden = false
@@ -41,7 +47,6 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountOb
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //print(self)
         GIDSignIn.sharedInstance().uiDelegate = self
     }
 

@@ -136,6 +136,11 @@ class ViewController: UIViewController {
             }
             
             if let signInVC = destinationNC.topViewController as? SignInViewController {
+                let signInModel = SignInModel()
+                
+                signInVC.setSignInModel(signInModel: signInModel)
+                
+                addUserAccountObserver(observer: signInModel)
                 addUserAccountObserver(observer: signInVC)
             }
         }
