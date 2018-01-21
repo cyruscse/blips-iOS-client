@@ -24,6 +24,8 @@
 	<true/>
 	<key>GCM_SENDER_ID</key>
 	<string>123456789012</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB9_LQ5Osmo-XNjAMMqfNwc4qG_mEyXZ3Q</string>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:562681472408:ios:90080979ff17be26</string>
 </dict>
