@@ -13,12 +13,15 @@ class User {
     let lastName: String
     let idToken: String
     let email: String
+    var attractionHistory: [String: Int]
 
     init(firstName: String, lastName: String, idToken: String, email: String) {
         self.firstName = firstName
         self.lastName = lastName
         self.idToken = idToken
         self.email = email
+        
+        attractionHistory = [:] //temporary
     }
     
     func getFirstName() -> String {
@@ -39,5 +42,16 @@ class User {
     
     func getEmail() -> String {
         return email
+    }
+    
+    func updateAttractionHistory(selections: [String]) {
+        for selection in selections {
+            if let _ = self.attractionHistory[selection] {
+                self.attractionHistory[selection] = attractionHistory[selection]! + 1
+            }
+            else {
+                self.attractionHistory[selection] = 1
+            }
+        }
     }
 }

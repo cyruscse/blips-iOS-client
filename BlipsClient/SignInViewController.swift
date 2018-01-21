@@ -10,7 +10,6 @@ import UIKit
 import Firebase
 import GoogleSignIn
 
-// NEED TO PROGRAMATICALLY CHANGE REMOVE SIGNIN BUTTON ON SIGNIN
 class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountObserver {
     @IBOutlet weak var signInButton: GIDSignInButton!
     @IBOutlet weak var logOutButton: UIButton!
@@ -22,6 +21,7 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountOb
         signInButton.isHidden = true
         logOutButton.isHidden = false
         
+        // Need to center these
         nameLabel.text = account.getName()
         nameLabel.sizeToFit()
         
