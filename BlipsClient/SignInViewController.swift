@@ -29,6 +29,15 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountOb
         emailLabel.sizeToFit()
     }
     
+    @IBAction func logOutPressed(_ sender: Any) {
+        logOutButton.isHidden = true
+        nameLabel.text = ""
+        emailLabel.text = ""
+        
+        GIDSignIn.sharedInstance().signOut()
+        signInButton.isHidden = false
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

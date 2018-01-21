@@ -101,12 +101,21 @@
                                 <rect key="frame" x="151" y="600" width="74" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Log Out"/>
+                                <connections>
+                                    <action selector="logOutPressed:" destination="9ag-SI-sq6" eventType="touchUpInside" id="SBW-3o-cga"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="7Es-Ab-a0C"/>
                     </view>
-                    <navigationItem key="navigationItem" id="3LD-Rz-vg9"/>
+                    <navigationItem key="navigationItem" id="3LD-Rz-vg9">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="chg-gm-QGO">
+                            <connections>
+                                <segue destination="AXx-58-xic" kind="unwind" unwindAction="unwindToBlipMapWithSender:" id="6Cz-hP-dv5"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="emailLabel" destination="KI5-JH-57Q" id="kLj-u2-8nM"/>
                         <outlet property="logOutButton" destination="lxp-3n-VGs" id="aZp-xN-EVk"/>
@@ -116,6 +125,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lBP-RD-33c" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="AXx-58-xic" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="2404" y="-174.38423645320196"/>
         </scene>
