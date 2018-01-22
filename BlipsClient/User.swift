@@ -9,11 +9,13 @@
 import Foundation
 
 class User {
-    let firstName: String
-    let lastName: String
-    let imageURL: URL
-    let email: String
-    var attractionHistory: [String: Int]
+    private let firstName: String
+    private let lastName: String
+    private let imageURL: URL
+    private let email: String
+    
+    private var attractionHistory: [String: Int]
+    private var userID: Int
 
     init(firstName: String, lastName: String, imageURL: URL, email: String) {
         self.firstName = firstName
@@ -21,6 +23,7 @@ class User {
         self.imageURL = imageURL
         self.email = email
         
+        userID = 0 //temporary
         attractionHistory = [:] //temporary
     }
     
@@ -40,6 +43,14 @@ class User {
         return email
     }
     
+    func setID(userID: Int) {
+        self.userID = userID
+    }
+    
+    func getID() -> Int {
+        return userID
+    }
+    
     func updateAttractionHistory(selections: [String]) {
         for selection in selections {
             if let _ = self.attractionHistory[selection] {
@@ -49,5 +60,9 @@ class User {
                 self.attractionHistory[selection] = 1
             }
         }
+    }
+    
+    func addAttractionHistory(attraction: String, frequency: Int) {
+        self.attractionHistory[attraction] = frequency
     }
 }

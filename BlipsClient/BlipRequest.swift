@@ -11,6 +11,7 @@ import CoreLocation
 
 // Abstract this up??? (maybe a protocol)
 let requestTypeTag = "requestType"
+let userIDTag = "userID"
 let queryTag = "query"
 let latitudeTag = "latitude"
 let longitudeTag = "longitude"
@@ -20,14 +21,16 @@ let openNowTag = "openNow"
 
 class BlipRequest {
     private let lookup: CustomLookup
+    private let account: User
     private let locManager: Location
     
     private var latitude: Double
     private var longitude: Double
     private var requestCallback: ([String: Any], Double, Double) -> ()
     
-    init (inLookup: CustomLookup, locManager: Location, callback: @escaping (([String: Any], Double, Double) -> ())) {
+    init (inLookup: CustomLookup, inUser: User, locManager: Location, callback: @escaping (([String: Any], Double, Double) -> ())) {
         self.lookup = inLookup
+        self.account = inUser
         self.locManager = locManager
         
         self.latitude = 0.0

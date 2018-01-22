@@ -21,6 +21,7 @@ class ViewController: UIViewController {
     let locManager = Location()
     let regionRadius: CLLocationDistance = 250
     let lookupModel = LookupModel()
+    let signInModel = SignInModel()
     
     var blips = [Blip]()
     var userAccountObservers = [UserAccountObserver]()
@@ -125,7 +126,7 @@ class ViewController: UIViewController {
             
             let customLookup = CustomLookup(attribute: selectedAttractions, openNow: openNow, radius: radius)
             
-            _ = BlipRequest(inLookup: customLookup!, locManager: locManager, callback: blipRequestCallback)
+            _ = BlipRequest(inLookup: customLookup!, inUser: signInModel.getAccount(), locManager: locManager, callback: blipRequestCallback)
         }
     }
     
@@ -136,8 +137,6 @@ class ViewController: UIViewController {
             }
             
             if let signInVC = destinationNC.topViewController as? SignInViewController {
-                let signInModel = SignInModel()
-                
                 signInVC.setSignInModel(signInModel: signInModel)
                 
                 addUserAccountObserver(observer: signInModel)

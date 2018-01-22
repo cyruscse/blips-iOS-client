@@ -42,12 +42,19 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountOb
         
         GIDSignIn.sharedInstance().signOut()
         signInButton.isHidden = false
+        
+        signInModel.userLoggedOut()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         GIDSignIn.sharedInstance().uiDelegate = self
+        
+        // Refresh this view if user already logged in
+        if (signInModel.isUserLoggedIn() == true) {
+            self.userLoggedIn(account: signInModel.getAccount())
+        }
     }
 
     override func didReceiveMemoryWarning() {

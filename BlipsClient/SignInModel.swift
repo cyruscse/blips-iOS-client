@@ -9,11 +9,26 @@
 import Foundation
 
 class SignInModel: UserAccountObserver {
-    var account: User!
+    let userIdTag = "userID"
+    private var account: User!
+    private var loggedIn: Bool = false
     
     func userLoggedIn(account: User) {
+        self.loggedIn = true
         self.account = account
         syncWithServer()
+    }
+    
+    func userLoggedOut() {
+        self.loggedIn = false
+    }
+    
+    func isUserLoggedIn() -> Bool {
+        return self.loggedIn
+    }
+    
+    func getAccount() -> User {
+        return self.account;
     }
     
     func serverPostCallback(data: Data) {
@@ -21,20 +36,12 @@ class SignInModel: UserAccountObserver {
             let responseContents = try ServerInterface.readJSON(data: data)
             
             for (key, value) in responseContents {
-                // need to rewrite this to handle incoming UserPrefs (need to implement first)
-                /*let jsonContents = (value as! NSArray).mutableCopy() as! NSMutableArray
-                
-                for (jsonEntry) in jsonContents {
-                    let entry = jsonEntry as? [String: Any] ?? [:]
-                    
-                    if (key == attributesTag) {
-                        parseAttributes(entry: entry)
-                    }
-                    else if (key == attractionTypeTag) {
-                        parseAttractionTypes(entries: entry)
-                    }
-                }*/
-                print("\(key) \(value)")
+                if (key == userIdTag) {
+                    account.setID(userID: value as! Int)
+                }
+                else {
+                    account.addAttractionHistory(attraction: key, frequency: value as! Int)
+                }
             }
         } catch ServerInterfaceError.JSONParseFailed(description: let error) {
             print(error)
