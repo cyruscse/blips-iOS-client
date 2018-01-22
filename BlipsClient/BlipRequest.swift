@@ -66,7 +66,7 @@ class BlipRequest {
         let openNow = self.lookup.getOpenNow()
         let radius = self.lookup.getRadius()
                 
-        let request = [requestTypeTag: queryTag, latitudeTag: latStr, longitudeTag: lngStr, attractionTypeTag: selectedAttributes, radiusTag: radius, openNowTag: openNow] as [String : Any]
+        let request = [requestTypeTag: queryTag, userIDTag: account.getID(), latitudeTag: latStr, longitudeTag: lngStr, attractionTypeTag: selectedAttributes, radiusTag: radius, openNowTag: openNow] as [String : Any]
         
         requestCallback(request, self.latitude, self.longitude)
     }
