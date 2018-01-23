@@ -9,7 +9,7 @@
 import UIKit
 import os.log
 
-class LookupViewController: UIViewController {
+class LookupViewController: UIViewController, LocationObserver {
     @IBOutlet weak var doneButton: UIBarButtonItem!
     @IBOutlet weak var attractionsTableView: UITableView!
     
@@ -40,6 +40,10 @@ class LookupViewController: UIViewController {
     
     func setLookupModel(inLookupModel: LookupModel) {
         self.lookupModel = inLookupModel
+    }
+    
+    func locationDetermined() {
+        self.doneButton.isEnabled = true
     }
     
     //MARK: Navigation

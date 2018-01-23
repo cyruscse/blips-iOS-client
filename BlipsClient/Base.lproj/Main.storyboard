@@ -161,7 +161,7 @@
                                 <action selector="cancel:" destination="IZE-pE-ALY" id="ski-vO-cH2"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="DET-Qr-kJf">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" style="done" systemItem="done" id="DET-Qr-kJf">
                             <connections>
                                 <segue destination="TAA-PP-qU1" kind="unwind" unwindAction="unwindToBlipMapWithSender:" id="hNm-er-ZsP"/>
                             </connections>

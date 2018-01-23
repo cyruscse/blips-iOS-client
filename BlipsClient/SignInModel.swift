@@ -28,7 +28,7 @@ class SignInModel: UserAccountObserver {
     }
     
     func getAccount() -> User {
-        return self.account;
+        return self.account
     }
     
     func serverPostCallback(data: Data) {

@@ -12,7 +12,7 @@ import MapKit
 
 // SEPARATE CLASSES SOON
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, LocationObserver {
     @IBOutlet weak var mapView: MKMapView!
     
     private var userLatitude: Double = 0.0
@@ -25,6 +25,7 @@ class ViewController: UIViewController {
     
     var blips = [Blip]()
     var userAccountObservers = [UserAccountObserver]()
+    var gotUserLocation: Bool = false
     
     func centerMapOnBlipCity(location: CLLocationCoordinate2D) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location, regionRadius, regionRadius)
@@ -86,6 +87,10 @@ class ViewController: UIViewController {
         userAccountObservers.append(observer)
     }
     
+    func locationDetermined() {
+        self.gotUserLocation = true
+    }
+    
     func relayUserLogin(account: User) {
         for observer in userAccountObservers {
             observer.userLoggedIn(account: account)
@@ -94,8 +99,9 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print(self)
+
+        locManager.addLocationObserver(observer: self)
+        locManager.getLocation(callback: { (coordinate) in self.locManager.getLocationCallback(coordinate: coordinate)})
         lookupModel.syncWithServer()
     }
 
@@ -126,14 +132,26 @@ class ViewController: UIViewController {
             
             let customLookup = CustomLookup(attribute: selectedAttractions, openNow: openNow, radius: radius)
             
-            _ = BlipRequest(inLookup: customLookup!, inUser: signInModel.getAccount(), locManager: locManager, callback: blipRequestCallback)
+            let blipRequest = BlipRequest(inLookup: customLookup!, inUser: signInModel.getAccount(), locManager: locManager, callback: blipRequestCallback)
+            
+            blipRequest.JSONify()
         }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationNC = segue.destination as? UINavigationController {
             if let lookupVC = destinationNC.topViewController as? LookupViewController {
+                // need to reorder attractions in lookupModel by attraction history
                 lookupVC.setLookupModel(inLookupModel: self.lookupModel)
+                
+                // Set lookupVC as an Observer of locManager so it knows when to
+                // start allowing blip requests (i.e. enable "Done" button)
+                locManager.addLocationObserver(observer: lookupVC)
+                
+                // If lookupVC is loaded after the location is found, we need to manually enable the button
+                if (self.gotUserLocation == true) {
+                    lookupVC.locationDetermined()
+                }
             }
             
             if let signInVC = destinationNC.topViewController as? SignInViewController {

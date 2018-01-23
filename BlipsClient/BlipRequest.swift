@@ -32,24 +32,20 @@ class BlipRequest {
         self.lookup = inLookup
         self.account = inUser
         self.locManager = locManager
-        
-        self.latitude = 0.0
-        self.longitude = 0.0
         self.requestCallback = callback
         
-        locManager.getLocation(callback: { (coordinate) in self.locationCallback(coordinate: coordinate) })
-    }
-    
-    func locationCallback (coordinate: CLLocationCoordinate2D) {
-        print("loc callback \(coordinate.latitude) \(coordinate.longitude)")
-        
-        self.latitude = coordinate.latitude
-        self.longitude = coordinate.longitude
-        
-        self.JSONify()
+        self.latitude = locManager.getLatitude()
+        self.longitude = locManager.getLongitude()
     }
     
     func JSONify() {
+        // If locManager hasn't determined the user's location yet, we can't make a request.
+        // We shouldn't fall into this in the first place as the UI will block requests,
+        // but we'll keep it just in case
+        if (self.latitude == 0.0 || self.longitude == 0.0) {
+            return
+        }
+        
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         numberFormatter.minimumFractionDigits = 8

@@ -11,7 +11,10 @@ import CoreLocation
 
 class Location: NSObject, CLLocationManagerDelegate {
     let manager = CLLocationManager()
-    var locationCallback: (CLLocationCoordinate2D) -> ()
+    private var locationCallback: (CLLocationCoordinate2D) -> ()
+    private var latitude: Double = 0.0
+    private var longitude: Double = 0.0
+    private var locationObservers = [LocationObserver]()
     
     override init() {
         self.locationCallback = {_ in }
@@ -55,5 +58,26 @@ class Location: NSObject, CLLocationManagerDelegate {
         manager.requestLocation()
         
         self.locationCallback = callback
+    }
+    
+    func getLocationCallback(coordinate: CLLocationCoordinate2D) {
+        self.latitude = coordinate.latitude
+        self.longitude = coordinate.longitude
+        
+        for observer in locationObservers {
+            observer.locationDetermined()
+        }
+    }
+    
+    func addLocationObserver(observer: LocationObserver) {
+        locationObservers.append(observer)
+    }
+    
+    func getLatitude() -> Double {
+        return self.latitude
+    }
+    
+    func getLongitude() -> Double {
+        return self.longitude
     }
 }
