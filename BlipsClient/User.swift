@@ -8,11 +8,21 @@
 
 import Foundation
 
-class User {
-    private let firstName: String
-    private let lastName: String
-    private let imageURL: URL
-    private let email: String
+struct PropertyKey {
+    static let firstName = "firstName"
+    static let lastName = "lastName"
+    static let imageURL = "imageURL"
+    static let email = "email"
+}
+
+class User: NSObject, NSCoding {
+    static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+    static let ArchiveURL = DocumentsDirectory.appendingPathComponent("user")
+    
+    private var firstName: String
+    private var lastName: String
+    private var imageURL: URL
+    private var email: String
     
     private var attractionHistory: [String: Int]
     private var userID: Int
@@ -49,6 +59,38 @@ class User {
     
     func getID() -> Int {
         return userID
+    }
+    
+    // NSCoder Persistence methods
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(self.firstName, forKey: PropertyKey.firstName)
+        aCoder.encode(self.lastName, forKey: PropertyKey.lastName)
+        aCoder.encode(self.imageURL, forKey: PropertyKey.imageURL)
+        aCoder.encode(self.email, forKey: PropertyKey.email)
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        guard let fName = aDecoder.decodeObject(forKey: PropertyKey.firstName) as? String else {
+            print("Failed to decode first name!")
+            return nil
+        }
+        
+        guard let lName = aDecoder.decodeObject(forKey: PropertyKey.lastName) as? String else {
+            print("Failed to decode last name!")
+            return nil
+        }
+        
+        guard let iURL = aDecoder.decodeObject(forKey: PropertyKey.imageURL) as? URL else {
+            print("Failed to decode image URL!")
+            return nil
+        }
+        
+        guard let eml = aDecoder.decodeObject(forKey: PropertyKey.email) as? String else {
+            print("Failed to decode email!")
+            return nil
+        }
+        
+        self.init(firstName: fName, lastName: lName, imageURL: iURL, email: eml)
     }
     
     func updateAttractionHistory(selections: [String]) {

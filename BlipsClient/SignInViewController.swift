@@ -46,9 +46,14 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountOb
         signInModel.userLoggedOut()
     }
     
+    private func loadUser() {
+        signInModel.userLoaded(loaded: NSKeyedUnarchiver.unarchiveObject(withFile: User.ArchiveURL.path) as? User ?? nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.loadUser()
+        
         GIDSignIn.sharedInstance().uiDelegate = self
         
         // Refresh this view if user already logged in

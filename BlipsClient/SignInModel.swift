@@ -13,14 +13,41 @@ class SignInModel: UserAccountObserver {
     private var account: User!
     private var loggedIn: Bool = false
     
+    func userLoaded(loaded: User?) {
+        if (loaded == nil) {
+            return
+        }
+        
+        self.account = loaded
+        self.loggedIn = true
+    }
+    
     func userLoggedIn(account: User) {
         self.loggedIn = true
         self.account = account
+        
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(account, toFile: User.ArchiveURL.path)
+        
+        if isSuccessfulSave {
+            print("Saved User object")
+        }
+        else {
+            print("Failed to save user")
+        }
+        
         syncWithServer()
     }
     
     func userLoggedOut() {
         self.loggedIn = false
+        
+        if FileManager().fileExists(atPath: User.ArchiveURL.path) {
+            do {
+                try FileManager().removeItem(atPath: User.ArchiveURL.path)
+            } catch let error as NSError {
+                print("Failed to delete user: \(error.localizedDescription)")
+            }
+        }
     }
     
     func isUserLoggedIn() -> Bool {
