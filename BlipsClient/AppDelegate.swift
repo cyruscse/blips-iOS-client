@@ -17,7 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if (error == nil) {
-            let account = User(firstName: user.profile.givenName, lastName: user.profile.familyName, imageURL: user.profile.imageURL(withDimension: 250), email: user.profile.email)
+            // 120 for withDimension matches the width of the UIImageView used for the picture
+            // Try to set this as a constant, or maybe pull the value from IB
+            let account = User(firstName: user.profile.givenName, lastName: user.profile.familyName, imageURL: user.profile.imageURL(withDimension: 120), email: user.profile.email)
             
             if let rootViewController = window?.rootViewController as? UINavigationController {
                 if let viewController = rootViewController.viewControllers.first as? ViewController {

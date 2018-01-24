@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 struct PropertyKey {
     static let firstName = "firstName"
@@ -22,6 +23,7 @@ class User: NSObject, NSCoding {
     private var firstName: String
     private var lastName: String
     private var imageURL: URL  //implement this...
+    private var image: UIImage
     private var email: String
     
     private var attractionHistory: [String: Int]
@@ -32,6 +34,14 @@ class User: NSObject, NSCoding {
         self.lastName = lastName
         self.imageURL = imageURL
         self.email = email
+        
+        if let data = try? Data(contentsOf: imageURL) {
+            self.image = UIImage(data: data)!
+        }
+        else {
+            // get a generic user picture to use instead (need to add)
+            self.image = UIImage()
+        }
         
         userID = 0 //temporary
         attractionHistory = [:] //temporary
@@ -51,6 +61,10 @@ class User: NSObject, NSCoding {
     
     func getEmail() -> String {
         return email
+    }
+    
+    func getImage() -> UIImage {
+        return image
     }
     
     func setID(userID: Int) {

@@ -12,7 +12,7 @@ import GoogleSignIn
 
 class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountObserver {
     @IBOutlet weak var signInButton: GIDSignInButton!
-    @IBOutlet weak var logOutButton: UIButton!
+    @IBOutlet weak var actionSheetButton: UIBarButtonItem!
     @IBOutlet weak var profilePicture: UIImageView!     // Initially should show generic user picture
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
@@ -25,25 +25,63 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountOb
     
     func userLoggedIn(account: User) {
         signInButton.isHidden = true
-        logOutButton.isHidden = false
+        profilePicture.isHidden = false
+        actionSheetButton.isEnabled = true
         
         // Need to center these
         nameLabel.text = account.getName()
         nameLabel.sizeToFit()
+        nameLabel.center.x = self.view.center.x
         
         emailLabel.text = account.getEmail()
         emailLabel.sizeToFit()
+        emailLabel.center.x = self.view.center.x
+        
+        profilePicture.image = account.getImage()
+        profilePicture.layer.cornerRadius = profilePicture.frame.size.width / 2
+        profilePicture.layer.borderWidth = 3
+        profilePicture.layer.borderColor = UIColor.gray.cgColor
+        profilePicture.contentMode = .scaleAspectFill
     }
     
-    @IBAction func logOutPressed(_ sender: Any) {
-        logOutButton.isHidden = true
+    func logOut() {
+        profilePicture.isHidden = true
+        actionSheetButton.isEnabled = false
         nameLabel.text = ""
         emailLabel.text = ""
+        profilePicture.image = nil
         
         GIDSignIn.sharedInstance().signOut()
         signInButton.isHidden = false
         
         signInModel.userLoggedOut()
+    }
+    
+    @IBAction func presentActionSheet(_ sender: UIBarButtonItem) {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let logOutAction = UIAlertAction(title: "Log Out", style: .default, handler: { (alert: UIAlertAction!) -> Void in
+            self.logOut()
+        })
+        
+        let clearHistoryAction = UIAlertAction(title: "Clear History", style: .default, handler: { (alert: UIAlertAction!) -> Void in
+            print("need to implement")
+        })
+        
+        let deleteAccountAction = UIAlertAction(title: "Delete Account", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
+            print("need to implement")
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (alert: UIAlertAction!) -> Void in
+            
+        })
+        
+        alertController.addAction(logOutAction)
+        alertController.addAction(clearHistoryAction)
+        alertController.addAction(deleteAccountAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion: nil)
     }
     
     private func loadUser() {
