@@ -19,7 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         if (error == nil) {
             // 120 for withDimension matches the width of the UIImageView used for the picture
             // Try to set this as a constant, or maybe pull the value from IB
-            let account = User(firstName: user.profile.givenName, lastName: user.profile.familyName, imageURL: user.profile.imageURL(withDimension: 120), email: user.profile.email)
+            // On login, set user ID as 0, and give an empty dictionary for atttraction history
+            // These values will be retrieved from the server after the User object is created
+            let account = User(firstName: user.profile.givenName, lastName: user.profile.familyName, imageURL: user.profile.imageURL(withDimension: 120), email: user.profile.email, userID: 0, attractionHistory: [:])
             
             if let rootViewController = window?.rootViewController as? UINavigationController {
                 if let viewController = rootViewController.viewControllers.first as? ViewController {

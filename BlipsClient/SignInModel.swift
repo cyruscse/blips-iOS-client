@@ -10,6 +10,17 @@ import Foundation
 
 class SignInModel: UserAccountObserver {
     let userIdTag = "userID"
+    let statusTag = "status"
+    let requestTypeTag = "requestType"
+    let dbSyncTag = "dbsync"
+    let syncTypeTag = "syncType"
+    let loginTag = "login"
+    let clearHistoryTag = "clearHistory"
+    let deleteUserTag = "deleteUser"
+    let nameTag = "name"
+    let emailTag = "email"
+    let okTag = "OK"
+    
     private var account: User!
     private var loggedIn: Bool = false
     
@@ -26,19 +37,10 @@ class SignInModel: UserAccountObserver {
         self.loggedIn = true
         self.account = account
         
-        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(account, toFile: User.ArchiveURL.path)
-        
-        if isSuccessfulSave {
-            print("Saved User object")
-        }
-        else {
-            print("Failed to save user")
-        }
-        
-        syncWithServer()
+        serverLogin()
     }
     
-    func userLoggedOut() {
+    func userLoggedOut(deleteUser: Bool) {
         self.loggedIn = false
         
         if FileManager().fileExists(atPath: User.ArchiveURL.path) {
@@ -48,6 +50,12 @@ class SignInModel: UserAccountObserver {
                 print("Failed to delete user: \(error.localizedDescription)")
             }
         }
+        
+        if deleteUser == true {
+            deleteServerUser(id: account.getID())
+        }
+        
+        self.account = nil
     }
     
     func isUserLoggedIn() -> Bool {
@@ -58,15 +66,24 @@ class SignInModel: UserAccountObserver {
         return self.account
     }
     
-    func serverPostCallback(data: Data) {
+    func serverLoginCallback(data: Data) {
         do {
             let responseContents = try ServerInterface.readJSON(data: data)
             
             for (key, value) in responseContents {
                 if (key == userIdTag) {
                     account.setID(userID: value as! Int)
+                    
+                    let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(account, toFile: User.ArchiveURL.path)
+                    
+                    if isSuccessfulSave {
+                        print("Saved User object")
+                    }
+                    else {
+                        print("Failed to save user")
+                    }
                 }
-                else {
+                else if (key != statusTag) {
                     account.addAttractionHistory(attraction: key, frequency: value as! Int)
                 }
             }
@@ -77,12 +94,61 @@ class SignInModel: UserAccountObserver {
         }
     }
     
-    // protocol this and serverPostCallback with LookupModel
-    func syncWithServer() {
-        let jsonRequest = ["requestType": "dbsync", "syncType": "login", "name": account.getName(), "email": account.getEmail()]
-        
+    func serverDeleteClearCallback(data: Data) {
         do {
-            try ServerInterface.postServer(jsonRequest: jsonRequest, callback: { (data) in self.serverPostCallback(data: data) })
+            let responseContents = try ServerInterface.readJSON(data: data)
+            
+            for (key, value) in responseContents {
+                if (key == statusTag) {
+                    if let strValue = value as? String {
+                        if strValue != okTag {
+                            print("Failed to clear server history")
+                        }
+                    }
+                }
+            }
+        } catch ServerInterfaceError.JSONParseFailed(description: let error) {
+            print(error)
+        } catch {
+            print("Other error")
+        }
+    }
+    
+    // protocol this and serverPostCallback with LookupModel
+    func serverLogin() {
+        let jsonRequest = [requestTypeTag: dbSyncTag, syncTypeTag: loginTag, nameTag: account.getName(), emailTag: account.getEmail()]
+        
+        // issue #14, this is duplicated a few times
+        do {
+            try ServerInterface.postServer(jsonRequest: jsonRequest, callback: { (data) in self.serverLoginCallback(data: data) })
+        } catch ServerInterfaceError.badJSONRequest(description: let error) {
+            print(error)
+        } catch {
+            print("Other error")
+        }
+    }
+    
+    func clearAttractionHistory() {
+        account.clearAttractionHistory()
+        
+        let jsonRequest = [requestTypeTag: dbSyncTag, syncTypeTag: clearHistoryTag, userIdTag: String(account.getID())]
+        
+        // issue #14
+        do {
+            try ServerInterface.postServer(jsonRequest: jsonRequest, callback: { (data) in self.serverDeleteClearCallback(data: data) })
+        } catch ServerInterfaceError.badJSONRequest(description: let error) {
+            print(error)
+        } catch {
+            print("Other error")
+        }
+    }
+
+    func deleteServerUser(id: Int) {
+        let jsonRequest = [requestTypeTag: dbSyncTag, syncTypeTag: deleteUserTag, userIdTag: String(id)]
+        
+        // issue #14
+        do {
+            try ServerInterface.postServer(jsonRequest: jsonRequest, callback: { (data) in self.serverDeleteClearCallback(data: data) })
         } catch ServerInterfaceError.badJSONRequest(description: let error) {
             print(error)
         } catch {

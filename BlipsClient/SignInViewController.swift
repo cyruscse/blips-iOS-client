@@ -44,7 +44,7 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountOb
         profilePicture.contentMode = .scaleAspectFill
     }
     
-    func logOut() {
+    func logOut(deleteUser: Bool) {
         profilePicture.isHidden = true
         actionSheetButton.isEnabled = false
         nameLabel.text = ""
@@ -54,27 +54,33 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountOb
         GIDSignIn.sharedInstance().signOut()
         signInButton.isHidden = false
         
-        signInModel.userLoggedOut()
+        signInModel.userLoggedOut(deleteUser: deleteUser)
+    }
+    
+    func clearHistory() {
+        signInModel.clearAttractionHistory()
+    }
+    
+    func deleteUser() {
+        logOut(deleteUser: true)
     }
     
     @IBAction func presentActionSheet(_ sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let logOutAction = UIAlertAction(title: "Log Out", style: .default, handler: { (alert: UIAlertAction!) -> Void in
-            self.logOut()
+            self.logOut(deleteUser: false)
         })
         
         let clearHistoryAction = UIAlertAction(title: "Clear History", style: .default, handler: { (alert: UIAlertAction!) -> Void in
-            print("need to implement")
+            self.clearHistory()
         })
         
         let deleteAccountAction = UIAlertAction(title: "Delete Account", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
-            print("need to implement")
+            self.deleteUser()
         })
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (alert: UIAlertAction!) -> Void in
-            
-        })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (alert: UIAlertAction!) -> Void in })
         
         alertController.addAction(logOutAction)
         alertController.addAction(clearHistoryAction)

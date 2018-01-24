@@ -14,6 +14,7 @@ struct PropertyKey {
     static let lastName = "lastName"
     static let imageURL = "imageURL"
     static let email = "email"
+    static let userID = "userID"
 }
 
 class User: NSObject, NSCoding {
@@ -22,18 +23,19 @@ class User: NSObject, NSCoding {
     
     private var firstName: String
     private var lastName: String
-    private var imageURL: URL  //implement this...
+    private var imageURL: URL
     private var image: UIImage
     private var email: String
-    
     private var attractionHistory: [String: Int]
     private var userID: Int
 
-    init(firstName: String, lastName: String, imageURL: URL, email: String) {
+    init(firstName: String, lastName: String, imageURL: URL, email: String, userID: Int, attractionHistory: [String: Int]) {
         self.firstName = firstName
         self.lastName = lastName
         self.imageURL = imageURL
         self.email = email
+        self.userID = userID
+        self.attractionHistory = attractionHistory
         
         if let data = try? Data(contentsOf: imageURL) {
             self.image = UIImage(data: data)!
@@ -42,9 +44,6 @@ class User: NSObject, NSCoding {
             // get a generic user picture to use instead (need to add)
             self.image = UIImage()
         }
-        
-        userID = 0 //temporary
-        attractionHistory = [:] //temporary
     }
     
     func getFirstName() -> String {
@@ -81,6 +80,7 @@ class User: NSObject, NSCoding {
         aCoder.encode(self.lastName, forKey: PropertyKey.lastName)
         aCoder.encode(self.imageURL, forKey: PropertyKey.imageURL)
         aCoder.encode(self.email, forKey: PropertyKey.email)
+        aCoder.encode(self.userID, forKey: PropertyKey.userID)
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
@@ -104,7 +104,9 @@ class User: NSObject, NSCoding {
             return nil
         }
         
-        self.init(firstName: fName, lastName: lName, imageURL: iURL, email: eml)
+        let id = aDecoder.decodeInteger(forKey: PropertyKey.userID)
+
+        self.init(firstName: fName, lastName: lName, imageURL: iURL, email: eml, userID: id, attractionHistory: [:])
     }
     
     func updateAttractionHistory(selections: [String]) {
@@ -120,5 +122,9 @@ class User: NSObject, NSCoding {
     
     func addAttractionHistory(attraction: String, frequency: Int) {
         self.attractionHistory[attraction] = frequency
+    }
+    
+    func clearAttractionHistory() {
+        self.attractionHistory = [:]
     }
 }
