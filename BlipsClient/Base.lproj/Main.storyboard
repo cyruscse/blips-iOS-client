@@ -158,7 +158,7 @@
                     <navigationItem key="navigationItem" title="Custom Lookup" id="80H-oj-0dy">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="O3g-iq-1Ek">
                             <connections>
-                                <action selector="cancel:" destination="IZE-pE-ALY" id="ski-vO-cH2"/>
+                                <segue destination="TAA-PP-qU1" kind="unwind" unwindAction="cancelToBlipMapWithSender:" id="YU3-yh-vOK"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" enabled="NO" style="done" systemItem="done" id="DET-Qr-kJf">

@@ -58,8 +58,4 @@ class LookupViewController: UIViewController, LocationObserver {
         
         super.prepare(for: segue, sender: sender)
     }
-    
-    @IBAction func cancel(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
 }

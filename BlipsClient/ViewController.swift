@@ -26,6 +26,7 @@ class ViewController: UIViewController, LocationObserver {
     var blips = [Blip]()
     var userAccountObservers = [UserAccountObserver]()
     var gotUserLocation: Bool = false
+    var lastAnnotations = [MKAnnotation]()
     
     func centerMapOnBlipCity(location: CLLocationCoordinate2D) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location, regionRadius, regionRadius)
@@ -57,6 +58,7 @@ class ViewController: UIViewController, LocationObserver {
     
     func populateMap(serverDict: Dictionary<String, Dictionary<String, Any>>) {
         blips.removeAll()
+        lastAnnotations.removeAll()
         
         for (_, value) in serverDict {
             // Change these force casts, crash waiting to happen
@@ -138,9 +140,22 @@ class ViewController: UIViewController, LocationObserver {
         }
     }
     
+    // Triggered on "Cancel" bar button in SignInVC
+    // Restore the annotations removed in segue preparation
+    @IBAction func cancelToBlipMap(sender: UIStoryboardSegue) {
+        mapView.addAnnotations(lastAnnotations)
+        lastAnnotations.removeAll()
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationNC = segue.destination as? UINavigationController {
             if let lookupVC = destinationNC.topViewController as? LookupViewController {
+                // Clear current annotations (pins) on map
+                // We save these annotations in case the user cancels the blip request
+                // On cancellation, cancelToBlipMap is invoked and the annotations are restored
+                lastAnnotations = mapView.annotations
+                mapView.removeAnnotations(lastAnnotations)
+                
                 // need to reorder attractions in lookupModel by attraction history
                 lookupVC.setLookupModel(inLookupModel: self.lookupModel)
                 
