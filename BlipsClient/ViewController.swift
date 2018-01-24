@@ -138,6 +138,16 @@ class ViewController: UIViewController, LocationObserver {
             
             blipRequest.JSONify()
         }
+        
+        if let sourceViewController = sender.source as? SignInViewController {
+            let signedInStatus = sourceViewController.getSignInStatus()
+            
+            // If the user signs out, remove all blips from the map
+            if signedInStatus == false {
+                let allAnnotations = mapView.annotations
+                mapView.removeAnnotations(allAnnotations)
+            }
+        }
     }
     
     // Triggered on "Cancel" bar button in SignInVC

@@ -50,6 +50,10 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountOb
         signInModel.userLoaded(loaded: NSKeyedUnarchiver.unarchiveObject(withFile: User.ArchiveURL.path) as? User ?? nil)
     }
     
+    func getSignInStatus() -> Bool {
+        return signInModel.isUserLoggedIn()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.loadUser()

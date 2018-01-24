@@ -21,7 +21,7 @@ class User: NSObject, NSCoding {
     
     private var firstName: String
     private var lastName: String
-    private var imageURL: URL
+    private var imageURL: URL  //implement this...
     private var email: String
     
     private var attractionHistory: [String: Int]
