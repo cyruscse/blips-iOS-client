@@ -46,6 +46,9 @@ class BlipRequest {
             return
         }
         
+        // Update attraction query counters in User
+        account.updateAttractionHistory(selections: lookup.getAttributes())
+        
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         numberFormatter.minimumFractionDigits = 8

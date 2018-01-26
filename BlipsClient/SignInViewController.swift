@@ -28,7 +28,6 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountOb
         profilePicture.isHidden = false
         actionSheetButton.isEnabled = true
         
-        // Need to center these
         nameLabel.text = account.getName()
         nameLabel.sizeToFit()
         nameLabel.center.x = self.view.center.x

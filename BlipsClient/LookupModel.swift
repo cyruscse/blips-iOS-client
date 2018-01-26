@@ -8,7 +8,7 @@
 
 import Foundation
 
-class LookupModel {
+class LookupModel: UserHistoryObserver {
     let attributesTag = "attributes"
     let attractionTypeTag = "attraction_types"
     
@@ -34,6 +34,20 @@ class LookupModel {
                 self.attractionTypes.append(typeName)
             }
         }
+    }
+    
+    // When the attraction history counters change, update what displays in LookupVC
+    // Attraction types are sorted by query frequency (types that haven't been queried are sorted alphabetically)
+    func historyUpdated(attractionHistory: [AttractionHistory]) {
+        var attractionSet: Set<String> = Set(attractionTypes)
+        attractionTypes = []
+        
+        for entry in attractionHistory {
+            attractionSet.remove(entry.attraction)
+            attractionTypes.append(entry.attraction)
+        }
+        
+        attractionTypes.append(contentsOf: attractionSet.sorted())
     }
     
     func serverPostCallback(data: Data) {

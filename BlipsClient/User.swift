@@ -17,6 +17,23 @@ struct PropertyKey {
     static let userID = "userID"
 }
 
+struct AttractionHistory: Comparable, Hashable {
+    static func <(lhs: AttractionHistory, rhs: AttractionHistory) -> Bool {
+        return lhs.frequency > rhs.frequency
+    }
+    
+    static func ==(lhs: AttractionHistory, rhs: AttractionHistory) -> Bool {
+        return lhs.frequency == rhs.frequency
+    }
+    
+    var attraction: String
+    let frequency: Int
+    
+    var hashValue: Int {
+        return attraction.hashValue
+    }
+}
+
 class User: NSObject, NSCoding {
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     static let ArchiveURL = DocumentsDirectory.appendingPathComponent("user")
@@ -28,6 +45,7 @@ class User: NSObject, NSCoding {
     private var email: String
     private var attractionHistory: [String: Int]
     private var userID: Int
+    private var userHistoryObservers = [UserHistoryObserver]()
 
     init(firstName: String, lastName: String, imageURL: URL, email: String, userID: Int, attractionHistory: [String: Int]) {
         self.firstName = firstName
@@ -74,6 +92,18 @@ class User: NSObject, NSCoding {
         return userID
     }
     
+    func addUserHistoryObserver(observer: UserHistoryObserver) {
+        self.userHistoryObservers.append(observer)
+    }
+    
+    func updateHistoryListeners() {
+        let orderedHistory: [AttractionHistory] = orderedAttractionHistory()
+        
+        for observer in userHistoryObservers {
+            observer.historyUpdated(attractionHistory: orderedHistory)
+        }
+    }
+    
     // NSCoder Persistence methods
     func encode(with aCoder: NSCoder) {
         aCoder.encode(self.firstName, forKey: PropertyKey.firstName)
@@ -118,10 +148,24 @@ class User: NSObject, NSCoding {
                 self.attractionHistory[selection] = 1
             }
         }
+        
+        updateHistoryListeners()
     }
     
-    func addAttractionHistory(attraction: String, frequency: Int) {
-        self.attractionHistory[attraction] = frequency
+    func setAttractionHistory(history: [String: Int]) {
+        self.attractionHistory = history
+        
+        updateHistoryListeners()
+    }
+    
+    func orderedAttractionHistory() -> [AttractionHistory] {
+        var historySet: Set<AttractionHistory> = []
+        
+        for (key, value) in attractionHistory {
+            historySet.insert(AttractionHistory(attraction: key, frequency: value))
+        }
+
+        return historySet.sorted()
     }
     
     func clearAttractionHistory() {

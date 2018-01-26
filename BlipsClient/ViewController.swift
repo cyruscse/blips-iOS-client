@@ -97,6 +97,8 @@ class ViewController: UIViewController, LocationObserver {
         for observer in userAccountObservers {
             observer.userLoggedIn(account: account)
         }
+        
+        signInModel.addUserHistoryObserver(observer: lookupModel)
     }
     
     override func viewDidLoad() {

@@ -66,9 +66,14 @@ class SignInModel: UserAccountObserver {
         return self.account
     }
     
+    func addUserHistoryObserver(observer: UserHistoryObserver) {
+        account.addUserHistoryObserver(observer: observer)
+    }
+    
     func serverLoginCallback(data: Data) {
         do {
             let responseContents = try ServerInterface.readJSON(data: data)
+            var serverAttractionHistory: [String: Int] = [:]
             
             for (key, value) in responseContents {
                 if (key == userIdTag) {
@@ -84,8 +89,14 @@ class SignInModel: UserAccountObserver {
                     }
                 }
                 else if (key != statusTag) {
-                    account.addAttractionHistory(attraction: key, frequency: value as! Int)
+                    serverAttractionHistory[key] = value as? Int
                 }
+            }
+            
+            // Defer updating attraction history until the whole response is parsed
+            // setAttractionHistory calls User observers
+            if serverAttractionHistory.count != 0 {
+                account.setAttractionHistory(history: serverAttractionHistory)
             }
         } catch ServerInterfaceError.JSONParseFailed(description: let error) {
             print(error)
