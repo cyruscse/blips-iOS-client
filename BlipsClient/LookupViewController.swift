@@ -11,7 +11,6 @@ import os.log
 
 class LookupViewController: UIViewController, LocationObserver {
     @IBOutlet weak var doneButton: UIBarButtonItem!
-    @IBOutlet weak var attractionsTableView: UITableView!
     
     private var lookupModel: LookupModel? = nil
     private var customLookup: CustomLookup?

@@ -11,121 +11,72 @@ import Firebase
 import GoogleSignIn
 
 class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountObserver {
-    @IBOutlet weak var signInButton: GIDSignInButton!
-    @IBOutlet weak var actionSheetButton: UIBarButtonItem!
     @IBOutlet weak var profilePicture: UIImageView!     // Initially should show generic user picture
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
+    @IBOutlet weak var signInButton: GIDSignInButton!
     
-    private var signInModel: SignInModel!
+    private var userLoggedIn: Bool = false
+    private var account: User?
     
-    func setSignInModel(signInModel: SignInModel) {
-        self.signInModel = signInModel
-    }
-    
-    func userLoggedIn(account: User) {
+    func updateUIOnLogin() {
         signInButton.isHidden = true
         profilePicture.isHidden = false
-        actionSheetButton.isEnabled = true
         
-        nameLabel.text = account.getName()
+        nameLabel.text = account!.getName()
         nameLabel.sizeToFit()
         nameLabel.center.x = self.view.center.x
         
-        emailLabel.text = account.getEmail()
+        emailLabel.text = account!.getEmail()
         emailLabel.sizeToFit()
         emailLabel.center.x = self.view.center.x
         
-        profilePicture.image = account.getImage()
+        profilePicture.image = account!.getImage()
         profilePicture.layer.cornerRadius = profilePicture.frame.size.width / 2
         profilePicture.layer.borderWidth = 3
         profilePicture.layer.borderColor = UIColor.gray.cgColor
         profilePicture.contentMode = .scaleAspectFill
     }
     
-    func logOut(deleteUser: Bool) {
+    func userLoggedIn(account: User) {
+        self.account = account
+        userLoggedIn = true
+                
+        if self.viewIfLoaded?.window != nil {
+            updateUIOnLogin()
+        }
+    }
+    
+    func updateUIOnLogout() {
         profilePicture.isHidden = true
-        actionSheetButton.isEnabled = false
         nameLabel.text = ""
         emailLabel.text = ""
         profilePicture.image = nil
         
-        GIDSignIn.sharedInstance().signOut()
         signInButton.isHidden = false
-        
-        signInModel.userLoggedOut(deleteUser: deleteUser)
     }
     
-    func clearHistory() {
-        signInModel.clearAttractionHistory()
-    }
-    
-    func deleteUser() {
-        logOut(deleteUser: true)
-    }
-    
-    @IBAction func presentActionSheet(_ sender: UIBarButtonItem) {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    func userLoggedOut() {
+        userLoggedIn = false
         
-        let logOutAction = UIAlertAction(title: "Log Out", style: .default, handler: { (alert: UIAlertAction!) -> Void in
-            self.logOut(deleteUser: false)
-        })
-        
-        let clearHistoryAction = UIAlertAction(title: "Clear History", style: .default, handler: { (alert: UIAlertAction!) -> Void in
-            self.clearHistory()
-        })
-        
-        let deleteAccountAction = UIAlertAction(title: "Delete Account", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
-            self.deleteUser()
-        })
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (alert: UIAlertAction!) -> Void in })
-        
-        alertController.addAction(logOutAction)
-        alertController.addAction(clearHistoryAction)
-        alertController.addAction(deleteAccountAction)
-        alertController.addAction(cancelAction)
-        
-        self.present(alertController, animated: true, completion: nil)
-    }
-    
-    private func loadUser() {
-        signInModel.userLoaded(loaded: NSKeyedUnarchiver.unarchiveObject(withFile: User.ArchiveURL.path) as? User ?? nil)
-    }
-    
-    func getSignInStatus() -> Bool {
-        return signInModel.isUserLoggedIn()
+        if self.viewIfLoaded?.window != nil {
+            updateUIOnLogout()
+        }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if signInModel.isUserLoggedIn() == false {
-            self.loadUser()
-        }
-
         GIDSignIn.sharedInstance().uiDelegate = self
         
-        // Refresh this view if user already logged in
-        if signInModel.isUserLoggedIn() == true {
-            self.userLoggedIn(account: signInModel.getAccount())
+        if userLoggedIn {
+            updateUIOnLogin()
+        }
+        else {
+            updateUIOnLogout()
         }
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

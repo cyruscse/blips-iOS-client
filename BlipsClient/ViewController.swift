@@ -134,7 +134,7 @@ class ViewController: UIViewController, LocationObserver {
             blipRequest.JSONify()
         }
         
-        if let sourceViewController = sender.source as? SignInViewController {
+        if let sourceViewController = sender.source as? AccountViewController {
             let signedInStatus = sourceViewController.getSignInStatus()
             
             // If the user signs out, remove all blips from the map
@@ -174,10 +174,10 @@ class ViewController: UIViewController, LocationObserver {
                 }
             }
             
-            if let signInVC = destinationNC.topViewController as? SignInViewController {
-                signInVC.setSignInModel(signInModel: signInModel)
+            if let accountVC = destinationNC.topViewController as? AccountViewController {
+                accountVC.setSignInModel(inSignInModel: signInModel)
                 
-                signInModel.addUserAccountObserver(observer: signInVC)
+                signInModel.addUserAccountObserver(observer: accountVC)
             }
         }
     }

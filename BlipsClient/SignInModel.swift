@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import GoogleSignIn
 
 class SignInModel {
     let userIdTag = "userID"
@@ -36,6 +37,10 @@ class SignInModel {
         
         self.account = loaded
         self.loggedIn = true
+        
+        for observer in userAccountObservers {
+            observer.userLoggedIn(account: account)
+        }
     }
     
     func userLoggedIn(account: User) {
@@ -51,6 +56,12 @@ class SignInModel {
     
     func userLoggedOut(deleteUser: Bool) {
         self.loggedIn = false
+        
+        GIDSignIn.sharedInstance().signOut()
+        
+        for observer in userAccountObservers {
+            observer.userLoggedOut()
+        }
 
         if FileManager().fileExists(atPath: User.ArchiveURL.path) {
             do {
