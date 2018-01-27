@@ -11,7 +11,7 @@ import Firebase
 import GoogleSignIn
 
 class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountObserver {
-    @IBOutlet weak var profilePicture: UIImageView!     // Initially should show generic user picture
+    @IBOutlet weak var profilePicture: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var signInButton: GIDSignInButton!
@@ -41,7 +41,7 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountOb
     func userLoggedIn(account: User) {
         self.account = account
         userLoggedIn = true
-                
+        
         if self.viewIfLoaded?.window != nil {
             updateUIOnLogin()
         }

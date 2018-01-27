@@ -81,6 +81,13 @@
                                     <segue destination="Z6Z-pR-1yI" kind="embed" id="WKm-3f-ceL"/>
                                 </connections>
                             </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N8L-wN-jdl">
+                                <rect key="frame" x="0.0" y="419" width="375" height="359"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <segue destination="jHi-Pb-aJf" kind="embed" id="Siy-4T-CQ7"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="3Qx-bI-uha"/>
@@ -351,6 +358,20 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S2t-mv-Ow2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3453.5999999999999" y="-355.04926108374383"/>
+        </scene>
+        <!--Statistics View Controller-->
+        <scene sceneID="fu5-4M-T3k">
+            <objects>
+                <viewController id="jHi-Pb-aJf" customClass="StatisticsViewController" customModule="BlipsClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="V7M-2k-cDK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="359"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PTB-Bm-s4b" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3454" y="37"/>
         </scene>
     </scenes>
 </document>
