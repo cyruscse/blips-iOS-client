@@ -15,6 +15,7 @@ struct PropertyKey {
     static let imageURL = "imageURL"
     static let email = "email"
     static let userID = "userID"
+    static let attractionHistory = "attractionHistory"
 }
 
 struct AttractionHistory: Comparable, Hashable {
@@ -54,7 +55,7 @@ class User: NSObject, NSCoding {
         self.email = email
         self.userID = userID
         self.attractionHistory = attractionHistory
-        
+
         if let data = try? Data(contentsOf: imageURL) {
             self.image = UIImage(data: data)!
         }
@@ -96,14 +97,6 @@ class User: NSObject, NSCoding {
         self.userHistoryObservers.append(observer)
     }
     
-    func updateHistoryListeners() {
-        let orderedHistory: [AttractionHistory] = orderedAttractionHistory()
-        
-        for observer in userHistoryObservers {
-            observer.historyUpdated(attractionHistory: orderedHistory)
-        }
-    }
-    
     // NSCoder Persistence methods
     func encode(with aCoder: NSCoder) {
         aCoder.encode(self.firstName, forKey: PropertyKey.firstName)
@@ -111,6 +104,7 @@ class User: NSObject, NSCoding {
         aCoder.encode(self.imageURL, forKey: PropertyKey.imageURL)
         aCoder.encode(self.email, forKey: PropertyKey.email)
         aCoder.encode(self.userID, forKey: PropertyKey.userID)
+        aCoder.encode(self.attractionHistory, forKey: PropertyKey.attractionHistory)
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
@@ -135,8 +129,21 @@ class User: NSObject, NSCoding {
         }
         
         let id = aDecoder.decodeInteger(forKey: PropertyKey.userID)
+        
+        guard let history = aDecoder.decodeObject(forKey: PropertyKey.attractionHistory) as? [String: Int] else {
+            print("Failed to decode attraction history!")
+            return nil
+        }
 
-        self.init(firstName: fName, lastName: lName, imageURL: iURL, email: eml, userID: id, attractionHistory: [:])
+        self.init(firstName: fName, lastName: lName, imageURL: iURL, email: eml, userID: id, attractionHistory: history)
+    }
+    
+    func updateHistoryListeners() {
+        let orderedHistory: [AttractionHistory] = orderedAttractionHistory()
+        
+        for observer in userHistoryObservers {
+            observer.historyUpdated(attractionHistory: orderedHistory)
+        }
     }
     
     func updateAttractionHistory(selections: [String]) {
@@ -164,11 +171,13 @@ class User: NSObject, NSCoding {
         for (key, value) in attractionHistory {
             historySet.insert(AttractionHistory(attraction: key, frequency: value))
         }
-
+        
         return historySet.sorted()
     }
     
     func clearAttractionHistory() {
         self.attractionHistory = [:]
+        
+        updateHistoryListeners()
     }
 }

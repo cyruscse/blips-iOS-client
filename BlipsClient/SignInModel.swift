@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SignInModel: UserAccountObserver {
+class SignInModel {
     let userIdTag = "userID"
     let statusTag = "status"
     let requestTypeTag = "requestType"
@@ -23,6 +23,11 @@ class SignInModel: UserAccountObserver {
     
     private var account: User!
     private var loggedIn: Bool = false
+    private var userAccountObservers = [UserAccountObserver]()
+    
+    func addUserAccountObserver(observer: UserAccountObserver) {
+        userAccountObservers.append(observer)
+    }
     
     func userLoaded(loaded: User?) {
         if (loaded == nil) {
@@ -38,11 +43,15 @@ class SignInModel: UserAccountObserver {
         self.account = account
         
         serverLogin()
+        
+        for observer in userAccountObservers {
+            observer.userLoggedIn(account: account)
+        }
     }
     
     func userLoggedOut(deleteUser: Bool) {
         self.loggedIn = false
-        
+
         if FileManager().fileExists(atPath: User.ArchiveURL.path) {
             do {
                 try FileManager().removeItem(atPath: User.ArchiveURL.path)
@@ -55,6 +64,7 @@ class SignInModel: UserAccountObserver {
             deleteServerUser(id: account.getID())
         }
         
+        self.account.clearAttractionHistory()
         self.account = nil
     }
     
@@ -68,6 +78,10 @@ class SignInModel: UserAccountObserver {
     
     func addUserHistoryObserver(observer: UserHistoryObserver) {
         account.addUserHistoryObserver(observer: observer)
+    }
+    
+    func updateUserHistoryObservers() {
+        account.updateHistoryListeners()
     }
     
     func serverLoginCallback(data: Data) {

@@ -24,7 +24,6 @@ class ViewController: UIViewController, LocationObserver {
     let signInModel = SignInModel()
     
     var blips = [Blip]()
-    var userAccountObservers = [UserAccountObserver]()
     var gotUserLocation: Bool = false
     var lastAnnotations = [MKAnnotation]()
     
@@ -85,20 +84,14 @@ class ViewController: UIViewController, LocationObserver {
         }
     }
     
-    func addUserAccountObserver(observer: UserAccountObserver) {
-        userAccountObservers.append(observer)
-    }
-    
     func locationDetermined() {
         self.gotUserLocation = true
     }
     
     func relayUserLogin(account: User) {
-        for observer in userAccountObservers {
-            observer.userLoggedIn(account: account)
-        }
-        
+        signInModel.userLoggedIn(account: account)
         signInModel.addUserHistoryObserver(observer: lookupModel)
+        signInModel.updateUserHistoryObservers()
     }
     
     override func viewDidLoad() {
@@ -184,8 +177,7 @@ class ViewController: UIViewController, LocationObserver {
             if let signInVC = destinationNC.topViewController as? SignInViewController {
                 signInVC.setSignInModel(signInModel: signInModel)
                 
-                addUserAccountObserver(observer: signInModel)
-                addUserAccountObserver(observer: signInVC)
+                signInModel.addUserAccountObserver(observer: signInVC)
             }
         }
     }

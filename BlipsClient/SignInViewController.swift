@@ -99,12 +99,15 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountOb
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.loadUser()
         
+        if signInModel.isUserLoggedIn() == false {
+            self.loadUser()
+        }
+
         GIDSignIn.sharedInstance().uiDelegate = self
         
         // Refresh this view if user already logged in
-        if (signInModel.isUserLoggedIn() == true) {
+        if signInModel.isUserLoggedIn() == true {
             self.userLoggedIn(account: signInModel.getAccount())
         }
     }
