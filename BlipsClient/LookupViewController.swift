@@ -9,9 +9,8 @@
 import UIKit
 import os.log
 
-class LookupViewController: UIViewController {
+class LookupViewController: UIViewController, LocationObserver {
     @IBOutlet weak var doneButton: UIBarButtonItem!
-    @IBOutlet weak var attractionsTableView: UITableView!
     
     private var lookupModel: LookupModel? = nil
     private var customLookup: CustomLookup?
@@ -42,20 +41,22 @@ class LookupViewController: UIViewController {
         self.lookupModel = inLookupModel
     }
     
+    func locationDetermined() {
+        self.doneButton.isEnabled = true
+    }
+    
     //MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationVC = segue.destination as? AttractionsTableViewController {
             attractionsVC = destinationVC
             destinationVC.setAttractions(incAttractions: self.lookupModel?.getAttractionTypes() ?? ["fail"])
+            destinationVC.setAttrToProperName(incAttrTranslation: self.lookupModel?.getAttrToProperName() ?? [:])
+            destinationVC.setProperNameToAttr(incReverseTranslation: self.lookupModel?.getProperNameToAttr() ?? [:])
         }
         else if let destinationVC = segue.destination as? AttributesTableViewController {
             attributesVC = destinationVC
         }
         
         super.prepare(for: segue, sender: sender)
-    }
-    
-    @IBAction func cancel(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
     }
 }

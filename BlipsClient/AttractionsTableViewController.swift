@@ -10,10 +10,21 @@ import UIKit
 
 class AttractionsTableViewController: UITableViewController {
     private var attractions: [String] = [String]()
+    private var attrToProperName: [String: String] = [String: String]()
+    private var properNameToAttr: [String: String] = [String: String]()
+    
     private var selectedAttractions: [String] = [String]()
     
     func setAttractions(incAttractions: [String]) {
         self.attractions = incAttractions
+    }
+    
+    func setAttrToProperName(incAttrTranslation: [String: String]) {
+        self.attrToProperName = incAttrTranslation
+    }
+    
+    func setProperNameToAttr(incReverseTranslation: [String: String]) {
+        self.properNameToAttr = incReverseTranslation
     }
     
     func getSelectedAttractions() -> [String] {
@@ -28,10 +39,8 @@ class AttractionsTableViewController: UITableViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -47,10 +56,10 @@ class AttractionsTableViewController: UITableViewController {
             fatalError("Dequeued cell wasn't AttractionsTableViewCell")
         }
         
-        let attraction = attractions[indexPath.row]
+        let attraction = attrToProperName[attractions[indexPath.row]]
         
         // Check if this row had been selected, add a checkmark if it was selected before
-        if (selectedAttractions.contains(attraction)) {
+        if (selectedAttractions.contains(attractions[indexPath.row])) {
             cell.accessoryType = .checkmark
         }
         else {
@@ -80,7 +89,7 @@ class AttractionsTableViewController: UITableViewController {
         
         // Remove checkmark from row and remove this attraction from array of selected attractions
         cell.accessoryType = .none
-        if let index = selectedAttractions.index(of: cell.attractionName.text!) {
+        if let index = selectedAttractions.index(of: properNameToAttr[cell.attractionName.text!]!) {
             selectedAttractions.remove(at: index)
         }
     }

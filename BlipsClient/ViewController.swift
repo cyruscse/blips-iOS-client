@@ -12,7 +12,7 @@ import MapKit
 
 // SEPARATE CLASSES SOON
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, LocationObserver {
     @IBOutlet weak var mapView: MKMapView!
     
     private var userLatitude: Double = 0.0
@@ -21,8 +21,11 @@ class ViewController: UIViewController {
     let locManager = Location()
     let regionRadius: CLLocationDistance = 250
     let lookupModel = LookupModel()
+    let signInModel = SignInModel()
     
     var blips = [Blip]()
+    var gotUserLocation: Bool = false
+    var lastAnnotations = [MKAnnotation]()
     
     func centerMapOnBlipCity(location: CLLocationCoordinate2D) {
         let coordinateRegion = MKCoordinateRegionMakeWithDistance(location, regionRadius, regionRadius)
@@ -54,6 +57,7 @@ class ViewController: UIViewController {
     
     func populateMap(serverDict: Dictionary<String, Dictionary<String, Any>>) {
         blips.removeAll()
+        lastAnnotations.removeAll()
         
         for (_, value) in serverDict {
             // Change these force casts, crash waiting to happen
@@ -80,9 +84,21 @@ class ViewController: UIViewController {
         }
     }
     
+    func locationDetermined() {
+        self.gotUserLocation = true
+    }
+    
+    func relayUserLogin(account: User) {
+        signInModel.userLoggedIn(account: account)
+        signInModel.addUserHistoryObserver(observer: lookupModel)
+        signInModel.updateUserHistoryObservers()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        locManager.addLocationObserver(observer: self)
+        locManager.getLocation(callback: { (coordinate) in self.locManager.getLocationCallback(coordinate: coordinate)})
         lookupModel.syncWithServer()
     }
 
@@ -113,14 +129,55 @@ class ViewController: UIViewController {
             
             let customLookup = CustomLookup(attribute: selectedAttractions, openNow: openNow, radius: radius)
             
-            _ = BlipRequest(inLookup: customLookup!, locManager: locManager, callback: blipRequestCallback)
+            let blipRequest = BlipRequest(inLookup: customLookup!, inUser: signInModel.getAccount(), locManager: locManager, callback: blipRequestCallback)
+            
+            blipRequest.JSONify()
+        }
+        
+        if let sourceViewController = sender.source as? AccountViewController {
+            let signedInStatus = sourceViewController.getSignInStatus()
+            
+            // If the user signs out, remove all blips from the map
+            if signedInStatus == false {
+                let allAnnotations = mapView.annotations
+                mapView.removeAnnotations(allAnnotations)
+            }
         }
     }
     
+    // Triggered on "Cancel" bar button in SignInVC
+    // Restore the annotations removed in segue preparation
+    @IBAction func cancelToBlipMap(sender: UIStoryboardSegue) {
+        mapView.addAnnotations(lastAnnotations)
+        lastAnnotations.removeAll()
+    }
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationNC = segue.destination as? UINavigationController {
             if let lookupVC = destinationNC.topViewController as? LookupViewController {
+                // Clear current annotations (pins) on map
+                // We save these annotations in case the user cancels the blip request
+                // On cancellation, cancelToBlipMap is invoked and the annotations are restored
+                lastAnnotations = mapView.annotations
+                mapView.removeAnnotations(lastAnnotations)
+                
+                // need to reorder attractions in lookupModel by attraction history
                 lookupVC.setLookupModel(inLookupModel: self.lookupModel)
+                
+                // Set lookupVC as an Observer of locManager so it knows when to
+                // start allowing blip requests (i.e. enable "Done" button)
+                locManager.addLocationObserver(observer: lookupVC)
+                
+                // If lookupVC is loaded after the location is found, we need to manually enable the button
+                if (self.gotUserLocation == true) {
+                    lookupVC.locationDetermined()
+                }
+            }
+            
+            if let accountVC = destinationNC.topViewController as? AccountViewController {
+                accountVC.setSignInModel(inSignInModel: signInModel)
+                
+                signInModel.addUserAccountObserver(observer: accountVC)
             }
         }
     }

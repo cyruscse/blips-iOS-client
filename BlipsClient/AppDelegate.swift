@@ -7,15 +7,44 @@
 //
 
 import UIKit
+import Firebase
+import FirebaseAuth
+import GoogleSignIn
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
-
+class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     var window: UIWindow?
 
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+        if (error == nil) {
+            // 120 for withDimension matches the width of the UIImageView used for the picture
+            // Try to set this as a constant, or maybe pull the value from IB
+            // On login, set user ID as 0, and give an empty dictionary for atttraction history
+            // These values will be retrieved from the server after the User object is created
+            let account = User(firstName: user.profile.givenName, lastName: user.profile.familyName, imageURL: user.profile.imageURL(withDimension: 120), email: user.profile.email, userID: 0, attractionHistory: [:])
+            
+            if let rootViewController = window?.rootViewController as? UINavigationController {
+                if let viewController = rootViewController.viewControllers.first as? ViewController {
+                    viewController.relayUserLogin(account: account)
+                }
+            }
+        } else {
+            print("\(error.localizedDescription)")
+        }
+    }
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        // Init Google Sign-in
+        FirebaseApp.configure()
+        
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+        GIDSignIn.sharedInstance().delegate = self
+        
         return true
+    }
+    
+    func application(_ application: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
+        return GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: [:])
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

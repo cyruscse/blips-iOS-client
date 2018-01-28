@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>562681472408-lgk6coe2jc5hpu479rlgtgm24oapqplr.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.562681472408-lgk6coe2jc5hpu479rlgtgm24oapqplr</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.fouryear.BlipsClient</string>
+	<key>PROJECT_ID</key>
+	<string>blips-182015</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<false/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GCM_SENDER_ID</key>
+	<string>123456789012</string>
+	<key>API_KEY</key>
+	<string>AIzaSyB9_LQ5Osmo-XNjAMMqfNwc4qG_mEyXZ3Q</string>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:562681472408:ios:90080979ff17be26</string>
+</dict>
+</plist>

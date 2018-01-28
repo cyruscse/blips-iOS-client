@@ -27,6 +27,13 @@
                         <viewLayoutGuide key="safeArea" id="3hU-FH-mUI"/>
                     </view>
                     <navigationItem key="navigationItem" title="Blips" id="SOw-EL-MSc">
+                        <barButtonItem key="leftBarButtonItem" title="Account" id="nJ4-e2-lde">
+                            <connections>
+                                <segue destination="5Wk-dX-UOh" kind="popoverPresentation" popoverAnchorBarButtonItem="nJ4-e2-lde" id="bhg-5x-61z">
+                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                </segue>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="ZV1-D1-g0C">
                             <connections>
                                 <segue destination="QM7-nQ-Cp7" kind="popoverPresentation" identifier="CustomLookup" popoverAnchorBarButtonItem="ZV1-D1-g0C" id="rY4-sE-lMa">
@@ -42,6 +49,69 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="477.60000000000002" y="130.78817733990149"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="0Ve-OA-NuO">
+            <objects>
+                <navigationController id="5Wk-dX-UOh" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="81V-M5-lrj">
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="7a5-gA-atf" kind="relationship" relationship="rootViewController" id="r9I-eh-Rnx"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fZT-xp-Swe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1481" y="-174"/>
+        </scene>
+        <!--Account View Controller-->
+        <scene sceneID="Gtx-oO-9ND">
+            <objects>
+                <viewController id="7a5-gA-atf" customClass="AccountViewController" customModule="BlipsClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="1Yi-Sn-0aq">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Bh-uQ-4At">
+                                <rect key="frame" x="0.0" y="88" width="375" height="323"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <segue destination="Z6Z-pR-1yI" kind="embed" id="WKm-3f-ceL"/>
+                                </connections>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N8L-wN-jdl">
+                                <rect key="frame" x="0.0" y="419" width="375" height="359"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <connections>
+                                    <segue destination="jHi-Pb-aJf" kind="embed" id="Siy-4T-CQ7"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="3Qx-bI-uha"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="SBZ-UR-MIC">
+                        <barButtonItem key="leftBarButtonItem" systemItem="action" id="kgp-ap-g4z">
+                            <connections>
+                                <action selector="presentActionSheet:" destination="7a5-gA-atf" id="2Ez-Kq-9wF"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="fZP-B7-BxT">
+                            <connections>
+                                <segue destination="dEl-x4-QvO" kind="unwind" unwindAction="unwindToBlipMapWithSender:" id="6K9-YL-QGg"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="actionSheetButton" destination="kgp-ap-g4z" id="oBE-Hx-s5l"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qNP-ET-e31" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="dEl-x4-QvO" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="2404" y="-174.38423645320196"/>
         </scene>
         <!--Custom Lookup-->
         <scene sceneID="dZ1-pk-JNg">
@@ -72,10 +142,10 @@
                     <navigationItem key="navigationItem" title="Custom Lookup" id="80H-oj-0dy">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="O3g-iq-1Ek">
                             <connections>
-                                <action selector="cancel:" destination="IZE-pE-ALY" id="ski-vO-cH2"/>
+                                <segue destination="TAA-PP-qU1" kind="unwind" unwindAction="cancelToBlipMapWithSender:" id="YU3-yh-vOK"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" style="done" systemItem="done" id="DET-Qr-kJf">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" style="done" systemItem="done" id="DET-Qr-kJf">
                             <connections>
                                 <segue destination="TAA-PP-qU1" kind="unwind" unwindAction="unwindToBlipMapWithSender:" id="hNm-er-ZsP"/>
                             </connections>
@@ -88,7 +158,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="apq-NI-Ezl" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="TAA-PP-qU1" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2261.5999999999999" y="128.57142857142858"/>
+            <point key="canvasLocation" x="2404" y="588"/>
         </scene>
         <!--Attributes Table View Controller-->
         <scene sceneID="mgu-zi-dlO">
@@ -165,7 +235,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nKt-wi-dya" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3327.1999999999998" y="-122.29064039408867"/>
+            <point key="canvasLocation" x="3470" y="337"/>
         </scene>
         <!--Attractions Table View Controller-->
         <scene sceneID="nFd-Nb-Grc">
@@ -205,7 +275,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LBc-NV-yfb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3310" y="300"/>
+            <point key="canvasLocation" x="3452" y="759"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Q9q-Sl-2Tu">
@@ -241,7 +311,67 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w5k-dD-KG6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1340.8" y="129.31034482758622"/>
+            <point key="canvasLocation" x="1482" y="589"/>
+        </scene>
+        <!--Sign In View Controller-->
+        <scene sceneID="eBe-FO-bvw">
+            <objects>
+                <viewController id="Z6Z-pR-1yI" customClass="SignInViewController" customModule="BlipsClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7ux-UX-PVb">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="323"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Saa-Y1-bo3">
+                                <rect key="frame" x="128" y="28" width="120" height="120"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gbM-6J-IQQ">
+                                <rect key="frame" x="166" y="185" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vl0-1b-AJY">
+                                <rect key="frame" x="166" y="156" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CXE-wR-2CI" customClass="GIDSignInButton">
+                                <rect key="frame" x="16" y="231" width="343" height="58"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="IbW-zT-ORA"/>
+                    </view>
+                    <connections>
+                        <outlet property="emailLabel" destination="gbM-6J-IQQ" id="IO5-Ie-vOC"/>
+                        <outlet property="nameLabel" destination="Vl0-1b-AJY" id="2fE-Qa-HiI"/>
+                        <outlet property="profilePicture" destination="Saa-Y1-bo3" id="Fa8-CJ-Epb"/>
+                        <outlet property="signInButton" destination="CXE-wR-2CI" id="IhZ-xq-4tF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="S2t-mv-Ow2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3453.5999999999999" y="-355.04926108374383"/>
+        </scene>
+        <!--Statistics View Controller-->
+        <scene sceneID="fu5-4M-T3k">
+            <objects>
+                <viewController id="jHi-Pb-aJf" customClass="StatisticsViewController" customModule="BlipsClient" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="V7M-2k-cDK">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="359"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PTB-Bm-s4b" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3454" y="37"/>
         </scene>
     </scenes>
 </document>
