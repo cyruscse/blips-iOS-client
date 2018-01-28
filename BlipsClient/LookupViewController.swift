@@ -50,6 +50,8 @@ class LookupViewController: UIViewController, LocationObserver {
         if let destinationVC = segue.destination as? AttractionsTableViewController {
             attractionsVC = destinationVC
             destinationVC.setAttractions(incAttractions: self.lookupModel?.getAttractionTypes() ?? ["fail"])
+            destinationVC.setAttrToProperName(incAttrTranslation: self.lookupModel?.getAttrToProperName() ?? [:])
+            destinationVC.setProperNameToAttr(incReverseTranslation: self.lookupModel?.getProperNameToAttr() ?? [:])
         }
         else if let destinationVC = segue.destination as? AttributesTableViewController {
             attributesVC = destinationVC

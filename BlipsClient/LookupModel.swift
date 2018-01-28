@@ -13,9 +13,21 @@ class LookupModel: UserHistoryObserver {
     let attractionTypeTag = "attraction_types"
     
     private var attractionTypes = [String]()
+    private var properNames = [String]()
+    
+    private var attrToProperName = [String: String]()
+    private var properNameToAttr = [String: String]()
     
     func getAttractionTypes() -> [String] {
         return attractionTypes
+    }
+    
+    func getAttrToProperName() -> [String: String] {
+        return attrToProperName
+    }
+    
+    func getProperNameToAttr() -> [String: String] {
+        return properNameToAttr
     }
     
     func parseAttributes(entry: [String: Any]) {
@@ -25,14 +37,30 @@ class LookupModel: UserHistoryObserver {
     func parseAttractionTypes(entries: [String: Any]) {
         for (key, value) in entries {
             if (key == "Name") {
-               guard let typeName = value as? String
-                else {
+                guard let typeName = value as? String else {
                     print("Attraction Type parse failed!")
                     return
                 }
              
                 self.attractionTypes.append(typeName)
             }
+            
+            if (key == "ProperName") {
+                guard let properName = value as? String else {
+                    print("Attraction Proper Name parse failed!")
+                    return
+                }
+                
+                self.properNames.append(properName)
+            }
+        }
+        
+        for (index, element) in attractionTypes.enumerated() {
+            attrToProperName[element] = properNames[index]
+        }
+        
+        for (index, element) in properNames.enumerated() {
+            properNameToAttr[element] = attractionTypes[index]
         }
     }
     
@@ -40,7 +68,9 @@ class LookupModel: UserHistoryObserver {
     // Attraction types are sorted by query frequency (types that haven't been queried are sorted alphabetically)
     func historyUpdated(attractionHistory: [AttractionHistory]) {
         var attractionSet: Set<String> = Set(attractionTypes)
+        
         attractionTypes = []
+        properNames = []
         
         for entry in attractionHistory {
             attractionSet.remove(entry.attraction)
