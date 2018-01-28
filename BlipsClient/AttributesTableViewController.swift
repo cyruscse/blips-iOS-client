@@ -13,6 +13,7 @@ class AttributesTableViewController: UITableViewController {
     @IBOutlet weak var openNowCell: UITableViewCell!
     @IBOutlet weak var radiusCell: UITableViewCell!
     
+    private let defaultRadius = 5000
     private var openNow: Bool = true
     private var radius: Int = 0
 
@@ -42,6 +43,10 @@ class AttributesTableViewController: UITableViewController {
     }
     
     func getRadiusValue() -> Int {
+        if radiusTextField.text?.count == 0 {
+            return defaultRadius
+        }
+        
         let radiusValue = radiusTextField?.text ?? "0"
         
         return Int(radiusValue)!
