@@ -22,17 +22,23 @@ class SignInModel {
     let emailTag = "email"
     let okTag = "OK"
     
+    private var lookupModel: LookupModel!
     private var account: User!
     private var loggedIn: Bool = false
     private var userAccountObservers = [UserAccountObserver]()
-    
+
     func addUserAccountObserver(observer: UserAccountObserver) {
         userAccountObservers.append(observer)
+    }
+    
+    func setLookupModel(lookupModel: LookupModel) {
+        self.lookupModel = lookupModel
     }
     
     func userLoaded(loaded: User?) {
         if (loaded == nil) {
             account = User(firstName: "", lastName: "", imageURL: URL(string: ".")!, email: "", userID: -1, attractionHistory: [:], guest: true)
+            account.addUserHistoryObserver(observer: lookupModel)
         }
         else {
             self.account = loaded

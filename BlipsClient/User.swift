@@ -143,10 +143,7 @@ class User: NSObject, NSCoding {
             return nil
         }
         
-        guard let gst = aDecoder.decodeObject(forKey: PropertyKey.guest) as? Bool else {
-            print("Failed to decode guest status!")
-            return nil
-        }
+        let gst = aDecoder.decodeBool(forKey: PropertyKey.guest)
 
         self.init(firstName: fName, lastName: lName, imageURL: iURL, email: eml, userID: id, attractionHistory: history, guest: gst)
     }

@@ -97,6 +97,7 @@ class ViewController: UIViewController, LocationObserver {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        signInModel.setLookupModel(lookupModel: lookupModel)
         locManager.addLocationObserver(observer: self)
         locManager.getLocation(callback: { (coordinate) in self.locManager.getLocationCallback(coordinate: coordinate)})
         lookupModel.syncWithServer()
