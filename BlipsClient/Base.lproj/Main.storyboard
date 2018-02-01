@@ -93,7 +93,7 @@
                         <viewLayoutGuide key="safeArea" id="3Qx-bI-uha"/>
                     </view>
                     <navigationItem key="navigationItem" id="SBZ-UR-MIC">
-                        <barButtonItem key="leftBarButtonItem" systemItem="action" id="kgp-ap-g4z">
+                        <barButtonItem key="leftBarButtonItem" enabled="NO" systemItem="action" id="kgp-ap-g4z">
                             <connections>
                                 <action selector="presentActionSheet:" destination="7a5-gA-atf" id="2Ez-Kq-9wF"/>
                             </connections>

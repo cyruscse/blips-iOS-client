@@ -20,6 +20,18 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountOb
     private var account: User?
     
     func updateUIOnLogin() {
+        if account?.isGuest() == true {
+            nameLabel.text = "Offline Account"
+            nameLabel.sizeToFit()
+            nameLabel.center.x = self.view.center.x
+            
+            emailLabel.text = "History is saved on this device only"
+            emailLabel.sizeToFit()
+            emailLabel.center.x = self.view.center.x
+            
+            return
+        }
+        
         signInButton.isHidden = true
         profilePicture.isHidden = false
         

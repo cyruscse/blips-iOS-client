@@ -20,6 +20,8 @@ class AccountViewController: UIViewController, UserAccountObserver {
         if signInModel!.isUserLoggedIn() == false {
             loadUser()
         }
+        
+        actionSheetButton.isEnabled = signInModel!.isUserLoggedIn()
     }
 
     override func didReceiveMemoryWarning() {
@@ -36,6 +38,7 @@ class AccountViewController: UIViewController, UserAccountObserver {
     
     func userLoggedIn(account: User) {
         actionSheetButton.isEnabled = true
+        
     }
     
     func userLoggedOut() {
@@ -78,7 +81,8 @@ class AccountViewController: UIViewController, UserAccountObserver {
             signInModel!.addUserAccountObserver(observer: destinationVC)
             
             if signInModel!.isUserLoggedIn() {
-                destinationVC.userLoggedIn(account: signInModel!.getAccount())
+                destinationVC.userLoggedIn(account: signInModel!
+                    .getAccount())
             }
             else {
                 destinationVC.userLoggedOut()

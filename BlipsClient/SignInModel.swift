@@ -32,10 +32,12 @@ class SignInModel {
     
     func userLoaded(loaded: User?) {
         if (loaded == nil) {
-            return
+            account = User(firstName: "", lastName: "", imageURL: URL(string: ".")!, email: "", userID: -1, attractionHistory: [:], guest: true)
+        }
+        else {
+            self.account = loaded
         }
         
-        self.account = loaded
         self.loggedIn = true
         
         for observer in userAccountObservers {
