@@ -58,7 +58,7 @@ class User: NSObject, NSCoding {
         self.userID = userID
         self.attractionHistory = attractionHistory
         self.guest = guest
-
+        
         if let data = try? Data(contentsOf: imageURL) {
             self.image = UIImage(data: data)!
         }
@@ -150,6 +150,8 @@ class User: NSObject, NSCoding {
     
     func updateHistoryListeners() {
         let orderedHistory: [AttractionHistory] = orderedAttractionHistory()
+        
+        print(orderedHistory)
         
         for observer in userHistoryObservers {
             observer.historyUpdated(attractionHistory: orderedHistory)

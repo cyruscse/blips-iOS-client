@@ -54,7 +54,9 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountOb
         self.account = account
         userLoggedIn = true
         
-        updateUIOnLogin()
+        if (signInButton != nil) {
+            updateUIOnLogin()
+        }
     }
     
     func updateUIOnLogout() {
