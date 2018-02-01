@@ -46,14 +46,16 @@ class AccountViewController: UIViewController, UserAccountObserver {
     }
     
     @IBAction func presentActionSheet(_ sender: UIBarButtonItem) {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let guestStatus: Bool = signInModel?.userIsGuest() ?? false
         
-        let logOutAction = UIAlertAction(title: "Log Out", style: .default, handler: { (alert: UIAlertAction!) -> Void in
-            self.signInModel!.userLoggedOut(deleteUser: false)
-        })
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let clearHistoryAction = UIAlertAction(title: "Clear History", style: .default, handler: { (alert: UIAlertAction!) -> Void in
             self.signInModel!.clearAttractionHistory()
+        })
+        
+        let logOutAction = UIAlertAction(title: "Log Out", style: .default, handler: { (alert: UIAlertAction!) -> Void in
+            self.signInModel!.userLoggedOut(deleteUser: false)
         })
         
         let deleteAccountAction = UIAlertAction(title: "Delete Account", style: .destructive, handler: { (alert: UIAlertAction!) -> Void in
@@ -62,9 +64,16 @@ class AccountViewController: UIViewController, UserAccountObserver {
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: { (alert: UIAlertAction!) -> Void in })
         
-        alertController.addAction(logOutAction)
+        if guestStatus == false {
+            alertController.addAction(logOutAction)
+        }
+        
         alertController.addAction(clearHistoryAction)
-        alertController.addAction(deleteAccountAction)
+        
+        if guestStatus == false {
+            alertController.addAction(deleteAccountAction)
+        }
+        
         alertController.addAction(cancelAction)
         
         self.present(alertController, animated: true, completion: nil)

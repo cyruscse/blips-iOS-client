@@ -89,6 +89,10 @@ class SignInModel {
         return self.account
     }
     
+    func userIsGuest() -> Bool {
+        return self.account.isGuest()
+    }
+    
     func addUserHistoryObserver(observer: UserHistoryObserver) {
         account.addUserHistoryObserver(observer: observer)
     }
