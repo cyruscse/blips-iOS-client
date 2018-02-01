@@ -45,7 +45,7 @@ class SignInModel {
         }
         
         self.loggedIn = true
-        
+
         for observer in userAccountObservers {
             observer.userLoggedIn(account: account)
         }
