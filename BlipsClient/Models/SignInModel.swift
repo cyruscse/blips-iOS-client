@@ -35,19 +35,29 @@ class SignInModel {
         self.lookupModel = lookupModel
     }
     
+    func guestUserLogin() {
+        account = User(firstName: "", lastName: "", imageURL: URL(string: ".")!, email: "", userID: -1, attractionHistory: [:], guest: true)
+        account.addUserHistoryObserver(observer: lookupModel)
+        
+        self.loggedIn = true
+        
+        for observer in userAccountObservers {
+            observer.userLoggedIn(account: account)
+        }
+    }
+    
     func userLoaded(loaded: User?) {
         if (loaded == nil) {
-            account = User(firstName: "", lastName: "", imageURL: URL(string: ".")!, email: "", userID: -1, attractionHistory: [:], guest: true)
-            account.addUserHistoryObserver(observer: lookupModel)
+            guestUserLogin()
         }
         else {
             self.account = loaded
-        }
-        
-        self.loggedIn = true
-
-        for observer in userAccountObservers {
-            observer.userLoggedIn(account: account)
+            
+            self.loggedIn = true
+            
+            for observer in userAccountObservers {
+                observer.userLoggedIn(account: account)
+            }
         }
     }
     
@@ -85,6 +95,8 @@ class SignInModel {
         
         self.account.clearAttractionHistory()
         self.account = nil
+        
+        guestUserLogin()
     }
     
     func isUserLoggedIn() -> Bool {
