@@ -25,7 +25,7 @@ struct AttractionHistory: Comparable, Hashable {
     }
     
     static func ==(lhs: AttractionHistory, rhs: AttractionHistory) -> Bool {
-        return lhs.frequency == rhs.frequency
+        return lhs.attraction == rhs.attraction
     }
     
     var attraction: String
@@ -151,8 +151,6 @@ class User: NSObject, NSCoding {
     func updateHistoryListeners() {
         let orderedHistory: [AttractionHistory] = orderedAttractionHistory()
         
-        print(orderedHistory)
-        
         for observer in userHistoryObservers {
             observer.historyUpdated(attractionHistory: orderedHistory)
         }
@@ -161,7 +159,7 @@ class User: NSObject, NSCoding {
     func updateAttractionHistory(selections: [String]) {
         for selection in selections {
             if let _ = self.attractionHistory[selection] {
-                self.attractionHistory[selection] = attractionHistory[selection]! + 1
+                self.attractionHistory[selection] = self.attractionHistory[selection]! + 1
             }
             else {
                 self.attractionHistory[selection] = 1
@@ -179,7 +177,7 @@ class User: NSObject, NSCoding {
     
     func orderedAttractionHistory() -> [AttractionHistory] {
         var historySet: Set<AttractionHistory> = []
-        
+
         for (key, value) in attractionHistory {
             historySet.insert(AttractionHistory(attraction: key, frequency: value))
         }
