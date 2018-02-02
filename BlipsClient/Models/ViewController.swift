@@ -14,39 +14,14 @@ import MapKit
 
 class ViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
-    
-    private var userLatitude: Double = 0.0
-    private var userLongitude: Double = 0.0
-    
-    let locManager = Location()
-    let regionRadius: CLLocationDistance = 250
-    let lookupModel = LookupModel()
-    let signInModel = SignInModel()
-    
-    var blips = [Blip]()
-    var lastAnnotations = [MKAnnotation]()
-    
-    func centerMapOnBlipCity(location: CLLocationCoordinate2D) {
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location, regionRadius, regionRadius)
-        
-        mapView.setRegion(coordinateRegion, animated: true)
-    }
-    
-    func placePinForBlip(blip: Blip) {
-        let annotation = MKPointAnnotation()
-        let coordinate = CLLocationCoordinate2D(latitude: blip.getLatitude(), longitude: blip.getLongitude())
-        
-        annotation.coordinate = coordinate
-        annotation.title = blip.getName()
-        mapView.addAnnotation(annotation)
-    }
 
     //abstract this and same function in LookupModel
     func serverPostCallback(data: Data) {
         do {
             let responseContents = try ServerInterface.readJSON(data: data)
             
-            populateMap(serverDict: responseContents as? Dictionary<String, Dictionary<String, Any>> ?? [:])
+            // this call needs to be fixed (call into MapModel??)
+            //populateMap(serverDict: responseContents as? Dictionary<String, Dictionary<String, Any>> ?? [:])
         } catch ServerInterfaceError.JSONParseFailed(description: let error) {
             print(error)
         } catch {
@@ -54,66 +29,18 @@ class ViewController: UIViewController {
         }
     }
     
-    func populateMap(serverDict: Dictionary<String, Dictionary<String, Any>>) {
-        blips.removeAll()
-        lastAnnotations.removeAll()
-        
-        for (_, value) in serverDict {
-            let dictEntry = (value as NSDictionary).mutableCopy() as! NSMutableDictionary            
-            let blipEntry = dictEntry as? [String: Any] ?? [:]
-            
-            if let blip = Blip(json: blipEntry) {
-                blips.append(blip)
-            }
-            else {
-                print("Failed to unwrap blip!")
-                print(value)
-                abort()
-            }
-        }
-        
-        let userLocation = CLLocationCoordinate2D(latitude: userLatitude, longitude: userLongitude)
-        
-        centerMapOnBlipCity(location: userLocation)
-        
-        for blip in blips {
-            placePinForBlip(blip: blip)
-        }
-    }
-    
     func relayUserLogin(account: User) {
-        signInModel.userLoggedIn(account: account)
-        signInModel.addUserHistoryObserver(observer: lookupModel)
-        signInModel.updateUserHistoryObservers()
+        // need to call mainmodel here, or find another way for AppDelegate to call MainModel
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        signInModel.setLookupModel(lookupModel: lookupModel)
-        locManager.getLocation(callback: { (coordinate) in self.locManager.getLocationCallback(coordinate: coordinate)})
-        locManager.addLocationObserver(observer: lookupModel)
-        lookupModel.syncWithServer()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-    func blipRequestCallback(request: [String: Any], latitude: Double, longitude: Double) {
-        self.userLatitude = latitude
-        self.userLongitude = longitude
-        
-        do {
-            //abstract up serverPostCallback from here and LookupModel
-            try ServerInterface.postServer(jsonRequest: request, callback: { (data) in self.serverPostCallback(data: data) })
-        } catch ServerInterfaceError.badJSONRequest(description: let error) {
-            print(error)
-        } catch {
-            print("Other error")
-        }
-    }
-    
+/*
     //MARK: Navigation
     @IBAction func unwindToBlipMap(sender: UIStoryboardSegue) {
         if let sourceViewController = sender.source as? LookupViewController {
@@ -145,9 +72,9 @@ class ViewController: UIViewController {
         mapView.addAnnotations(lastAnnotations)
         lastAnnotations.removeAll()
     }
-
+*/
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destinationNC = segue.destination as? UINavigationController {
+        /*if let destinationNC = segue.destination as? UINavigationController {
             if let lookupVC = destinationNC.topViewController as? LookupViewController {
                 // Clear current annotations (pins) on map
                 // We save these annotations in case the user cancels the blip request
@@ -168,6 +95,6 @@ class ViewController: UIViewController {
                 
                 signInModel.addUserAccountObserver(observer: accountVC)
             }
-        }
+        }*/
     }
 }

@@ -33,8 +33,9 @@
 		6E97D2952023CD6100DD8368 /* AttractionsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E97D28D2023CD6000DD8368 /* AttractionsTableViewCell.swift */; };
 		6E97D2962023CD6100DD8368 /* AttractionsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E97D28E2023CD6000DD8368 /* AttractionsTableViewController.swift */; };
 		6E97D2972023CD6100DD8368 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E97D28F2023CD6100DD8368 /* SignInViewController.swift */; };
-		6E97D29C2024C12B00DD8368 /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E97D29B2024C12B00DD8368 /* MapModel.swift */; };
 		6EAD4E831FBB8748003C2E30 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EAD4E821FBB8748003C2E30 /* Default-568h@2x.png */; };
+		6EE12FD12024C71400509452 /* MainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE12FD02024C71400509452 /* MainModel.swift */; };
+		6EE12FD32024C73E00509452 /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE12FD22024C73E00509452 /* MapModel.swift */; };
 		6EF0C66D2013A9C300C967C6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */; };
 		6EF0C66E2013AA0100C967C6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */; };
 		6EF0C66F2013AA0100C967C6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */; };
@@ -90,8 +91,9 @@
 		6E97D28D2023CD6000DD8368 /* AttractionsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttractionsTableViewCell.swift; sourceTree = "<group>"; };
 		6E97D28E2023CD6000DD8368 /* AttractionsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttractionsTableViewController.swift; sourceTree = "<group>"; };
 		6E97D28F2023CD6100DD8368 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
-		6E97D29B2024C12B00DD8368 /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
 		6EAD4E821FBB8748003C2E30 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		6EE12FD02024C71400509452 /* MainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModel.swift; sourceTree = "<group>"; };
+		6EE12FD22024C73E00509452 /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
 		6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AC402C54036475D1D037CE88 /* libPods-BlipsClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BlipsClient.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B11E4D0B8AFEA76033DF6A5A /* Pods-BlipsClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlipsClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BlipsClient/Pods-BlipsClient.debug.xcconfig"; sourceTree = "<group>"; };
@@ -236,7 +238,8 @@
 				6E97D27A2023CD5400DD8368 /* SignInModel.swift */,
 				6E97D27F2023CD5600DD8368 /* User.swift */,
 				6E97D28C2023CD6000DD8368 /* ViewController.swift */,
-				6E97D29B2024C12B00DD8368 /* MapModel.swift */,
+				6EE12FD02024C71400509452 /* MainModel.swift */,
+				6EE12FD22024C73E00509452 /* MapModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -453,9 +456,9 @@
 				6E97D2782023CD4C00DD8368 /* UserAccountObserver.swift in Sources */,
 				6E97D2902023CD6100DD8368 /* AttributesTableViewController.swift in Sources */,
 				6E97D2792023CD4C00DD8368 /* ServerInterface.swift in Sources */,
-				6E97D29C2024C12B00DD8368 /* MapModel.swift in Sources */,
 				6E97D2962023CD6100DD8368 /* AttractionsTableViewController.swift in Sources */,
 				6E97D2772023CD4C00DD8368 /* UserHistoryObserver.swift in Sources */,
+				6EE12FD32024C73E00509452 /* MapModel.swift in Sources */,
 				6E97D2822023CD5800DD8368 /* CustomLookup.swift in Sources */,
 				6E97D2832023CD5800DD8368 /* Blip.swift in Sources */,
 				6E97D2972023CD6100DD8368 /* SignInViewController.swift in Sources */,
@@ -467,6 +470,7 @@
 				6E97D2922023CD6100DD8368 /* AccountViewController.swift in Sources */,
 				6E97D2872023CD5800DD8368 /* Location.swift in Sources */,
 				6E97D2862023CD5800DD8368 /* User.swift in Sources */,
+				6EE12FD12024C71400509452 /* MainModel.swift in Sources */,
 				6E97D2932023CD6100DD8368 /* LookupViewController.swift in Sources */,
 				6E97D2952023CD6100DD8368 /* AttractionsTableViewCell.swift in Sources */,
 				6E97D2912023CD6100DD8368 /* StatisticsViewController.swift in Sources */,
