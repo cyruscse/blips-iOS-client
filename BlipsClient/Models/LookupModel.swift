@@ -8,9 +8,11 @@
 
 import Foundation
 
-class LookupModel: UserHistoryObserver {
+class LookupModel: UserHistoryObserver, LocationObserver {
     let attributesTag = "attributes"
     let attractionTypeTag = "attraction_types"
+    
+    private var haveLocation: Bool = false
     
     private var attractionTypes = [String]()
     private var properNames = [String]()
@@ -64,6 +66,14 @@ class LookupModel: UserHistoryObserver {
         }
     }
     
+    func locationDetermined() {
+        haveLocation = true
+    }
+    
+    func gotLocation() -> Bool {
+        return haveLocation
+    }
+    
     // When the attraction history counters change, update what displays in LookupVC
     // Attraction types are sorted by query frequency (types that haven't been queried are sorted alphabetically)
     func historyUpdated(attractionHistory: [AttractionHistory]) {
@@ -79,7 +89,7 @@ class LookupModel: UserHistoryObserver {
         
         attractionTypes.append(contentsOf: attractionSet.sorted())
     }
-    
+
     func serverPostCallback(data: Data) {
         do {
             let responseContents = try ServerInterface.readJSON(data: data)

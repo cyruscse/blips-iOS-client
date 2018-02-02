@@ -12,6 +12,7 @@ import os.log
 class LookupViewController: UIViewController, LocationObserver {
     @IBOutlet weak var doneButton: UIBarButtonItem!
     
+    private var haveLocation: Bool = false
     private var lookupModel: LookupModel? = nil
     private var customLookup: CustomLookup?
     private var attractionsVC: AttractionsTableViewController?
@@ -19,6 +20,10 @@ class LookupViewController: UIViewController, LocationObserver {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if haveLocation || lookupModel?.gotLocation() ?? false {
+            self.doneButton.isEnabled = true
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -42,7 +47,11 @@ class LookupViewController: UIViewController, LocationObserver {
     }
     
     func locationDetermined() {
-        self.doneButton.isEnabled = true
+        haveLocation = true
+
+        if self.viewIfLoaded?.window != nil {
+            self.doneButton.isEnabled = true
+        }
     }
     
     //MARK: Navigation

@@ -12,7 +12,7 @@ import MapKit
 
 // SEPARATE CLASSES SOON
 
-class ViewController: UIViewController, LocationObserver {
+class ViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     
     private var userLatitude: Double = 0.0
@@ -24,7 +24,6 @@ class ViewController: UIViewController, LocationObserver {
     let signInModel = SignInModel()
     
     var blips = [Blip]()
-    var gotUserLocation: Bool = false
     var lastAnnotations = [MKAnnotation]()
     
     func centerMapOnBlipCity(location: CLLocationCoordinate2D) {
@@ -60,9 +59,7 @@ class ViewController: UIViewController, LocationObserver {
         lastAnnotations.removeAll()
         
         for (_, value) in serverDict {
-            // Change these force casts, crash waiting to happen
-            let dictEntry = (value as NSDictionary).mutableCopy() as! NSMutableDictionary
-            
+            let dictEntry = (value as NSDictionary).mutableCopy() as! NSMutableDictionary            
             let blipEntry = dictEntry as? [String: Any] ?? [:]
             
             if let blip = Blip(json: blipEntry) {
@@ -84,10 +81,6 @@ class ViewController: UIViewController, LocationObserver {
         }
     }
     
-    func locationDetermined() {
-        self.gotUserLocation = true
-    }
-    
     func relayUserLogin(account: User) {
         signInModel.userLoggedIn(account: account)
         signInModel.addUserHistoryObserver(observer: lookupModel)
@@ -98,8 +91,8 @@ class ViewController: UIViewController, LocationObserver {
         super.viewDidLoad()
 
         signInModel.setLookupModel(lookupModel: lookupModel)
-        locManager.addLocationObserver(observer: self)
         locManager.getLocation(callback: { (coordinate) in self.locManager.getLocationCallback(coordinate: coordinate)})
+        locManager.addLocationObserver(observer: lookupModel)
         lookupModel.syncWithServer()
     }
 
@@ -168,11 +161,6 @@ class ViewController: UIViewController, LocationObserver {
                 // Set lookupVC as an Observer of locManager so it knows when to
                 // start allowing blip requests (i.e. enable "Done" button)
                 locManager.addLocationObserver(observer: lookupVC)
-                
-                // If lookupVC is loaded after the location is found, we need to manually enable the button
-                if (self.gotUserLocation == true) {
-                    lookupVC.locationDetermined()
-                }
             }
             
             if let accountVC = destinationNC.topViewController as? AccountViewController {
