@@ -375,8 +375,11 @@
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CXE-wR-2CI" customClass="GIDSignInButton">
-                                <rect key="frame" x="19" y="281.66666666666669" width="337.66666666666669" height="29.333333333333314"/>
+                                <rect key="frame" x="19" y="267" width="337.66666666666669" height="44"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="INQ-Nf-Njz"/>
+                                </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vl0-1b-AJY">
                                 <rect key="frame" x="187.66666666666666" y="183.33333333333334" width="0.0" height="0.0"/>
@@ -394,7 +397,6 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Vl0-1b-AJY" firstAttribute="centerX" secondItem="IbW-zT-ORA" secondAttribute="centerX" id="2zl-Zw-0uq"/>
-                            <constraint firstItem="CXE-wR-2CI" firstAttribute="height" secondItem="IbW-zT-ORA" secondAttribute="height" multiplier="0.11" id="GKm-hb-XdH"/>
                             <constraint firstItem="gbM-6J-IQQ" firstAttribute="firstBaseline" secondItem="Vl0-1b-AJY" secondAttribute="baseline" constant="24" symbolType="layoutAnchor" id="J4D-f5-oPe"/>
                             <constraint firstItem="Saa-Y1-bo3" firstAttribute="top" secondItem="IbW-zT-ORA" secondAttribute="top" id="MNx-vD-6xZ"/>
                             <constraint firstItem="Saa-Y1-bo3" firstAttribute="width" secondItem="IbW-zT-ORA" secondAttribute="width" multiplier="0.35" id="OYk-La-St3"/>
