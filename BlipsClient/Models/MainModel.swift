@@ -20,11 +20,14 @@ class MainModel {
         signInModel.updateUserHistoryObservers()
     }
     
+    func registerLookupVC(lookupVC: LookupViewController) {
+        lookupModel.addLookupObserver(observer: lookupVC)
+    }
+    
     init() {
         signInModel.setLookupModel(lookupModel: lookupModel)
         signInModel.addUserAccountObserver(observer: mapModel)
         locManager.getLocation(callback: { (coordinate) in self.locManager.getLocationCallback(coordinate: coordinate) })
-        locManager.addLocationObserver(observer: lookupModel)
         lookupModel.syncWithServer()
     }
 }

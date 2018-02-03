@@ -15,18 +15,13 @@ class AttractionsTableViewController: UITableViewController {
     
     private var selectedAttractions: [String] = [String]()
     
-    func setAttractions(incAttractions: [String]) {
-        self.attractions = incAttractions
+    func setAttractionTypes(attrToProperName: [String : String], properNameToAttr: [String : String]) {
+        self.attrToProperName = attrToProperName
+        self.properNameToAttr = properNameToAttr
+        
+        attractions = Array(attrToProperName.keys).sorted()
     }
-    
-    func setAttrToProperName(incAttrTranslation: [String: String]) {
-        self.attrToProperName = incAttrTranslation
-    }
-    
-    func setProperNameToAttr(incReverseTranslation: [String: String]) {
-        self.properNameToAttr = incReverseTranslation
-    }
-    
+
     func getSelectedAttractions() -> [String] {
         return self.selectedAttractions
     }
@@ -35,6 +30,7 @@ class AttractionsTableViewController: UITableViewController {
         super.viewDidLoad()
         
         self.tableView.allowsMultipleSelection = true
+        self.tableView.rowHeight = 44.0
     }
 
     override func didReceiveMemoryWarning() {

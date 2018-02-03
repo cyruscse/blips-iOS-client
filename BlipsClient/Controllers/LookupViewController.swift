@@ -9,19 +9,19 @@
 import UIKit
 import os.log
 
-class LookupViewController: UIViewController, LocationObserver {
+class LookupViewController: UIViewController, LocationObserver, LookupModelObserver {
     @IBOutlet weak var doneButton: UIBarButtonItem!
     
     private var haveLocation: Bool = false
-    private var lookupModel: LookupModel? = nil
-    private var customLookup: CustomLookup?
+    private var attrToProperName = [String: String]()
+    private var properNameToAttr = [String: String]()
     private var attractionsVC: AttractionsTableViewController?
     private var attributesVC: AttributesTableViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if haveLocation || lookupModel?.gotLocation() ?? false {
+        if haveLocation {
             self.doneButton.isEnabled = true
         }
     }
@@ -41,11 +41,7 @@ class LookupViewController: UIViewController, LocationObserver {
     func getRadiusValue() -> Int {
         return (attributesVC?.getRadiusValue())!
     }
-    
-    func setLookupModel(inLookupModel: LookupModel) {
-        self.lookupModel = inLookupModel
-    }
-    
+
     func locationDetermined() {
         haveLocation = true
 
@@ -54,13 +50,16 @@ class LookupViewController: UIViewController, LocationObserver {
         }
     }
     
+    func setAttractionTypes(attrToProperName: [String : String], properNameToAttr: [String : String]) {
+        self.attrToProperName = attrToProperName
+        self.properNameToAttr = properNameToAttr
+    }
+    
     //MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationVC = segue.destination as? AttractionsTableViewController {
             attractionsVC = destinationVC
-            destinationVC.setAttractions(incAttractions: self.lookupModel?.getAttractionTypes() ?? ["fail"])
-            destinationVC.setAttrToProperName(incAttrTranslation: self.lookupModel?.getAttrToProperName() ?? [:])
-            destinationVC.setProperNameToAttr(incReverseTranslation: self.lookupModel?.getProperNameToAttr() ?? [:])
+            attractionsVC?.setAttractionTypes(attrToProperName: attrToProperName, properNameToAttr: properNameToAttr)
         }
         else if let destinationVC = segue.destination as? AttributesTableViewController {
             attributesVC = destinationVC

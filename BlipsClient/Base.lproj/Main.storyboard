@@ -304,6 +304,7 @@
                                     <constraints>
                                         <constraint firstAttribute="trailingMargin" secondItem="ST9-x9-DIS" secondAttribute="trailing" id="FyF-Ya-ZnT"/>
                                         <constraint firstItem="ST9-x9-DIS" firstAttribute="leading" secondItem="gYi-Ih-npV" secondAttribute="leadingMargin" id="JY0-Oa-ho2"/>
+                                        <constraint firstItem="ST9-x9-DIS" firstAttribute="height" secondItem="gYi-Ih-npV" secondAttribute="height" id="Qxa-jr-MuB"/>
                                         <constraint firstItem="ST9-x9-DIS" firstAttribute="top" secondItem="gYi-Ih-npV" secondAttribute="top" id="cpp-jJ-6Xd"/>
                                         <constraint firstAttribute="bottom" secondItem="ST9-x9-DIS" secondAttribute="bottom" id="w5l-Eg-esg"/>
                                     </constraints>
