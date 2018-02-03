@@ -26,21 +26,43 @@ class SignInModel {
     private var account: User!
     private var loggedIn: Bool = false
     private var userAccountObservers = [UserAccountObserver]()
+    
+    init() {
+        self.userLoaded(loaded: NSKeyedUnarchiver.unarchiveObject(withFile: User.ArchiveURL.path) as? User ?? nil)
+    }
 
     func addUserAccountObserver(observer: UserAccountObserver) {
         userAccountObservers.append(observer)
+        
+        if loggedIn == true {
+            notifyUserLoggedIn()
+        }
     }
     
     func setLookupModel(lookupModel: LookupModel) {
         self.lookupModel = lookupModel
+        account.addUserHistoryObserver(observer: lookupModel)
     }
     
     func guestUserLogin() {
         account = User(firstName: "", lastName: "", imageURL: URL(string: ".")!, email: "", userID: -1, attractionHistory: [:], guest: true)
-        account.addUserHistoryObserver(observer: lookupModel)
+        
+        // lookupModel can be nil here on the app's first ever launch
+        // No User info has been saved to disk, so we fall back to a guestLogin,
+        // but at this point lookupModel hasn't been initialized yet.
+        // When setLookupModel is called, we'll add it as an observer to this User
+        if lookupModel != nil {
+            account.addUserHistoryObserver(observer: lookupModel)
+        }
         
         self.loggedIn = true
         
+        for observer in userAccountObservers {
+            observer.userLoggedIn(account: account)
+        }
+    }
+    
+    func notifyUserLoggedIn() {
         for observer in userAccountObservers {
             observer.userLoggedIn(account: account)
         }
@@ -55,9 +77,7 @@ class SignInModel {
             
             self.loggedIn = true
             
-            for observer in userAccountObservers {
-                observer.userLoggedIn(account: account)
-            }
+            notifyUserLoggedIn()
         }
     }
     
@@ -67,9 +87,7 @@ class SignInModel {
         
         serverLogin()
         
-        for observer in userAccountObservers {
-            observer.userLoggedIn(account: account)
-        }
+        notifyUserLoggedIn()
     }
     
     func userLoggedOut(deleteUser: Bool) {

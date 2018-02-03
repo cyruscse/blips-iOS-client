@@ -87,12 +87,9 @@ class ViewController: UIViewController {
                 locManager.addLocationObserver(observer: lookupVC)*/
                 mainModel.registerLookupVC(lookupVC: lookupVC)
             }
-           /*
             if let accountVC = destinationNC.topViewController as? AccountViewController {
-                accountVC.setSignInModel(inSignInModel: signInModel)
-                
-                signInModel.addUserAccountObserver(observer: accountVC)
-            }*/
+                mainModel.registerAccountVC(accountVC: accountVC)
+            }
         }
     }
 }

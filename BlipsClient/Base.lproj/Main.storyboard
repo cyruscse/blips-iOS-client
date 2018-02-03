@@ -405,7 +405,7 @@
                             <constraint firstItem="CXE-wR-2CI" firstAttribute="width" secondItem="IbW-zT-ORA" secondAttribute="width" multiplier="0.9" id="fog-0j-CBR"/>
                             <constraint firstItem="CXE-wR-2CI" firstAttribute="centerX" secondItem="IbW-zT-ORA" secondAttribute="centerX" id="gST-Fu-TIj"/>
                             <constraint firstItem="Saa-Y1-bo3" firstAttribute="centerX" secondItem="IbW-zT-ORA" secondAttribute="centerX" id="pcP-ir-c7a"/>
-                            <constraint firstItem="Vl0-1b-AJY" firstAttribute="firstBaseline" secondItem="Saa-Y1-bo3" secondAttribute="baseline" constant="24.5" symbolType="layoutAnchor" id="pu2-qW-nOU"/>
+                            <constraint firstItem="Vl0-1b-AJY" firstAttribute="firstBaseline" secondItem="Saa-Y1-bo3" secondAttribute="baseline" constant="24.333333333333332" symbolType="layoutAnchor" id="pu2-qW-nOU"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="IbW-zT-ORA"/>
                     </view>

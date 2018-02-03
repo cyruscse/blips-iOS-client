@@ -24,6 +24,11 @@ class MainModel {
         lookupModel.addLookupObserver(observer: lookupVC)
     }
     
+    func registerAccountVC(accountVC: AccountViewController) {
+        accountVC.setSignInModel(signInModel: signInModel)
+        signInModel.addUserAccountObserver(observer: accountVC)
+    }
+
     init() {
         signInModel.setLookupModel(lookupModel: lookupModel)
         signInModel.addUserAccountObserver(observer: mapModel)
