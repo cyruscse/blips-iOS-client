@@ -17,11 +17,11 @@ class AccountViewController: UIViewController, UserAccountObserver {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if signInModel!.isUserLoggedIn() == false {
+        /*if signInModel!.isUserLoggedIn() == false {
             loadUser()
         }
         
-        actionSheetButton.isEnabled = signInModel!.isUserLoggedIn()
+        actionSheetButton.isEnabled = signInModel!.isUserLoggedIn()*/
     }
 
     override func didReceiveMemoryWarning() {
@@ -85,7 +85,7 @@ class AccountViewController: UIViewController, UserAccountObserver {
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destinationVC = segue.destination as? SignInViewController {
+        /*if let destinationVC = segue.destination as? SignInViewController {
             signInVC = destinationVC
             signInModel!.addUserAccountObserver(observer: destinationVC)
             
@@ -96,7 +96,7 @@ class AccountViewController: UIViewController, UserAccountObserver {
             else {
                 destinationVC.userLoggedOut()
             }
-        }
+        }*/
         
         super.prepare(for: segue, sender: sender)
     }
