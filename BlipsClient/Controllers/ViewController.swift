@@ -8,15 +8,12 @@
 
 import Foundation
 import UIKit
-import MapKit
-
-// SEPARATE CLASSES SOON
 
 class ViewController: UIViewController {
-    @IBOutlet weak var mapView: MKMapView!
+    private let mainModel = MainModel()
 
     //abstract this and same function in LookupModel
-    func serverPostCallback(data: Data) {
+   /* func serverPostCallback(data: Data) {
         do {
             let responseContents = try ServerInterface.readJSON(data: data)
             
@@ -27,10 +24,10 @@ class ViewController: UIViewController {
         } catch {
             print("Other error")
         }
-    }
+    }*/
     
     func relayUserLogin(account: User) {
-        // need to call mainmodel here, or find another way for AppDelegate to call MainModel
+        mainModel.relayUserLogin(account: account)
     }
     
     override func viewDidLoad() {
@@ -40,10 +37,10 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-/*
+
     //MARK: Navigation
     @IBAction func unwindToBlipMap(sender: UIStoryboardSegue) {
-        if let sourceViewController = sender.source as? LookupViewController {
+/*        if let sourceViewController = sender.source as? LookupViewController {
             let selectedAttractions = sourceViewController.getSelectedAttractions()
             let openNow = sourceViewController.getOpenNowValue()
             let radius = sourceViewController.getRadiusValue()
@@ -63,16 +60,16 @@ class ViewController: UIViewController {
                 let allAnnotations = mapView.annotations
                 mapView.removeAnnotations(allAnnotations)
             }
-        }
+        }*/
     }
     
     // Triggered on "Cancel" bar button in SignInVC
     // Restore the annotations removed in segue preparation
     @IBAction func cancelToBlipMap(sender: UIStoryboardSegue) {
-        mapView.addAnnotations(lastAnnotations)
-        lastAnnotations.removeAll()
+        /*mapView.addAnnotations(lastAnnotations)
+        lastAnnotations.removeAll()*/
     }
-*/
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         /*if let destinationNC = segue.destination as? UINavigationController {
             if let lookupVC = destinationNC.topViewController as? LookupViewController {

@@ -12,6 +12,7 @@ class MainModel {
     private let locManager = Location()
     private let lookupModel = LookupModel()
     private let signInModel = SignInModel()
+    private let mapModel = MapModel()
     
     func relayUserLogin(account: User) {
         signInModel.userLoggedIn(account: account)
@@ -19,12 +20,11 @@ class MainModel {
         signInModel.updateUserHistoryObservers()
     }
     
-    /*
-        needs to be called on app load
-     
-         signInModel.setLookupModel(lookupModel: lookupModel)
-         locManager.getLocation(callback: { (coordinate) in self.locManager.getLocationCallback(coordinate: coordinate)})
-         locManager.addLocationObserver(observer: lookupModel)
-         lookupModel.syncWithServer()
-    */
+    init() {
+        signInModel.setLookupModel(lookupModel: lookupModel)
+        signInModel.addUserAccountObserver(observer: mapModel)
+        locManager.getLocation(callback: { (coordinate) in self.locManager.getLocationCallback(coordinate: coordinate) })
+        locManager.addLocationObserver(observer: lookupModel)
+        lookupModel.syncWithServer()
+    }
 }

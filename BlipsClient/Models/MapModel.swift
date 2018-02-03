@@ -9,23 +9,43 @@
 import Foundation
 import MapKit
 
-class MapModel {
+class MapModel: UserAccountObserver {
     private var userLatitude: Double = 0.0
     private var userLongitude: Double = 0.0
     
     private let regionRadius: CLLocationDistance = 250
     
     private var blips = [Blip]()
+    private var currentAnnotations = [MKAnnotation]()
+    private var currentLocation: MKCoordinateRegion!
     private var lastAnnotations = [MKAnnotation]()
+    private var mapModelObservers = [MapModelObserver]()
     
-    /*     
-     move to MapVC
-     func centerMapOnBlipCity(location: CLLocationCoordinate2D) {
-        let coordinateRegion = MKCoordinateRegionMakeWithDistance(location, regionRadius, regionRadius)
+    func userLoggedIn(account: User) {
         
-        mapView.setRegion(coordinateRegion, animated: true)
-     }
-     
+    }
+    
+    func userLoggedOut() {
+        currentAnnotations = []
+    }
+    
+    func addObserver(observer: MapModelObserver) {
+        mapModelObservers.append(observer)
+    }
+    
+    func notifyAnnotationsUpdated() {
+        for observer in mapModelObservers {
+            observer.annotationsUpdated(annotations: currentAnnotations)
+        }
+    }
+    
+    func notifyLocationUpdated() {
+        for observer in mapModelObservers {
+            observer.locationUpdated(location: currentLocation)
+        }
+    }
+    
+    /*
      func placePinForBlip(blip: Blip) {
          let annotation = MKPointAnnotation()
          let coordinate = CLLocationCoordinate2D(latitude: blip.getLatitude(), longitude: blip.getLongitude())
