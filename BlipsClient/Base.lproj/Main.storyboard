@@ -16,12 +16,20 @@
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="BlipsClient" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ciU-To-jH3">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="wGA-DM-R7L">
-                                <rect key="frame" x="0.0" y="88" width="375" height="724"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </mapView>
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="K3Q-va-CGk">
+                                <rect key="frame" x="0.0" y="88" width="375" height="63428"/>
+                                <subviews>
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="wGA-DM-R7L">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="63428"/>
+                                        <viewLayoutGuide key="safeArea" id="R5Y-L0-f0R"/>
+                                    </mapView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="wGA-DM-R7L" firstAttribute="centerY" secondItem="K3Q-va-CGk" secondAttribute="centerY" id="nl9-tz-cf6"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="3hU-FH-mUI"/>
@@ -121,22 +129,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fq4-zh-LqM">
-                                <rect key="frame" x="0.0" y="88" width="375" height="241"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                <connections>
-                                    <segue destination="uuS-1d-xbI" kind="embed" id="1Xu-IZ-08y"/>
-                                </connections>
-                            </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2ON-hG-IgY">
-                                <rect key="frame" x="0.0" y="337" width="375" height="441"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2ON-hG-IgY">
+                                <rect key="frame" x="0.0" y="406" width="375" height="406"/>
                                 <connections>
                                     <segue destination="pz4-Od-fzr" kind="embed" id="mKe-O3-YZW"/>
                                 </connections>
                             </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fq4-zh-LqM">
+                                <rect key="frame" x="0.0" y="88" width="375" height="319"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <connections>
+                                    <segue destination="uuS-1d-xbI" kind="embed" id="1Xu-IZ-08y"/>
+                                </connections>
+                            </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="2ON-hG-IgY" firstAttribute="centerX" secondItem="q1V-oR-29e" secondAttribute="centerX" id="0Ef-Yv-EPH"/>
+                            <constraint firstItem="2ON-hG-IgY" firstAttribute="top" secondItem="n4X-UQ-tFm" secondAttribute="top" id="K4Q-Fs-G7G"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="n4X-UQ-tFm"/>
                     </view>
                     <navigationItem key="navigationItem" title="Custom Lookup" id="80H-oj-0dy">
@@ -158,14 +169,14 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="apq-NI-Ezl" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="TAA-PP-qU1" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2404" y="588"/>
+            <point key="canvasLocation" x="2400.8000000000002" y="585.96059113300498"/>
         </scene>
         <!--Attributes Table View Controller-->
         <scene sceneID="mgu-zi-dlO">
             <objects>
                 <tableViewController id="uuS-1d-xbI" customClass="AttributesTableViewController" customModule="BlipsClient" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="bgm-gd-Hzr">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="241"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="319"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
@@ -242,7 +253,7 @@
             <objects>
                 <tableViewController id="pz4-Od-fzr" customClass="AttractionsTableViewController" customModule="BlipsClient" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="hNg-15-96H">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="441"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="406"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
