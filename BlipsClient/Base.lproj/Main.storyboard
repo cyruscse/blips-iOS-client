@@ -7,7 +7,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
-        <capability name="Baseline standard spacing" minToolsVersion="9.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -85,22 +84,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Bh-uQ-4At">
-                                <rect key="frame" x="0.0" y="88" width="375" height="323"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Bh-uQ-4At" userLabel="AccountInfo">
+                                <rect key="frame" x="0.0" y="88" width="375" height="345"/>
                                 <connections>
                                     <segue destination="Z6Z-pR-1yI" kind="embed" id="WKm-3f-ceL"/>
                                 </connections>
                             </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N8L-wN-jdl">
-                                <rect key="frame" x="0.0" y="419" width="375" height="359"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N8L-wN-jdl" userLabel="AccountStats">
+                                <rect key="frame" x="0.0" y="433" width="375" height="345"/>
                                 <connections>
                                     <segue destination="jHi-Pb-aJf" kind="embed" id="Siy-4T-CQ7"/>
                                 </connections>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="N8L-wN-jdl" firstAttribute="centerX" secondItem="3Qx-bI-uha" secondAttribute="centerX" id="2cO-sP-gES"/>
+                            <constraint firstItem="N8L-wN-jdl" firstAttribute="width" secondItem="3Qx-bI-uha" secondAttribute="width" id="9JK-Zt-Yfj"/>
+                            <constraint firstItem="8Bh-uQ-4At" firstAttribute="width" secondItem="3Qx-bI-uha" secondAttribute="width" id="Cno-0x-stw"/>
+                            <constraint firstItem="8Bh-uQ-4At" firstAttribute="height" secondItem="3Qx-bI-uha" secondAttribute="height" multiplier="0.5" id="Orx-Xt-GqN"/>
+                            <constraint firstItem="N8L-wN-jdl" firstAttribute="firstBaseline" secondItem="8Bh-uQ-4At" secondAttribute="baseline" id="Pbo-Iu-M2m"/>
+                            <constraint firstItem="N8L-wN-jdl" firstAttribute="height" secondItem="3Qx-bI-uha" secondAttribute="height" multiplier="0.5" id="RRu-8k-P6L"/>
+                            <constraint firstItem="8Bh-uQ-4At" firstAttribute="top" secondItem="3Qx-bI-uha" secondAttribute="top" id="jAU-r9-x1m"/>
+                            <constraint firstItem="8Bh-uQ-4At" firstAttribute="centerX" secondItem="3Qx-bI-uha" secondAttribute="centerX" id="k9z-ZO-eCL"/>
+                            <constraint firstItem="N8L-wN-jdl" firstAttribute="bottom" secondItem="3Qx-bI-uha" secondAttribute="bottom" id="v97-C4-UPv"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="3Qx-bI-uha"/>
                     </view>
                     <navigationItem key="navigationItem" id="SBZ-UR-MIC">
@@ -132,29 +140,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fq4-zh-LqM">
-                                <rect key="frame" x="0.0" y="88" width="375" height="276"/>
-                                <connections>
-                                    <segue destination="uuS-1d-xbI" kind="embed" id="1Xu-IZ-08y"/>
-                                </connections>
-                            </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2ON-hG-IgY">
-                                <rect key="frame" x="0.0" y="372" width="375" height="406"/>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2ON-hG-IgY" userLabel="AttractionList">
+                                <rect key="frame" x="0.0" y="433" width="375" height="345"/>
                                 <connections>
                                     <segue destination="pz4-Od-fzr" kind="embed" id="mKe-O3-YZW"/>
+                                </connections>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fq4-zh-LqM" userLabel="LookupAttributes">
+                                <rect key="frame" x="0.0" y="88" width="375" height="345"/>
+                                <connections>
+                                    <segue destination="uuS-1d-xbI" kind="embed" id="1Xu-IZ-08y"/>
                                 </connections>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="fq4-zh-LqM" firstAttribute="centerX" secondItem="n4X-UQ-tFm" secondAttribute="centerX" id="2P4-DN-3Iv"/>
-                            <constraint firstItem="fq4-zh-LqM" firstAttribute="width" secondItem="q1V-oR-29e" secondAttribute="width" id="4hf-fy-MKr"/>
-                            <constraint firstItem="n4X-UQ-tFm" firstAttribute="bottom" secondItem="2ON-hG-IgY" secondAttribute="bottom" id="9Ff-LW-zRy"/>
-                            <constraint firstItem="fq4-zh-LqM" firstAttribute="top" secondItem="n4X-UQ-tFm" secondAttribute="top" id="a0c-e0-pJ6"/>
-                            <constraint firstItem="2ON-hG-IgY" firstAttribute="height" secondItem="q1V-oR-29e" secondAttribute="height" multiplier="0.5" id="cWo-qu-xY7"/>
-                            <constraint firstItem="2ON-hG-IgY" firstAttribute="centerX" secondItem="n4X-UQ-tFm" secondAttribute="centerX" id="f63-lq-JnG"/>
-                            <constraint firstItem="2ON-hG-IgY" firstAttribute="width" secondItem="q1V-oR-29e" secondAttribute="width" id="rBH-al-uQ2"/>
-                            <constraint firstItem="2ON-hG-IgY" firstAttribute="firstBaseline" secondItem="fq4-zh-LqM" secondAttribute="baseline" constant="8" symbolType="layoutAnchor" id="tMN-qV-4DV"/>
+                            <constraint firstItem="fq4-zh-LqM" firstAttribute="width" secondItem="n4X-UQ-tFm" secondAttribute="width" id="74o-Nc-7bz"/>
+                            <constraint firstItem="2ON-hG-IgY" firstAttribute="bottom" secondItem="n4X-UQ-tFm" secondAttribute="bottom" id="Mqd-Wy-aVJ"/>
+                            <constraint firstItem="fq4-zh-LqM" firstAttribute="top" secondItem="n4X-UQ-tFm" secondAttribute="top" id="ebv-nw-yDB"/>
+                            <constraint firstItem="2ON-hG-IgY" firstAttribute="centerX" secondItem="n4X-UQ-tFm" secondAttribute="centerX" id="jfl-Xl-6vs"/>
+                            <constraint firstItem="fq4-zh-LqM" firstAttribute="height" secondItem="n4X-UQ-tFm" secondAttribute="height" multiplier="0.5" id="jsO-iK-BL7"/>
+                            <constraint firstItem="2ON-hG-IgY" firstAttribute="height" secondItem="n4X-UQ-tFm" secondAttribute="height" multiplier="0.5" id="kzm-Jb-OWd"/>
+                            <constraint firstItem="fq4-zh-LqM" firstAttribute="centerX" secondItem="n4X-UQ-tFm" secondAttribute="centerX" id="lQc-Zk-ajY"/>
+                            <constraint firstItem="2ON-hG-IgY" firstAttribute="width" secondItem="n4X-UQ-tFm" secondAttribute="width" id="u7i-Tu-rhT"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="n4X-UQ-tFm"/>
                     </view>
@@ -184,7 +192,7 @@
             <objects>
                 <tableViewController id="uuS-1d-xbI" customClass="AttributesTableViewController" customModule="BlipsClient" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="bgm-gd-Hzr">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="276"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="345"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
@@ -261,7 +269,7 @@
             <objects>
                 <tableViewController id="pz4-Od-fzr" customClass="AttractionsTableViewController" customModule="BlipsClient" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="hNg-15-96H">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="406"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="345"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
@@ -337,11 +345,11 @@
             <objects>
                 <viewController id="Z6Z-pR-1yI" customClass="SignInViewController" customModule="BlipsClient" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7ux-UX-PVb">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="323"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="345"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Saa-Y1-bo3">
-                                <rect key="frame" x="128" y="28" width="120" height="120"/>
+                                <rect key="frame" x="128" y="31" width="120" height="120"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gbM-6J-IQQ">
@@ -383,7 +391,7 @@
             <objects>
                 <viewController id="jHi-Pb-aJf" customClass="StatisticsViewController" customModule="BlipsClient" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="V7M-2k-cDK">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="359"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="345"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="eFz-Ai-vB6"/>
