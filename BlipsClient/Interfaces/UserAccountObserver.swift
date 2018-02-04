@@ -11,4 +11,5 @@ import Foundation
 protocol UserAccountObserver {
     func userLoggedIn(account: User)
     func userLoggedOut()
+    func guestReplaced()
 }

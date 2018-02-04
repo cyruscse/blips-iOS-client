@@ -6,6 +6,8 @@
 //  Copyright © 2018 Cyrus Sadeghi. All rights reserved.
 //
 
+// SignInModel handles everything to do with User objects.
+
 import Foundation
 import GoogleSignIn
 
@@ -17,13 +19,16 @@ class SignInModel {
     let syncTypeTag = "syncType"
     let loginTag = "login"
     let clearHistoryTag = "clearHistory"
+    let setHistoryTag = "setHistory"
     let deleteUserTag = "deleteUser"
     let nameTag = "name"
     let emailTag = "email"
+    let historyTag = "history"
     let okTag = "OK"
     
     private var lookupModel: LookupModel!
     private var account: User!
+    private var replacedGuest: User!
     private var loggedIn: Bool = false
     private var userAccountObservers = [UserAccountObserver]()
     
@@ -81,7 +86,24 @@ class SignInModel {
         }
     }
     
+    func notifyGuestReplaced() {
+        for observer in userAccountObservers {
+            observer.guestReplaced()
+        }
+    }
+    
+    func mergeGuestHistory() {
+        self.account.mergeAttractionHistory(toMerge: self.replacedGuest.getAttractionHistory())
+        self.setServerHistory(history: self.account.getAttractionHistory())
+        self.replacedGuest = nil
+    }
+    
     func userLoggedIn(account: User) {
+        if loggedIn == true && self.account.isGuest() == true && self.account.hasMadeRequests() {
+            replacedGuest = self.account
+            notifyGuestReplaced()
+        }
+        
         self.loggedIn = true
         self.account = account
         
@@ -172,7 +194,7 @@ class SignInModel {
         }
     }
     
-    func serverDeleteClearCallback(data: Data) {
+    func serverSyncCallback(data: Data) {
         do {
             let responseContents = try ServerInterface.readJSON(data: data)
             
@@ -180,7 +202,7 @@ class SignInModel {
                 if (key == statusTag) {
                     if let strValue = value as? String {
                         if strValue != okTag {
-                            print("Failed to clear server history")
+                            print("Failed to sync with server!")
                         }
                     }
                 }
@@ -203,12 +225,18 @@ class SignInModel {
         
         let jsonRequest = [requestTypeTag: dbSyncTag, syncTypeTag: clearHistoryTag, userIdTag: String(account.getID())]
         
-        ServerInterface.makeRequest(request: jsonRequest, callback: serverDeleteClearCallback)
+        ServerInterface.makeRequest(request: jsonRequest, callback: serverSyncCallback)
     }
 
     func deleteServerUser(id: Int) {
         let jsonRequest = [requestTypeTag: dbSyncTag, syncTypeTag: deleteUserTag, userIdTag: String(id)]
         
-        ServerInterface.makeRequest(request: jsonRequest, callback: serverDeleteClearCallback)
+        ServerInterface.makeRequest(request: jsonRequest, callback: serverSyncCallback)
+    }
+    
+    func setServerHistory(history: [String: Int]) {
+        let jsonRequest = [requestTypeTag: dbSyncTag, syncTypeTag: setHistoryTag, userIdTag: String(account.getID()), historyTag: history.description]
+        
+        ServerInterface.makeRequest(request: jsonRequest, callback: serverSyncCallback)
     }
 }

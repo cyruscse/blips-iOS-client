@@ -76,6 +76,8 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountOb
         }
     }
     
+    func guestReplaced() {}
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         GIDSignIn.sharedInstance().uiDelegate = self

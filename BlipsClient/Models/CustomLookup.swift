@@ -6,6 +6,9 @@
 //  Copyright © 2017 Cyrus Sadeghi. All rights reserved.
 //
 
+// Used by MapModel and BlipRequest.
+// Packages a request's attraction types, radius and openNow to one struct
+
 import Foundation
 
 struct CustomLookup {
