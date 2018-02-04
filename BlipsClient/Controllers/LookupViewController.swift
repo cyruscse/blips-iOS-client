@@ -12,7 +12,7 @@ import os.log
 class LookupViewController: UIViewController, LocationObserver, LookupModelObserver {
     @IBOutlet weak var doneButton: UIBarButtonItem!
     
-    private var haveLocation: Bool = false
+    private static var haveLocation: Bool = false
     private var attrToProperName = [String: String]()
     private var properNameToAttr = [String: String]()
     private var attractionsVC: AttractionsTableViewController?
@@ -21,7 +21,7 @@ class LookupViewController: UIViewController, LocationObserver, LookupModelObser
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if haveLocation {
+        if LookupViewController.haveLocation {
             self.doneButton.isEnabled = true
         }
     }
@@ -43,7 +43,7 @@ class LookupViewController: UIViewController, LocationObserver, LookupModelObser
     }
 
     func locationDetermined() {
-        haveLocation = true
+        LookupViewController.haveLocation = true
 
         if self.viewIfLoaded?.window != nil {
             self.doneButton.isEnabled = true
