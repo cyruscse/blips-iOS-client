@@ -153,15 +153,7 @@ class SignInModel {
             for (key, value) in responseContents {
                 if (key == userIdTag) {
                     account.setID(userID: value as! Int)
-                    
-                    let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(account, toFile: User.ArchiveURL.path)
-                    
-                    if isSuccessfulSave {
-                        print("Saved User object")
-                    }
-                    else {
-                        print("Failed to save user")
-                    }
+                    account.saveUser()
                 }
                 else if (key != statusTag) {
                     serverAttractionHistory[key] = value as? Int

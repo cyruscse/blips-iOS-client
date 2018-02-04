@@ -36,7 +36,7 @@ struct AttractionHistory: Comparable, Hashable {
     }
 }
 
-class User: NSObject, NSCoding {
+class User: NSObject, NSCoding, LookupModelObserver {
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     static let ArchiveURL = DocumentsDirectory.appendingPathComponent("user")
     
@@ -63,11 +63,11 @@ class User: NSObject, NSCoding {
             self.image = UIImage(data: data)!
         }
         else {
-            // get a generic user picture to use instead (need to add)
             self.image = UIImage()
         }
     }
     
+    // Standard getters and setters
     func getFirstName() -> String {
         return firstName
     }
@@ -144,12 +144,24 @@ class User: NSObject, NSCoding {
         self.init(firstName: fName, lastName: lName, imageURL: iURL, email: eml, userID: id, attractionHistory: history, guest: gst)
     }
     
+    func saveUser() {
+        let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(self, toFile: User.ArchiveURL.path)
+        
+        if isSuccessfulSave == false {
+            print("Failed to save user")
+        }
+    }
+    
+    // User History observer methods
     func addUserHistoryObserver(observer: UserHistoryObserver) {
         self.userHistoryObservers.append(observer)
     }
     
     func updateHistoryListeners() {
         let orderedHistory: [AttractionHistory] = orderedAttractionHistory()
+        
+        // Save this object when attraction history changes
+        saveUser()
         
         for observer in userHistoryObservers {
             observer.historyUpdated(attractionHistory: orderedHistory)
@@ -165,7 +177,7 @@ class User: NSObject, NSCoding {
                 self.attractionHistory[selection] = 1
             }
         }
-        
+
         updateHistoryListeners()
     }
     
@@ -184,6 +196,11 @@ class User: NSObject, NSCoding {
         
         return historySet.sorted()
     }
+    
+    func setAttractionTypes(attrToProperName: [String : String], properNameToAttr: [String : String], prioritySortedAttractions: [String]) {
+        updateHistoryListeners()
+    }
+    
     
     func clearAttractionHistory() {
         self.attractionHistory = [:]

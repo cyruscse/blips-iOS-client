@@ -32,7 +32,10 @@ class MainModel {
         signInModel.updateAttractionHistory(selections: lookupVC.getSelectedAttractions())
     }
     
-    func registerLookupVC(lookupVC: LookupViewController) {        
+    func registerLookupVC(lookupVC: LookupViewController) {
+        // Account needs to know when Attraction Types are available
+        // in order to set a prioritized list on app load
+        lookupModel.addLookupObserver(observer: signInModel.getAccount())
         lookupModel.addLookupObserver(observer: lookupVC)
     
         // Set lookupVC as an Observer of locManager so it knows when to
