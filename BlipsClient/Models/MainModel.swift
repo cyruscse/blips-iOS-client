@@ -22,6 +22,10 @@ class MainModel {
     
     func registerLookupVC(lookupVC: LookupViewController) {
         lookupModel.addLookupObserver(observer: lookupVC)
+        
+        // Set lookupVC as an Observer of locManager so it knows when to
+        // start allowing blip requests (i.e. enable "Done" button)
+        locManager.addLocationObserver(observer: lookupVC)
     }
     
     func registerAccountVC(accountVC: AccountViewController) {

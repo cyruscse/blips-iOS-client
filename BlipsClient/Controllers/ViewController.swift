@@ -77,14 +77,8 @@ class ViewController: UIViewController {
                 // We save these annotations in case the user cancels the blip request
                 // On cancellation, cancelToBlipMap is invoked and the annotations are restored
                 lastAnnotations = mapView.annotations
-                mapView.removeAnnotations(lastAnnotations)
+                mapView.removeAnnotations(lastAnnotations)*/
                 
-                // need to reorder attractions in lookupModel by attraction history
-                lookupVC.setLookupModel(inLookupModel: self.lookupModel)
-                
-                // Set lookupVC as an Observer of locManager so it knows when to
-                // start allowing blip requests (i.e. enable "Done" button)
-                locManager.addLocationObserver(observer: lookupVC)*/
                 mainModel.registerLookupVC(lookupVC: lookupVC)
             }
             if let accountVC = destinationNC.topViewController as? AccountViewController {
