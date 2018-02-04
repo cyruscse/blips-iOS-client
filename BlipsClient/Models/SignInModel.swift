@@ -137,6 +137,14 @@ class SignInModel {
         account.updateHistoryListeners()
     }
     
+    func updateAttractionHistory(selections: [String]) {
+        account.updateAttractionHistory(selections: selections)
+    }
+    
+    func getAccountID() -> Int {
+        return account.getID()
+    }
+    
     func serverLoginCallback(data: Data) {
         do {
             let responseContents = try ServerInterface.readJSON(data: data)

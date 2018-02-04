@@ -56,4 +56,14 @@ class ServerInterface {
         
         task.resume()
     }
+    
+    static func makeRequest(request: [String: Any], callback: @escaping (_ data: Data) -> ()) {
+        do {
+            try ServerInterface.postServer(jsonRequest: request, callback: { (data) in callback(data) })
+        } catch ServerInterfaceError.badJSONRequest(description: let error) {
+            print(error)
+        } catch {
+            print("Other error")
+        }
+    }
 }

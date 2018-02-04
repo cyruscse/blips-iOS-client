@@ -20,6 +20,11 @@ class MainModel {
         signInModel.updateUserHistoryObservers()
     }
     
+    func relayBlipLookup(lookupVC: LookupViewController) {
+        mapModel.requestBlips(lookupVC: lookupVC, accountID: signInModel.getAccountID(), latitude: locManager.getLatitude(), longitude: locManager.getLongitude())
+        signInModel.updateAttractionHistory(selections: lookupVC.getSelectedAttractions())
+    }
+    
     func registerLookupVC(lookupVC: LookupViewController) {
         lookupModel.addLookupObserver(observer: lookupVC)
         
@@ -31,6 +36,10 @@ class MainModel {
     func registerAccountVC(accountVC: AccountViewController) {
         accountVC.setSignInModel(signInModel: signInModel)
         signInModel.addUserAccountObserver(observer: accountVC)
+    }
+    
+    func registerMapVC(mapVC: MapViewController) {
+        mapModel.addObserver(observer: mapVC)
     }
 
     init() {

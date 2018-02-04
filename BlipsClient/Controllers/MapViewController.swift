@@ -19,8 +19,8 @@ class MapViewController: MKMapView, MapModelObserver {
         self.addAnnotations(myAnnotations)
     }
     
-    func locationUpdated(location: MKCoordinateRegion) {
-        self.currentLocation = location
-        self.setRegion(location, animated: true)
+    func locationUpdated(location: CLLocationCoordinate2D, latitudinalMeters: CLLocationDistance, longitudinalMeters: CLLocationDistance) {
+        currentLocation = MKCoordinateRegionMakeWithDistance(location, latitudinalMeters, longitudinalMeters)
+        self.setRegion(currentLocation, animated: true)
     }
 }

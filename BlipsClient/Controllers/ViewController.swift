@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 
 class ViewController: UIViewController {
+    @IBOutlet weak var mapVC: MapViewController!
     private let mainModel = MainModel()
 
     //abstract this and same function in LookupModel
@@ -32,6 +33,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        mainModel.registerMapVC(mapVC: mapVC)
     }
 
     override func didReceiveMemoryWarning() {
@@ -40,18 +43,10 @@ class ViewController: UIViewController {
 
     //MARK: Navigation
     @IBAction func unwindToBlipMap(sender: UIStoryboardSegue) {
-/*        if let sourceViewController = sender.source as? LookupViewController {
-            let selectedAttractions = sourceViewController.getSelectedAttractions()
-            let openNow = sourceViewController.getOpenNowValue()
-            let radius = sourceViewController.getRadiusValue()
-            
-            let customLookup = CustomLookup(attribute: selectedAttractions, openNow: openNow, radius: radius)
-            
-            let blipRequest = BlipRequest(inLookup: customLookup!, inUser: signInModel.getAccount(), locManager: locManager, callback: blipRequestCallback)
-            
-            blipRequest.JSONify()
+        if let sourceViewController = sender.source as? LookupViewController {
+            mainModel.relayBlipLookup(lookupVC: sourceViewController)
         }
-        
+        /*
         if let sourceViewController = sender.source as? AccountViewController {
             let signedInStatus = sourceViewController.getSignInStatus()
             

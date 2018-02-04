@@ -11,5 +11,5 @@ import MapKit
 
 protocol MapModelObserver {
     func annotationsUpdated(annotations: [MKAnnotation])
-    func locationUpdated(location: MKCoordinateRegion)
+    func locationUpdated(location: CLLocationCoordinate2D, latitudinalMeters: CLLocationDistance, longitudinalMeters: CLLocationDistance)
 }
