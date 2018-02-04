@@ -6,41 +6,39 @@
 //  Copyright © 2017 Cyrus Sadeghi. All rights reserved.
 //
 
-// Used by MapModel to parse the list of attractions returned by the server
-// The JSON formatted attraction is converted to the struct below
-
 import Foundation
+import MapKit
 
-struct Blip {
-    let name: String
-    let coordinates: (latitude: Double, longitude: Double)
-   // let rating: Float
-}
-
-extension Blip {
+class Blip: NSObject, MKAnnotation {
+    var title: String?
+    var coordinate: CLLocationCoordinate2D
+    var attractionType: String
+    
     init?(json: [String: Any]) {
         guard let name = json["name"] as? String,
         let latitude = json["latitude"] as? Double,
-        let longitude = json["longitude"] as? Double
+        let longitude = json["longitude"] as? Double,
+        let attractionType = json["type"] as? String
         //let rating = json["rating"] as? Float
         else {
             return nil
         }
 
-        self.name = name
-        self.coordinates = (latitude, longitude)
+        self.title = name
+        self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        self.attractionType = attractionType
         //self.rating = rating
     }
     
-    func getName() -> String {
-        return self.name
-    }
-    
     func getLatitude() -> Double {
-        return self.coordinates.latitude
+        return self.coordinate.latitude
     }
     
     func getLongitude() -> Double {
-        return self.coordinates.longitude
+        return self.coordinate.longitude
+    }
+    
+    var subtitle: String? {
+        return attractionType
     }
 }

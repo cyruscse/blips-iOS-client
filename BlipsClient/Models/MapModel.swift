@@ -90,11 +90,7 @@ class MapModel: UserAccountObserver {
             
             if let blip = Blip(json: blipEntry) {
                 blips.append(blip)
-                
-                let annotation = MKPointAnnotation()
-                annotation.coordinate = CLLocationCoordinate2D(latitude: blip.getLatitude(), longitude: blip.getLongitude())
-                annotation.title = blip.getName()
-                currentAnnotations.append(annotation)
+                currentAnnotations.append(blip)
             }
             else {
                 print("Failed to unwrap blip!")
