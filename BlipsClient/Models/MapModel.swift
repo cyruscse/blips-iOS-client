@@ -24,6 +24,8 @@ class MapModel: UserAccountObserver {
     
     func userLoggedOut() {
         currentAnnotations = []
+        lastAnnotations = []
+        notifyAnnotationsUpdated()
     }
     
     func addObserver(observer: MapModelObserver) {
