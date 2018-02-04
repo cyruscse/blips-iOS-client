@@ -26,21 +26,43 @@ class SignInModel {
     private var account: User!
     private var loggedIn: Bool = false
     private var userAccountObservers = [UserAccountObserver]()
+    
+    init() {
+        self.userLoaded(loaded: NSKeyedUnarchiver.unarchiveObject(withFile: User.ArchiveURL.path) as? User ?? nil)
+    }
 
     func addUserAccountObserver(observer: UserAccountObserver) {
         userAccountObservers.append(observer)
+        
+        if loggedIn == true {
+            notifyUserLoggedIn()
+        }
     }
     
     func setLookupModel(lookupModel: LookupModel) {
         self.lookupModel = lookupModel
+        account.addUserHistoryObserver(observer: lookupModel)
     }
     
     func guestUserLogin() {
         account = User(firstName: "", lastName: "", imageURL: URL(string: ".")!, email: "", userID: -1, attractionHistory: [:], guest: true)
-        account.addUserHistoryObserver(observer: lookupModel)
+        
+        // lookupModel can be nil here on the app's first ever launch
+        // No User info has been saved to disk, so we fall back to a guestLogin,
+        // but at this point lookupModel hasn't been initialized yet.
+        // When setLookupModel is called, we'll add it as an observer to this User
+        if lookupModel != nil {
+            account.addUserHistoryObserver(observer: lookupModel)
+        }
         
         self.loggedIn = true
         
+        for observer in userAccountObservers {
+            observer.userLoggedIn(account: account)
+        }
+    }
+    
+    func notifyUserLoggedIn() {
         for observer in userAccountObservers {
             observer.userLoggedIn(account: account)
         }
@@ -55,9 +77,7 @@ class SignInModel {
             
             self.loggedIn = true
             
-            for observer in userAccountObservers {
-                observer.userLoggedIn(account: account)
-            }
+            notifyUserLoggedIn()
         }
     }
     
@@ -67,9 +87,7 @@ class SignInModel {
         
         serverLogin()
         
-        for observer in userAccountObservers {
-            observer.userLoggedIn(account: account)
-        }
+        notifyUserLoggedIn()
     }
     
     func userLoggedOut(deleteUser: Bool) {
@@ -119,6 +137,14 @@ class SignInModel {
         account.updateHistoryListeners()
     }
     
+    func updateAttractionHistory(selections: [String]) {
+        account.updateAttractionHistory(selections: selections)
+    }
+    
+    func getAccountID() -> Int {
+        return account.getID()
+    }
+    
     func serverLoginCallback(data: Data) {
         do {
             let responseContents = try ServerInterface.readJSON(data: data)
@@ -127,15 +153,7 @@ class SignInModel {
             for (key, value) in responseContents {
                 if (key == userIdTag) {
                     account.setID(userID: value as! Int)
-                    
-                    let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(account, toFile: User.ArchiveURL.path)
-                    
-                    if isSuccessfulSave {
-                        print("Saved User object")
-                    }
-                    else {
-                        print("Failed to save user")
-                    }
+                    account.saveUser()
                 }
                 else if (key != statusTag) {
                     serverAttractionHistory[key] = value as? Int
@@ -174,18 +192,10 @@ class SignInModel {
         }
     }
     
-    // protocol this and serverPostCallback with LookupModel
     func serverLogin() {
         let jsonRequest = [requestTypeTag: dbSyncTag, syncTypeTag: loginTag, nameTag: account.getName(), emailTag: account.getEmail()]
         
-        // issue #14, this is duplicated a few times
-        do {
-            try ServerInterface.postServer(jsonRequest: jsonRequest, callback: { (data) in self.serverLoginCallback(data: data) })
-        } catch ServerInterfaceError.badJSONRequest(description: let error) {
-            print(error)
-        } catch {
-            print("Other error")
-        }
+        ServerInterface.makeRequest(request: jsonRequest, callback: serverLoginCallback)
     }
     
     func clearAttractionHistory() {
@@ -193,26 +203,12 @@ class SignInModel {
         
         let jsonRequest = [requestTypeTag: dbSyncTag, syncTypeTag: clearHistoryTag, userIdTag: String(account.getID())]
         
-        // issue #14
-        do {
-            try ServerInterface.postServer(jsonRequest: jsonRequest, callback: { (data) in self.serverDeleteClearCallback(data: data) })
-        } catch ServerInterfaceError.badJSONRequest(description: let error) {
-            print(error)
-        } catch {
-            print("Other error")
-        }
+        ServerInterface.makeRequest(request: jsonRequest, callback: serverDeleteClearCallback)
     }
 
     func deleteServerUser(id: Int) {
         let jsonRequest = [requestTypeTag: dbSyncTag, syncTypeTag: deleteUserTag, userIdTag: String(id)]
         
-        // issue #14
-        do {
-            try ServerInterface.postServer(jsonRequest: jsonRequest, callback: { (data) in self.serverDeleteClearCallback(data: data) })
-        } catch ServerInterfaceError.badJSONRequest(description: let error) {
-            print(error)
-        } catch {
-            print("Other error")
-        }
+        ServerInterface.makeRequest(request: jsonRequest, callback: serverDeleteClearCallback)
     }
 }

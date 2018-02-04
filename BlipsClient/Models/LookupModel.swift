@@ -11,25 +11,32 @@ import Foundation
 class LookupModel: UserHistoryObserver {
     let attributesTag = "attributes"
     let attractionTypeTag = "attraction_types"
-    
+
     private var attractionTypes = [String]()
     private var properNames = [String]()
     
     private var attrToProperName = [String: String]()
     private var properNameToAttr = [String: String]()
     
-    func getAttractionTypes() -> [String] {
-        return attractionTypes
+    private var lookupObservers = [LookupModelObserver]()
+    private var serverSyncComplete = false
+    
+    func addLookupObserver(observer: LookupModelObserver) {
+        lookupObservers.append(observer)
+        
+        if serverSyncComplete == true {
+            notifyAttractionTypesReady()
+        }
     }
     
-    func getAttrToProperName() -> [String: String] {
-        return attrToProperName
+    func notifyAttractionTypesReady() {
+        serverSyncComplete = true
+        
+        for observer in lookupObservers {
+            observer.setAttractionTypes(attrToProperName: self.attrToProperName, properNameToAttr: self.properNameToAttr, prioritySortedAttractions: attractionTypes)
+        }
     }
-    
-    func getProperNameToAttr() -> [String: String] {
-        return properNameToAttr
-    }
-    
+
     func parseAttributes(entry: [String: Any]) {
         print("Nothing yet...")
     }
@@ -54,7 +61,7 @@ class LookupModel: UserHistoryObserver {
                 self.properNames.append(properName)
             }
         }
-        
+
         for (index, element) in attractionTypes.enumerated() {
             attrToProperName[element] = properNames[index]
         }
@@ -63,7 +70,7 @@ class LookupModel: UserHistoryObserver {
             properNameToAttr[element] = attractionTypes[index]
         }
     }
-    
+
     // When the attraction history counters change, update what displays in LookupVC
     // Attraction types are sorted by query frequency (types that haven't been queried are sorted alphabetically)
     func historyUpdated(attractionHistory: [AttractionHistory]) {
@@ -79,7 +86,7 @@ class LookupModel: UserHistoryObserver {
         
         attractionTypes.append(contentsOf: attractionSet.sorted())
     }
-    
+
     func serverPostCallback(data: Data) {
         do {
             let responseContents = try ServerInterface.readJSON(data: data)
@@ -98,6 +105,8 @@ class LookupModel: UserHistoryObserver {
                     }
                 }
             }
+
+            notifyAttractionTypesReady()
         } catch ServerInterfaceError.JSONParseFailed(description: let error) {
             print(error)
         } catch {
@@ -105,16 +114,9 @@ class LookupModel: UserHistoryObserver {
         }
     }
     
-    // this method matches syncWithServer in SignInModel, we can abstract this up (at least protocol)
     func syncWithServer() {
         let jsonRequest = ["requestType": "dbsync", "syncType": "getattractions"]
         
-        do {
-            try ServerInterface.postServer(jsonRequest: jsonRequest, callback: { (data) in self.serverPostCallback(data: data) })
-        } catch ServerInterfaceError.badJSONRequest(description: let error) {
-            print(error)
-        } catch {
-            print("Other error")
-        }
+        ServerInterface.makeRequest(request: jsonRequest, callback: serverPostCallback)
     }
 }

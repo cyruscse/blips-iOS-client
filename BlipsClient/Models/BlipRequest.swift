@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import CoreLocation
 
 // Abstract this up??? (maybe a protocol)
 let requestTypeTag = "requestType"
@@ -21,33 +20,24 @@ let openNowTag = "openNow"
 
 class BlipRequest {
     private let lookup: CustomLookup
-    private let account: User
-    private let locManager: Location
-    
+    private var accountID: Int
     private var latitude: Double
     private var longitude: Double
-    private var requestCallback: ([String: Any], Double, Double) -> ()
     
-    init (inLookup: CustomLookup, inUser: User, locManager: Location, callback: @escaping (([String: Any], Double, Double) -> ())) {
+    init (inLookup: CustomLookup, accountID: Int, latitude: Double, longitude: Double) {
         self.lookup = inLookup
-        self.account = inUser
-        self.locManager = locManager
-        self.requestCallback = callback
-        
-        self.latitude = locManager.getLatitude()
-        self.longitude = locManager.getLongitude()
+        self.accountID = accountID
+        self.latitude = latitude
+        self.longitude = longitude
     }
     
-    func JSONify() {
+    func JSONify() -> [String: Any] {
         // If locManager hasn't determined the user's location yet, we can't make a request.
         // We shouldn't fall into this in the first place as the UI will block requests,
         // but we'll keep it just in case
         if (self.latitude == 0.0 || self.longitude == 0.0) {
-            return
+            return [:]
         }
-        
-        // Update attraction query counters in User
-        account.updateAttractionHistory(selections: lookup.getAttributes())
         
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
@@ -65,8 +55,6 @@ class BlipRequest {
         let openNow = self.lookup.getOpenNow()
         let radius = self.lookup.getRadius()
                 
-        let request = [requestTypeTag: queryTag, userIDTag: account.getID(), latitudeTag: latStr, longitudeTag: lngStr, attractionTypeTag: selectedAttributes, radiusTag: radius, openNowTag: openNow] as [String : Any]
-        
-        requestCallback(request, self.latitude, self.longitude)
+        return [requestTypeTag: queryTag, userIDTag: accountID, latitudeTag: latStr, longitudeTag: lngStr, attractionTypeTag: selectedAttributes, radiusTag: radius, openNowTag: openNow] as [String : Any]
     }
 }

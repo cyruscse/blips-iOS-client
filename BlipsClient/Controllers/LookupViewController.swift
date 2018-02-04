@@ -9,16 +9,22 @@
 import UIKit
 import os.log
 
-class LookupViewController: UIViewController, LocationObserver {
+class LookupViewController: UIViewController, LocationObserver, LookupModelObserver {
     @IBOutlet weak var doneButton: UIBarButtonItem!
     
-    private var lookupModel: LookupModel? = nil
-    private var customLookup: CustomLookup?
+    private static var haveLocation: Bool = false
+    private var attrToProperName = [String: String]()
+    private var properNameToAttr = [String: String]()
+    private var prioritySortedAttractions = [String]()
     private var attractionsVC: AttractionsTableViewController?
     private var attributesVC: AttributesTableViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if LookupViewController.haveLocation {
+            self.doneButton.isEnabled = true
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -36,22 +42,26 @@ class LookupViewController: UIViewController, LocationObserver {
     func getRadiusValue() -> Int {
         return (attributesVC?.getRadiusValue())!
     }
-    
-    func setLookupModel(inLookupModel: LookupModel) {
-        self.lookupModel = inLookupModel
-    }
-    
+
     func locationDetermined() {
-        self.doneButton.isEnabled = true
+        LookupViewController.haveLocation = true
+
+        if self.viewIfLoaded?.window != nil {
+            self.doneButton.isEnabled = true
+        }
     }
-    
+
+    func setAttractionTypes(attrToProperName: [String : String], properNameToAttr: [String : String], prioritySortedAttractions: [String]) {
+        self.attrToProperName = attrToProperName
+        self.properNameToAttr = properNameToAttr
+        self.prioritySortedAttractions = prioritySortedAttractions
+    }
+
     //MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationVC = segue.destination as? AttractionsTableViewController {
             attractionsVC = destinationVC
-            destinationVC.setAttractions(incAttractions: self.lookupModel?.getAttractionTypes() ?? ["fail"])
-            destinationVC.setAttrToProperName(incAttrTranslation: self.lookupModel?.getAttrToProperName() ?? [:])
-            destinationVC.setProperNameToAttr(incReverseTranslation: self.lookupModel?.getProperNameToAttr() ?? [:])
+            attractionsVC?.setAttractionTypes(attrToProperName: attrToProperName, properNameToAttr: properNameToAttr, prioritySortedAttractions: prioritySortedAttractions)
         }
         else if let destinationVC = segue.destination as? AttributesTableViewController {
             attributesVC = destinationVC
