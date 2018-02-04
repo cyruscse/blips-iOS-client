@@ -108,18 +108,4 @@ class MapModel: UserAccountObserver {
         currentLocation = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         notifyLocationUpdated()
     }
-    
-    /*
-     func placePinForBlip(blip: Blip) {
-         let annotation = MKPointAnnotation()
-         let coordinate = CLLocationCoordinate2D(latitude: blip.getLatitude(), longitude: blip.getLongitude())
-     
-         annotation.coordinate = coordinate
-         annotation.title = blip.getName()
-         mapView.addAnnotation(annotation)
-     }
-     
-     // split this between map model and vc
-     
-     */
 }

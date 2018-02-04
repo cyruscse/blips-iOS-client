@@ -192,18 +192,10 @@ class SignInModel {
         }
     }
     
-    // protocol this and serverPostCallback with LookupModel
     func serverLogin() {
         let jsonRequest = [requestTypeTag: dbSyncTag, syncTypeTag: loginTag, nameTag: account.getName(), emailTag: account.getEmail()]
         
-        // issue #14, this is duplicated a few times
-        do {
-            try ServerInterface.postServer(jsonRequest: jsonRequest, callback: { (data) in self.serverLoginCallback(data: data) })
-        } catch ServerInterfaceError.badJSONRequest(description: let error) {
-            print(error)
-        } catch {
-            print("Other error")
-        }
+        ServerInterface.makeRequest(request: jsonRequest, callback: serverLoginCallback)
     }
     
     func clearAttractionHistory() {
@@ -211,26 +203,12 @@ class SignInModel {
         
         let jsonRequest = [requestTypeTag: dbSyncTag, syncTypeTag: clearHistoryTag, userIdTag: String(account.getID())]
         
-        // issue #14
-        do {
-            try ServerInterface.postServer(jsonRequest: jsonRequest, callback: { (data) in self.serverDeleteClearCallback(data: data) })
-        } catch ServerInterfaceError.badJSONRequest(description: let error) {
-            print(error)
-        } catch {
-            print("Other error")
-        }
+        ServerInterface.makeRequest(request: jsonRequest, callback: serverDeleteClearCallback)
     }
 
     func deleteServerUser(id: Int) {
         let jsonRequest = [requestTypeTag: dbSyncTag, syncTypeTag: deleteUserTag, userIdTag: String(id)]
         
-        // issue #14
-        do {
-            try ServerInterface.postServer(jsonRequest: jsonRequest, callback: { (data) in self.serverDeleteClearCallback(data: data) })
-        } catch ServerInterfaceError.badJSONRequest(description: let error) {
-            print(error)
-        } catch {
-            print("Other error")
-        }
+        ServerInterface.makeRequest(request: jsonRequest, callback: serverDeleteClearCallback)
     }
 }

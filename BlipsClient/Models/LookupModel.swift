@@ -114,16 +114,9 @@ class LookupModel: UserHistoryObserver {
         }
     }
     
-    // this method matches syncWithServer in SignInModel, we can abstract this up (at least protocol)
     func syncWithServer() {
         let jsonRequest = ["requestType": "dbsync", "syncType": "getattractions"]
         
-        do {
-            try ServerInterface.postServer(jsonRequest: jsonRequest, callback: { (data) in self.serverPostCallback(data: data) })
-        } catch ServerInterfaceError.badJSONRequest(description: let error) {
-            print(error)
-        } catch {
-            print("Other error")
-        }
+        ServerInterface.makeRequest(request: jsonRequest, callback: serverPostCallback)
     }
 }
