@@ -15,10 +15,9 @@ import MapKit
 class MapModel: UserAccountObserver {
     private let regionRadius: CLLocationDistance = 250
     
-    private var blips = [Blip]()
-    private var currentAnnotations = [MKAnnotation]()
+    private var currentAnnotations = [Blip]()
     private var currentLocation: CLLocationCoordinate2D?
-    private var lastAnnotations = [MKAnnotation]()
+    private var lastAnnotations = [Blip]()
     private var mapModelObservers = [MapModelObserver]()
     
     // Not implemented yet, but the plan is to automatically query the server with
@@ -81,7 +80,7 @@ class MapModel: UserAccountObserver {
     // Given a dictionary of blips (saved as Strings), convert them to Blip objects
     // and create annotations for each. Add the annotations to our list then notify MapVC when we're done.
     func parseBlips(serverDict: Dictionary<String, Dictionary<String, Any>>) {
-        blips.removeAll()
+        currentAnnotations.removeAll()
         lastAnnotations.removeAll()
         
         for (_, value) in serverDict {
@@ -89,7 +88,6 @@ class MapModel: UserAccountObserver {
             let blipEntry = dictEntry as? [String: Any] ?? [:]
             
             if let blip = Blip(json: blipEntry) {
-                blips.append(blip)
                 currentAnnotations.append(blip)
             }
             else {
