@@ -6,9 +6,13 @@
 //  Copyright © 2017 Cyrus Sadeghi. All rights reserved.
 //
 
+// Create a query request for the server
+//
+// Used by MapModel. Given the client's location, account ID, radius to search in, and list of attraction types,
+// create a JSON request. An example of the returned output is available in the blips-server repository
+
 import Foundation
 
-// Abstract this up??? (maybe a protocol)
 let requestTypeTag = "requestType"
 let userIDTag = "userID"
 let queryTag = "query"
@@ -39,6 +43,7 @@ class BlipRequest {
             return [:]
         }
         
+        // Set up the NumberFormatter (used to cast the latitude/longitude from Double to String)
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .decimal
         numberFormatter.minimumFractionDigits = 8
@@ -51,6 +56,7 @@ class BlipRequest {
         let latStr = numberFormatter.string(from: latNum) ?? "error"
         let lngStr = numberFormatter.string(from: lngNum) ?? "error"
         
+        // Get the list of attraction types to search for, radius to search in, and openNow value
         let selectedAttributes = self.lookup.getAttributes()
         let openNow = self.lookup.getOpenNow()
         let radius = self.lookup.getRadius()

@@ -99,6 +99,18 @@ class User: NSObject, NSCoding, LookupModelObserver {
     func isGuest() -> Bool {
         return guest
     }
+    
+    func hasMadeRequests() -> Bool {
+        if attractionHistory.count != 0 {
+            return true
+        }
+        
+        return false
+    }
+    
+    func getAttractionHistory() -> [String: Int] {
+        return attractionHistory
+    }
 
     // NSCoder Persistence methods
     func encode(with aCoder: NSCoder) {
@@ -185,6 +197,10 @@ class User: NSObject, NSCoding, LookupModelObserver {
         self.attractionHistory = history
         
         updateHistoryListeners()
+    }
+    
+    func mergeAttractionHistory(toMerge: [String: Int]) {
+        self.attractionHistory.merge(toMerge, uniquingKeysWith: { first, second in return (first + second) })
     }
     
     func orderedAttractionHistory() -> [AttractionHistory] {

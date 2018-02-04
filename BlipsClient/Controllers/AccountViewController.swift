@@ -36,6 +36,13 @@ class AccountViewController: UIViewController, UserAccountObserver {
         userSignedIn = false
     }
     
+    func guestReplaced() {
+        let alert = UIAlertController(title: "Save Guest History", message: "Do you want to merge your history with the guest account's history?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in self.signInModel?.mergeGuestHistory() }))
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { _ in return }))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     func setSignInModel(signInModel: SignInModel) {
         self.signInModel = signInModel
     }

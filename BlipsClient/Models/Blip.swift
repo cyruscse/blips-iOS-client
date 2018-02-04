@@ -6,6 +6,9 @@
 //  Copyright © 2017 Cyrus Sadeghi. All rights reserved.
 //
 
+// Used by MapModel to parse the list of attractions returned by the server
+// The JSON formatted attraction is converted to the struct below
+
 import Foundation
 
 struct Blip {

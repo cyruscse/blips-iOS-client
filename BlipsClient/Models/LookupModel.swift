@@ -6,15 +6,21 @@
 //  Copyright © 2017 Cyrus Sadeghi. All rights reserved.
 //
 
+// LookupModel is the model for LookupVC (VC -> ViewController). When the app is launched,
+// it requests the list of attraction types from the server. When LookupVC is segued in, it receives its data from here
+
 import Foundation
 
 class LookupModel: UserHistoryObserver {
     let attributesTag = "attributes"
     let attractionTypeTag = "attraction_types"
 
+    // Attraction Types contains the list of attractions, sorted by user history
     private var attractionTypes = [String]()
     private var properNames = [String]()
     
+    // Attraction types as returned by Google are JSON readable (i.e. "grocery_or_supermarket" instead of Grocery Store)
+    // These two dictionaries are translation tables between the two types
     private var attrToProperName = [String: String]()
     private var properNameToAttr = [String: String]()
     
@@ -23,7 +29,10 @@ class LookupModel: UserHistoryObserver {
     
     func addLookupObserver(observer: LookupModelObserver) {
         lookupObservers.append(observer)
-        
+    
+        // If LookupVC is loaded after we have the attraction list (usual case),
+        // we need to immediately notify all the observers (including LookupVC) that the list
+        // of attraction types is ready.
         if serverSyncComplete == true {
             notifyAttractionTypesReady()
         }
@@ -41,8 +50,12 @@ class LookupModel: UserHistoryObserver {
         print("Nothing yet...")
     }
     
+    // Parse the dictionary of attraction types returned from the server
     func parseAttractionTypes(entries: [String: Any]) {
         for (key, value) in entries {
+            // As explained before, we have two names for the same type
+            // "Name" is the JSON friendly name
+            // "ProperName" is the readable name
             if (key == "Name") {
                 guard let typeName = value as? String else {
                     print("Attraction Type parse failed!")
@@ -62,6 +75,7 @@ class LookupModel: UserHistoryObserver {
             }
         }
 
+        // Set up the translation tables
         for (index, element) in attractionTypes.enumerated() {
             attrToProperName[element] = properNames[index]
         }
@@ -73,6 +87,7 @@ class LookupModel: UserHistoryObserver {
 
     // When the attraction history counters change, update what displays in LookupVC
     // Attraction types are sorted by query frequency (types that haven't been queried are sorted alphabetically)
+    // Part of the UserHistoryObserver protocol
     func historyUpdated(attractionHistory: [AttractionHistory]) {
         var attractionSet: Set<String> = Set(attractionTypes)
         
@@ -87,6 +102,7 @@ class LookupModel: UserHistoryObserver {
         attractionTypes.append(contentsOf: attractionSet.sorted())
     }
 
+    // Callback function for Attraction Type reply
     func serverPostCallback(data: Data) {
         do {
             let responseContents = try ServerInterface.readJSON(data: data)
