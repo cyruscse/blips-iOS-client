@@ -11,6 +11,7 @@
 // Sets up observer lists for most model classes, some observers are setup outside of here.
 
 import Foundation
+import MapKit
 
 class MainModel {
     private let locManager = Location()
@@ -61,6 +62,8 @@ class MainModel {
     // Register the map view as an observer of the map model
     func registerMapVC(mapVC: MapViewController) {
         mapModel.addObserver(observer: mapVC)
+        mapVC.delegate = mapVC
+        mapVC.register(BlipMarkerView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
     }
     
     // Remove annotations from the map, either on user sign out or when making a new request

@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class MapViewController: MKMapView, MapModelObserver {
+class MapViewController: MKMapView, MapModelObserver, MKMapViewDelegate {
     private var myAnnotations = [MKAnnotation]()
     private var currentLocation: MKCoordinateRegion!
     
