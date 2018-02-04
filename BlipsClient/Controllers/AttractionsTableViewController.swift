@@ -9,17 +9,16 @@
 import UIKit
 
 class AttractionsTableViewController: UITableViewController {
-    private var attractions: [String] = [String]()
+    private var prioritySortedAttractions: [String] = [String]()
     private var attrToProperName: [String: String] = [String: String]()
     private var properNameToAttr: [String: String] = [String: String]()
     
     private var selectedAttractions: [String] = [String]()
     
-    func setAttractionTypes(attrToProperName: [String : String], properNameToAttr: [String : String]) {
+    func setAttractionTypes(attrToProperName: [String : String], properNameToAttr: [String : String], prioritySortedAttractions: [String]) {
         self.attrToProperName = attrToProperName
         self.properNameToAttr = properNameToAttr
-        
-        attractions = Array(attrToProperName.keys).sorted()
+        self.prioritySortedAttractions = prioritySortedAttractions
     }
 
     func getSelectedAttractions() -> [String] {
@@ -42,7 +41,7 @@ class AttractionsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return attractions.count
+        return prioritySortedAttractions.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -52,10 +51,10 @@ class AttractionsTableViewController: UITableViewController {
             fatalError("Dequeued cell wasn't AttractionsTableViewCell")
         }
         
-        let attraction = attrToProperName[attractions[indexPath.row]]
+        let attraction = attrToProperName[prioritySortedAttractions[indexPath.row]]
         
         // Check if this row had been selected, add a checkmark if it was selected before
-        if (selectedAttractions.contains(attractions[indexPath.row])) {
+        if (selectedAttractions.contains(prioritySortedAttractions[indexPath.row])) {
             cell.accessoryType = .checkmark
         }
         else {
@@ -75,7 +74,7 @@ class AttractionsTableViewController: UITableViewController {
         
         // Set checkmark for row and add this attraction to the array of selected attractions
         cell.accessoryType = .checkmark
-        selectedAttractions.append(attractions[indexPath.row])
+        selectedAttractions.append(prioritySortedAttractions[indexPath.row])
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {

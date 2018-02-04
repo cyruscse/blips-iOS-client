@@ -99,11 +99,7 @@ class User: NSObject, NSCoding {
     func isGuest() -> Bool {
         return guest
     }
-    
-    func addUserHistoryObserver(observer: UserHistoryObserver) {
-        self.userHistoryObservers.append(observer)
-    }
-    
+
     // NSCoder Persistence methods
     func encode(with aCoder: NSCoder) {
         aCoder.encode(self.firstName, forKey: PropertyKey.firstName)
@@ -146,6 +142,10 @@ class User: NSObject, NSCoding {
         let gst = aDecoder.decodeBool(forKey: PropertyKey.guest)
 
         self.init(firstName: fName, lastName: lName, imageURL: iURL, email: eml, userID: id, attractionHistory: history, guest: gst)
+    }
+    
+    func addUserHistoryObserver(observer: UserHistoryObserver) {
+        self.userHistoryObservers.append(observer)
     }
     
     func updateHistoryListeners() {

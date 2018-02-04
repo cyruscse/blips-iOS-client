@@ -14,23 +14,11 @@ class MainModel {
     private let signInModel = SignInModel()
     private let mapModel = MapModel()
     
+    // SignInModel Methods
     func relayUserLogin(account: User) {
         signInModel.userLoggedIn(account: account)
         signInModel.addUserHistoryObserver(observer: lookupModel)
         signInModel.updateUserHistoryObservers()
-    }
-    
-    func relayBlipLookup(lookupVC: LookupViewController) {
-        mapModel.requestBlips(lookupVC: lookupVC, accountID: signInModel.getAccountID(), latitude: locManager.getLatitude(), longitude: locManager.getLongitude())
-        signInModel.updateAttractionHistory(selections: lookupVC.getSelectedAttractions())
-    }
-    
-    func registerLookupVC(lookupVC: LookupViewController) {
-        lookupModel.addLookupObserver(observer: lookupVC)
-        
-        // Set lookupVC as an Observer of locManager so it knows when to
-        // start allowing blip requests (i.e. enable "Done" button)
-        locManager.addLocationObserver(observer: lookupVC)
     }
     
     func registerAccountVC(accountVC: AccountViewController) {
@@ -38,8 +26,34 @@ class MainModel {
         signInModel.addUserAccountObserver(observer: accountVC)
     }
     
+    // LookupModel Methods
+    func relayBlipLookup(lookupVC: LookupViewController) {
+        mapModel.requestBlips(lookupVC: lookupVC, accountID: signInModel.getAccountID(), latitude: locManager.getLatitude(), longitude: locManager.getLongitude())
+        signInModel.updateAttractionHistory(selections: lookupVC.getSelectedAttractions())
+    }
+    
+    func registerLookupVC(lookupVC: LookupViewController) {        
+        lookupModel.addLookupObserver(observer: lookupVC)
+    
+        // Set lookupVC as an Observer of locManager so it knows when to
+        // start allowing blip requests (i.e. enable "Done" button)
+        locManager.addLocationObserver(observer: lookupVC)
+        locManager.forceUpdateObservers()
+    }
+    
+    // MapModel methods
     func registerMapVC(mapVC: MapViewController) {
         mapModel.addObserver(observer: mapVC)
+    }
+    
+    func clearMapVC(retainAnnotations: Bool) {
+        if retainAnnotations == true || signInModel.isUserLoggedIn() == false {
+            mapModel.clearMapVC(retainAnnotations: retainAnnotations)
+        }
+    }
+    
+    func restoreMapVC() {
+        mapModel.restoreMapVC()
     }
 
     init() {

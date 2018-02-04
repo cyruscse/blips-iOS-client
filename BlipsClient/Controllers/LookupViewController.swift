@@ -15,6 +15,7 @@ class LookupViewController: UIViewController, LocationObserver, LookupModelObser
     private static var haveLocation: Bool = false
     private var attrToProperName = [String: String]()
     private var properNameToAttr = [String: String]()
+    private var prioritySortedAttractions = [String]()
     private var attractionsVC: AttractionsTableViewController?
     private var attributesVC: AttributesTableViewController?
     
@@ -49,17 +50,18 @@ class LookupViewController: UIViewController, LocationObserver, LookupModelObser
             self.doneButton.isEnabled = true
         }
     }
-    
-    func setAttractionTypes(attrToProperName: [String : String], properNameToAttr: [String : String]) {
+
+    func setAttractionTypes(attrToProperName: [String : String], properNameToAttr: [String : String], prioritySortedAttractions: [String]) {
         self.attrToProperName = attrToProperName
         self.properNameToAttr = properNameToAttr
+        self.prioritySortedAttractions = prioritySortedAttractions
     }
-    
+
     //MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationVC = segue.destination as? AttractionsTableViewController {
             attractionsVC = destinationVC
-            attractionsVC?.setAttractionTypes(attrToProperName: attrToProperName, properNameToAttr: properNameToAttr)
+            attractionsVC?.setAttractionTypes(attrToProperName: attrToProperName, properNameToAttr: properNameToAttr, prioritySortedAttractions: prioritySortedAttractions)
         }
         else if let destinationVC = segue.destination as? AttributesTableViewController {
             attributesVC = destinationVC

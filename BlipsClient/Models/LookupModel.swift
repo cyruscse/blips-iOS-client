@@ -33,7 +33,7 @@ class LookupModel: UserHistoryObserver {
         serverSyncComplete = true
         
         for observer in lookupObservers {
-            observer.setAttractionTypes(attrToProperName: self.attrToProperName, properNameToAttr: self.properNameToAttr)
+            observer.setAttractionTypes(attrToProperName: self.attrToProperName, properNameToAttr: self.properNameToAttr, prioritySortedAttractions: attractionTypes)
         }
     }
 

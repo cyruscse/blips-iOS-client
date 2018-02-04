@@ -60,12 +60,22 @@ class Location: NSObject, CLLocationManagerDelegate {
         self.locationCallback = callback
     }
     
+    func updateObservers() {
+        for observer in locationObservers {
+            observer.locationDetermined()
+        }
+    }
+    
     func getLocationCallback(coordinate: CLLocationCoordinate2D) {
         self.latitude = coordinate.latitude
         self.longitude = coordinate.longitude
         
-        for observer in locationObservers {
-            observer.locationDetermined()
+        updateObservers()
+    }
+    
+    func forceUpdateObservers() {
+        if self.latitude != 0.0 && self.longitude != 0.0 {
+            updateObservers()
         }
     }
     

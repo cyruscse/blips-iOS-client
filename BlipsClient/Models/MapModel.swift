@@ -42,6 +42,23 @@ class MapModel: UserAccountObserver {
         }
     }
     
+    func clearMapVC(retainAnnotations: Bool) {
+        if retainAnnotations == true {
+            lastAnnotations = currentAnnotations
+        }
+        else {
+            lastAnnotations = []
+        }
+        
+        currentAnnotations = []
+        notifyAnnotationsUpdated()
+    }
+    
+    func restoreMapVC() {
+        currentAnnotations = lastAnnotations
+        notifyAnnotationsUpdated()
+    }
+    
     func parseBlips(serverDict: Dictionary<String, Dictionary<String, Any>>) {
         blips.removeAll()
         lastAnnotations.removeAll()
