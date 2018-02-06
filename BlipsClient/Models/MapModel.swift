@@ -120,9 +120,7 @@ class MapModel: UserAccountObserver {
         let customLookup = CustomLookup(attribute: lookupVC.getSelectedAttractions(), openNow: lookupVC.getOpenNowValue(), radius: lookupVC.getRadiusValue(), priceRange: lookupVC.getPriceRange(), minimumRating: lookupVC.getMinimumRating())
         let blipRequest = BlipRequest(inLookup: customLookup!, accountID: accountID, latitude: latitude, longitude: longitude)
         let request = blipRequest.JSONify()
-        
-        print(request)
-        
+
         ServerInterface.makeRequest(request: request, callback: blipsReplyCallback)
         
         currentLocation = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
