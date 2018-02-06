@@ -1,4 +1,5 @@
 PODS:
+  - Cosmos (13.0.0)
   - Firebase (4.8.1):
     - Firebase/Core (= 4.8.1)
   - Firebase/Core (4.8.1):
@@ -46,11 +47,13 @@ PODS:
   - nanopb/encode (0.3.8)
 
 DEPENDENCIES:
+  - Cosmos
   - Firebase
   - FirebaseAuth
   - GoogleSignIn
 
 SPEC CHECKSUMS:
+  Cosmos: af3973becc045af335b64498c9812034876b7661
   Firebase: 2721056b8885eef90233b03f37be64358d35d262
   FirebaseAnalytics: 617afa8c26b57a0c3f11361b248bc9e17bfd8dfd
   FirebaseAuth: bd2738c5c1e92b108ba5f7f7335908097a4e50bb
@@ -62,6 +65,6 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: ebaa1f79a5366922c1735f1566901f50beba23b7
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
 
-PODFILE CHECKSUM: 84f8ee08af71c6648220c92c12e57bf21696a552
+PODFILE CHECKSUM: 01802577a18045c6b10ad2af406f8b469bc1f984
 
 COCOAPODS: 1.4.0

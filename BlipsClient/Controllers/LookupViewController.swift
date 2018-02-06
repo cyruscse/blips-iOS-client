@@ -42,6 +42,14 @@ class LookupViewController: UIViewController, LocationObserver, LookupModelObser
     func getRadiusValue() -> Int {
         return (attributesVC?.getRadiusValue())!
     }
+    
+    func getPriceRange() -> Int {
+        return (attributesVC?.getPriceRange())!
+    }
+    
+    func getMinimumRating() -> Double {
+        return (attributesVC?.getMinimumRating())!
+    }
 
     func locationDetermined() {
         LookupViewController.haveLocation = true

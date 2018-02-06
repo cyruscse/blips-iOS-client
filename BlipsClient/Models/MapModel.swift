@@ -117,9 +117,11 @@ class MapModel: UserAccountObserver {
     // Send the request to the server and call our callback function on reply.
     // Center the map on the user's location.
     func requestBlips(lookupVC: LookupViewController, accountID: Int, latitude: Double, longitude: Double) {
-        let customLookup = CustomLookup(attribute: lookupVC.getSelectedAttractions(), openNow: lookupVC.getOpenNowValue(), radius: lookupVC.getRadiusValue())
+        let customLookup = CustomLookup(attribute: lookupVC.getSelectedAttractions(), openNow: lookupVC.getOpenNowValue(), radius: lookupVC.getRadiusValue(), priceRange: lookupVC.getPriceRange(), minimumRating: lookupVC.getMinimumRating())
         let blipRequest = BlipRequest(inLookup: customLookup!, accountID: accountID, latitude: latitude, longitude: longitude)
         let request = blipRequest.JSONify()
+        
+        print(request)
         
         ServerInterface.makeRequest(request: request, callback: blipsReplyCallback)
         

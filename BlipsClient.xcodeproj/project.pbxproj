@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A351D145D80DB9B5A6D8D42 /* libPods-BlipsClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC402C54036475D1D037CE88 /* libPods-BlipsClient.a */; };
 		6E20862D1FA2100F00C824D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E20862C1FA2100F00C824D9 /* AppDelegate.swift */; };
 		6E2086321FA2100F00C824D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E2086301FA2100F00C824D9 /* Main.storyboard */; };
 		6E2086341FA2100F00C824D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E2086331FA2100F00C824D9 /* Assets.xcassets */; };
@@ -43,6 +42,7 @@
 		6EF0C66D2013A9C300C967C6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */; };
 		6EF0C66E2013AA0100C967C6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */; };
 		6EF0C66F2013AA0100C967C6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */; };
+		C24D87B1193601577C95E75D /* Pods_BlipsClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05A60F4C5F6F59B26C13F533 /* Pods_BlipsClient.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +63,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		05A60F4C5F6F59B26C13F533 /* Pods_BlipsClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlipsClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E2086291FA2100F00C824D9 /* BlipsClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlipsClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E20862C1FA2100F00C824D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = BlipsClient/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
 		6E2086311FA2100F00C824D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -103,7 +104,6 @@
 		6EE12FD02024C71400509452 /* MainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModel.swift; sourceTree = "<group>"; };
 		6EE12FD22024C73E00509452 /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
 		6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		AC402C54036475D1D037CE88 /* libPods-BlipsClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BlipsClient.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B11E4D0B8AFEA76033DF6A5A /* Pods-BlipsClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlipsClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BlipsClient/Pods-BlipsClient.debug.xcconfig"; sourceTree = "<group>"; };
 		F5C68D005D8613419F09CE03 /* Pods-BlipsClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlipsClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-BlipsClient/Pods-BlipsClient.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -114,7 +114,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E20865D1FA2106100C824D9 /* MapKit.framework in Frameworks */,
-				0A351D145D80DB9B5A6D8D42 /* libPods-BlipsClient.a in Frameworks */,
+				C24D87B1193601577C95E75D /* Pods_BlipsClient.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,7 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				6E20865C1FA2106100C824D9 /* MapKit.framework */,
-				AC402C54036475D1D037CE88 /* libPods-BlipsClient.a */,
+				05A60F4C5F6F59B26C13F533 /* Pods_BlipsClient.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -428,9 +428,20 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-BlipsClient/Pods-BlipsClient-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Cosmos/Cosmos.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cosmos.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -444,12 +455,10 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-BlipsClient/Pods-BlipsClient-resources.sh",
-				"${PODS_ROOT}/GTMOAuth2/Source/Touch/GTMOAuth2ViewTouch.xib",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GTMOAuth2ViewTouch.nib",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
