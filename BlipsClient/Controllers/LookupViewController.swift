@@ -9,10 +9,11 @@
 import UIKit
 import os.log
 
-class LookupViewController: UIViewController, LocationObserver, LookupModelObserver {
+class LookupViewController: UIViewController, LocationObserver, LookupModelObserver, AttractionTableObserver {
     @IBOutlet weak var doneButton: UIBarButtonItem!
     
     private static var haveLocation: Bool = false
+    private static var selectedAttractions: Int = 0
     private var attrToProperName = [String: String]()
     private var properNameToAttr = [String: String]()
     private var prioritySortedAttractions = [String]()
@@ -22,7 +23,7 @@ class LookupViewController: UIViewController, LocationObserver, LookupModelObser
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if LookupViewController.haveLocation {
+        if (LookupViewController.selectedAttractions > 0) && (LookupViewController.haveLocation) {
             self.doneButton.isEnabled = true
         }
     }
@@ -54,8 +55,19 @@ class LookupViewController: UIViewController, LocationObserver, LookupModelObser
     func locationDetermined() {
         LookupViewController.haveLocation = true
 
-        if self.viewIfLoaded?.window != nil {
+        if (self.viewIfLoaded?.window != nil) && (LookupViewController.selectedAttractions > 0) {
             self.doneButton.isEnabled = true
+        }
+    }
+    
+    func didUpdateSelectedRows(selected: Int) {
+        LookupViewController.selectedAttractions = selected
+        
+        if (LookupViewController.selectedAttractions > 0) && (LookupViewController.haveLocation) {
+            self.doneButton.isEnabled = true
+        }
+        else {
+            self.doneButton.isEnabled = false
         }
     }
 
@@ -69,6 +81,7 @@ class LookupViewController: UIViewController, LocationObserver, LookupModelObser
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationVC = segue.destination as? AttractionsTableViewController {
             attractionsVC = destinationVC
+            attractionsVC?.addAttractionTableObserver(observer: self)
             attractionsVC?.setAttractionTypes(attrToProperName: attrToProperName, properNameToAttr: properNameToAttr, prioritySortedAttractions: prioritySortedAttractions)
         }
         else if let destinationVC = segue.destination as? AttributesTableViewController {
