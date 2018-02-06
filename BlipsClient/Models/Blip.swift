@@ -13,7 +13,7 @@ class Blip: NSObject, MKAnnotation {
     var title: String?
     var coordinate: CLLocationCoordinate2D
     var attractionType: String
-    var rating: Float
+    var rating: Double
     var price: Int
     
     init?(json: [String: Any]) {
@@ -21,7 +21,7 @@ class Blip: NSObject, MKAnnotation {
         let latitude = json["latitude"] as? Double,
         let longitude = json["longitude"] as? Double,
         let attractionType = json["type"] as? String,
-        let rating = json["rating"] as? Float,
+        let rating = json["rating"] as? Double,
         let price = json["price"] as? Int
         else {
             return nil

@@ -79,12 +79,12 @@ class MapModel: UserAccountObserver {
     
     // Given a dictionary of blips (saved as Strings), convert them to Blip objects
     // and create annotations for each. Add the annotations to our list then notify MapVC when we're done.
-    func parseBlips(serverDict: Dictionary<String, Dictionary<String, Any>>) {
+    func parseBlips(serverDict: [Dictionary<String, Any>]) {
         currentAnnotations.removeAll()
         lastAnnotations.removeAll()
         
-        for (_, value) in serverDict {
-            let dictEntry = (value as NSDictionary).mutableCopy() as! NSMutableDictionary
+        for entry in serverDict {
+            let dictEntry = (entry as NSDictionary).mutableCopy() as! NSMutableDictionary
             let blipEntry = dictEntry as? [String: Any] ?? [:]
             
             if let blip = Blip(json: blipEntry) {
@@ -92,7 +92,7 @@ class MapModel: UserAccountObserver {
             }
             else {
                 print("Failed to unwrap blip!")
-                print(value)
+                print(entry)
             }
         }
         
@@ -104,8 +104,16 @@ class MapModel: UserAccountObserver {
     func blipsReplyCallback(data: Data) {
         do {
             let responseContents = try ServerInterface.readJSON(data: data)
+            let status = responseContents["status"] as? [String] ?? []
+            let blipsArr = responseContents["blips"] as? [Dictionary<String, Any>] ?? []
             
-            parseBlips(serverDict: responseContents as? Dictionary<String, Dictionary<String, Any>> ?? [:])
+            if (status[0] == "OK") {
+                parseBlips(serverDict: blipsArr)
+            }
+            else {
+                // need to pop error dialog here
+                print(status[0])
+            }
         } catch ServerInterfaceError.JSONParseFailed(description: let error) {
             print(error)
         } catch {
