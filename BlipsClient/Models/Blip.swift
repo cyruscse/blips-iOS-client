@@ -15,6 +15,7 @@ class Blip: NSObject, MKAnnotation {
     var attractionType: String
     var rating: Double
     var price: Int
+    var photoRef: String
     
     init?(json: [String: Any]) {
         guard let name = json["name"] as? String,
@@ -22,7 +23,8 @@ class Blip: NSObject, MKAnnotation {
         let longitude = json["longitude"] as? Double,
         let attractionType = json["type"] as? String,
         let rating = json["rating"] as? Double,
-        let price = json["price"] as? Int
+        let price = json["price"] as? Int,
+        let photoRef = json["photo"] as? String
         else {
             return nil
         }
@@ -32,6 +34,7 @@ class Blip: NSObject, MKAnnotation {
         self.attractionType = attractionType
         self.rating = rating
         self.price = price
+        self.photoRef = photoRef
     }
     
     var subtitle: String? {
