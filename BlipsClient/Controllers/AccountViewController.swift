@@ -21,10 +21,6 @@ class AccountViewController: UIViewController, UserAccountObserver {
         actionSheetButton.isEnabled = userSignedIn
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
     func userLoggedIn(account: User) {
         actionSheetButton.isEnabled = true
         userSignedIn = true

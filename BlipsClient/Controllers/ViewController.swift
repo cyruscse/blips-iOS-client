@@ -23,10 +23,6 @@ class ViewController: UIViewController {
         mainModel.registerMapVC(mapVC: mapVC)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
     //MARK: Navigation
     @IBAction func unwindToBlipMap(sender: UIStoryboardSegue) {
         if let sourceViewController = sender.source as? LookupViewController {

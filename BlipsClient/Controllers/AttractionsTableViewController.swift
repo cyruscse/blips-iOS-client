@@ -42,10 +42,6 @@ class AttractionsTableViewController: UITableViewController {
         self.tableView.rowHeight = 44.0
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }

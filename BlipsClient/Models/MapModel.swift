@@ -83,6 +83,8 @@ class MapModel: UserAccountObserver {
         currentAnnotations.removeAll()
         lastAnnotations.removeAll()
         
+        var blipUnwrapFailed: Bool = false
+        
         for entry in serverDict {
             let dictEntry = (entry as NSDictionary).mutableCopy() as! NSMutableDictionary
             let blipEntry = dictEntry as? [String: Any] ?? [:]
@@ -91,8 +93,13 @@ class MapModel: UserAccountObserver {
                 currentAnnotations.append(blip)
             }
             else {
-                print("Failed to unwrap blip!")
-                print(entry)
+                if blipUnwrapFailed == false {
+                    blipUnwrapFailed = true
+                    
+                    let alert = AnywhereUIAlertController(title: "Blip Display Failed", message: "The server didn't send blips in the correct format.", preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in }))
+                    alert.show()
+                }
             }
         }
         
@@ -111,8 +118,9 @@ class MapModel: UserAccountObserver {
                 parseBlips(serverDict: blipsArr)
             }
             else {
-                // need to pop error dialog here
-                print(status[0])
+                let alert = AnywhereUIAlertController(title: "Query Failed", message: status[0], preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in }))
+                alert.show()
             }
         } catch ServerInterfaceError.JSONParseFailed(description: let error) {
             print(error)

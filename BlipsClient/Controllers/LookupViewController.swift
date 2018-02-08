@@ -28,10 +28,6 @@ class LookupViewController: UIViewController, LocationObserver, LookupModelObser
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
     func getSelectedAttractions() -> [String] {
         return attractionsVC?.getSelectedAttractions() ?? ["fail"]
     }

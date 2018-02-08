@@ -38,11 +38,6 @@ class AttributesTableViewController: UITableViewController {
         starView.settings.minTouchRating = 0.0
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     @IBAction func openNowChanged(_ sender: UISwitch) {
         openNow = sender.isOn
     }
@@ -61,6 +56,8 @@ class AttributesTableViewController: UITableViewController {
         }
         
         let radiusValue = radiusTextField?.text ?? "0"
+        
+        self.view.endEditing(true)
         
         return Int(radiusValue)!
     }
