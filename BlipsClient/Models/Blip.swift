@@ -8,6 +8,10 @@
 
 import Foundation
 import MapKit
+import GooglePlaces
+
+// potential TODO:
+// use GMSPlacesClient to ascertain openNow status
 
 class Blip: NSObject, MKAnnotation {
     var title: String?
@@ -15,7 +19,7 @@ class Blip: NSObject, MKAnnotation {
     var attractionType: String
     var rating: Double
     var price: Int
-    var photoRef: String
+    var placeID: String
     
     init?(json: [String: Any]) {
         guard let name = json["name"] as? String,
@@ -24,17 +28,19 @@ class Blip: NSObject, MKAnnotation {
         let attractionType = json["type"] as? String,
         let rating = json["rating"] as? Double,
         let price = json["price"] as? Int,
-        let photoRef = json["photo"] as? String
+        let placeID = json["placeID"] as? String
         else {
             return nil
         }
+        
+       // GMSPlacesClient.shared().loadPlacePhoto(<#T##photo: GMSPlacePhotoMetadata##GMSPlacePhotoMetadata#>, constrainedTo: <#T##CGSize#>, scale: <#T##CGFloat#>, callback: <#T##GMSPlacePhotoImageResultCallback##GMSPlacePhotoImageResultCallback##(UIImage?, Error?) -> Void#>)
 
         self.title = name
         self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         self.attractionType = attractionType
         self.rating = rating
         self.price = price
-        self.photoRef = photoRef
+        self.placeID = placeID
     }
     
     var subtitle: String? {
