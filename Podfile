@@ -4,5 +4,6 @@ target "BlipsClient" do
   pod 'Firebase'
   pod 'FirebaseAuth'
   pod 'GoogleSignIn'
+  pod 'GooglePlaces'
   pod 'Cosmos'
 end

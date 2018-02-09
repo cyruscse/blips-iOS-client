@@ -12,14 +12,13 @@
 import Foundation
 import MapKit
 
-class MapModel: UserAccountObserver, LookupModelObserver {
+class MapModel: UserAccountObserver {
     private let regionRadius: CLLocationDistance = 250
     
     private var currentAnnotations = [Blip]()
     private var currentLocation: CLLocationCoordinate2D?
     private var lastAnnotations = [Blip]()
     private var mapModelObservers = [MapModelObserver]()
-    private var clientKey: String = ""
     
     // UserAccountObserver Methods
     
@@ -37,16 +36,7 @@ class MapModel: UserAccountObserver, LookupModelObserver {
     }
     
     func guestReplaced() {}
-    
-    // LookupModelObserver Methods
-    
-    func setAttractionTypes(attrToProperName: [String : String], properNameToAttr: [String : String], prioritySortedAttractions: [String]) {}
-    
-    func gotGoogleClientKey(key: String) {
-        self.clientKey = key
-    }
-    
-    
+
     func addObserver(observer: MapModelObserver) {
         mapModelObservers.append(observer)
     }

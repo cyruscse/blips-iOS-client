@@ -38,6 +38,10 @@ class MainModel {
     
     // LookupModel Methods
     
+    func relayLookupModelObserverAddition(observer: LookupModelObserver) {
+        lookupModel.addLookupObserver(observer: observer)
+    }
+    
     // On LookupVC confirming a lookup request, delegate the request to MapModel
     // Also update the user's attraction history through SignInModel
     func relayBlipLookup(lookupVC: LookupViewController) {
@@ -82,7 +86,6 @@ class MainModel {
         signInModel.setLookupModel(lookupModel: lookupModel)
         signInModel.addUserAccountObserver(observer: mapModel)
         locManager.getLocation(callback: { (coordinate) in self.locManager.getLocationCallback(coordinate: coordinate) })
-        lookupModel.addLookupObserver(observer: mapModel)
         lookupModel.syncWithServer()
     }
 }

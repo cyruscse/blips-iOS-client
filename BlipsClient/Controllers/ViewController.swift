@@ -17,6 +17,10 @@ class ViewController: UIViewController {
         mainModel.relayUserLogin(account: account)
     }
     
+    func relayAppDelegateLookupModelObserverAddition(observer: LookupModelObserver) {
+        mainModel.relayLookupModelObserverAddition(observer: observer)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

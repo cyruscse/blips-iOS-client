@@ -10,10 +10,12 @@ import UIKit
 import Firebase
 import FirebaseAuth
 import GoogleSignIn
+import GooglePlaces
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, LookupModelObserver {
     var window: UIWindow?
+    private var mainVC: ViewController!
 
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if (error == nil) {
@@ -23,11 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
             // These values will be retrieved from the server after the User object is created
             let account = User(firstName: user.profile.givenName, lastName: user.profile.familyName, imageURL: user.profile.imageURL(withDimension: 240), email: user.profile.email, userID: 0, attractionHistory: [:], guest: false)
             
-            if let rootViewController = window?.rootViewController as? UINavigationController {
-                if let viewController = rootViewController.viewControllers.first as? ViewController {
-                    viewController.relayUserLogin(account: account)
-                }
-            }
+            mainVC.relayUserLogin(account: account)
         } else {
             print("\(error.localizedDescription)")
         }
@@ -40,11 +38,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
         
+        if let rootViewController = window?.rootViewController as? UINavigationController {
+            if let viewController = rootViewController.viewControllers.first as? ViewController {
+                self.mainVC = viewController
+                mainVC.relayAppDelegateLookupModelObserverAddition(observer: self)
+            }
+        }
+        
         return true
     }
     
     func application(_ application: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey: Any]) -> Bool {
         return GIDSignIn.sharedInstance().handle(url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: [:])
+    }
+    
+    func setAttractionTypes(attrToProperName: [String : String], properNameToAttr: [String : String], prioritySortedAttractions: [String]) {}
+    
+    func gotGoogleClientKey(key: String) {
+        GMSPlacesClient.provideAPIKey(key)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
