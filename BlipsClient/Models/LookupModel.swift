@@ -19,6 +19,8 @@ class LookupModel: UserHistoryObserver {
     private var attractionTypes = [String]()
     private var properNames = [String]()
     
+    private var clientGoogleKey: String = ""
+    
     // Attraction types as returned by Google are JSON readable (i.e. "grocery_or_supermarket" instead of Grocery Store)
     // These two dictionaries are translation tables between the two types
     private var attrToProperName = [String: String]()
@@ -45,9 +47,24 @@ class LookupModel: UserHistoryObserver {
             observer.setAttractionTypes(attrToProperName: self.attrToProperName, properNameToAttr: self.properNameToAttr, prioritySortedAttractions: attractionTypes)
         }
     }
+    
+    func notifyClientKeyReady() {
+        for observer in lookupObservers {
+            observer.gotGoogleClientKey(key: clientGoogleKey)
+        }
+    }
 
-    func parseAttributes(entry: [String: Any]) {
-        print("Nothing yet...")
+    func parseAttributes(entries: [String: Any]) {
+        for (key, value) in entries {
+            if (key == "client_key") {
+                guard let clientKey = value as? String else {
+                    print("Client key parse failed!")
+                    return
+                }
+                
+                self.clientGoogleKey = clientKey
+            }
+        }
     }
     
     // Parse the dictionary of attraction types returned from the server
@@ -114,7 +131,7 @@ class LookupModel: UserHistoryObserver {
                     let entry = jsonEntry as? [String: Any] ?? [:]
                     
                     if (key == attributesTag) {
-                        parseAttributes(entry: entry)
+                        parseAttributes(entries: entry)
                     }
                     else if (key == attractionTypeTag) {
                         parseAttractionTypes(entries: entry)

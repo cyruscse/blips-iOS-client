@@ -213,10 +213,13 @@ class User: NSObject, NSCoding, LookupModelObserver {
         return historySet.sorted()
     }
     
+    // LookupModelObserver Methods
+    
     func setAttractionTypes(attrToProperName: [String : String], properNameToAttr: [String : String], prioritySortedAttractions: [String]) {
         updateHistoryListeners()
     }
     
+    func gotGoogleClientKey(key: String) {}
     
     func clearAttractionHistory() {
         self.attractionHistory = [:]

@@ -66,13 +66,17 @@ class LookupViewController: UIViewController, LocationObserver, LookupModelObser
             self.doneButton.isEnabled = false
         }
     }
+    
+    // LookupModelObserver Methods
 
     func setAttractionTypes(attrToProperName: [String : String], properNameToAttr: [String : String], prioritySortedAttractions: [String]) {
         self.attrToProperName = attrToProperName
         self.properNameToAttr = properNameToAttr
         self.prioritySortedAttractions = prioritySortedAttractions
     }
-
+    
+    func gotGoogleClientKey(key: String) {}
+    
     //MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationVC = segue.destination as? AttractionsTableViewController {

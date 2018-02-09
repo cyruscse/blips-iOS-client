@@ -12,13 +12,16 @@
 import Foundation
 import MapKit
 
-class MapModel: UserAccountObserver {
+class MapModel: UserAccountObserver, LookupModelObserver {
     private let regionRadius: CLLocationDistance = 250
     
     private var currentAnnotations = [Blip]()
     private var currentLocation: CLLocationCoordinate2D?
     private var lastAnnotations = [Blip]()
     private var mapModelObservers = [MapModelObserver]()
+    private var clientKey: String = ""
+    
+    // UserAccountObserver Methods
     
     // Not implemented yet, but the plan is to automatically query the server with
     // the user's location and top attractions on user login
@@ -34,6 +37,15 @@ class MapModel: UserAccountObserver {
     }
     
     func guestReplaced() {}
+    
+    // LookupModelObserver Methods
+    
+    func setAttractionTypes(attrToProperName: [String : String], properNameToAttr: [String : String], prioritySortedAttractions: [String]) {}
+    
+    func gotGoogleClientKey(key: String) {
+        self.clientKey = key
+    }
+    
     
     func addObserver(observer: MapModelObserver) {
         mapModelObservers.append(observer)
