@@ -48,8 +48,6 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
         let blipDetailPop = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "blipDetailView") as? BlipDetailViewController
         
         blipDetailPop?.modalPresentationStyle = UIModalPresentationStyle.popover
-        
-        blipDetailPop?.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.up
         blipDetailPop?.popoverPresentationController?.delegate = self
         blipDetailPop?.popoverPresentationController?.sourceView = sender
         blipDetailPop?.popoverPresentationController?.sourceRect = sender.bounds

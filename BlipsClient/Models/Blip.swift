@@ -72,6 +72,14 @@ class Blip: NSObject, MKAnnotation {
         }
     }
     
+    func mapItem() -> MKMapItem {
+        let placeMark = MKPlacemark(coordinate: self.coordinate)
+        let mapItem = MKMapItem(placemark: placeMark)
+        mapItem.name = self.title
+        
+        return mapItem
+    }
+    
     var subtitle: String? {
         return attractionType
     }
