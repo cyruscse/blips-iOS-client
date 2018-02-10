@@ -6,4 +6,5 @@ target "BlipsClient" do
   pod 'GoogleSignIn'
   pod 'GooglePlaces'
   pod 'Cosmos'
+  pod 'SDWebImage'
 end

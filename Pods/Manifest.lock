@@ -48,6 +48,9 @@ PODS:
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - SDWebImage (4.2.3):
+    - SDWebImage/Core (= 4.2.3)
+  - SDWebImage/Core (4.2.3)
 
 DEPENDENCIES:
   - Cosmos
@@ -55,6 +58,7 @@ DEPENDENCIES:
   - FirebaseAuth
   - GooglePlaces
   - GoogleSignIn
+  - SDWebImage
 
 SPEC CHECKSUMS:
   Cosmos: af3973becc045af335b64498c9812034876b7661
@@ -70,7 +74,8 @@ SPEC CHECKSUMS:
   GTMOAuth2: c77fe325e4acd453837e72d91e3b5f13116857b2
   GTMSessionFetcher: ebaa1f79a5366922c1735f1566901f50beba23b7
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  SDWebImage: 791bb72962b3492327ddcac4b1880bd1b5458431
 
-PODFILE CHECKSUM: 3e926bd9b9314c0f909600681a9c290aab517a2d
+PODFILE CHECKSUM: fcb07e8350970a50182507f3a8d31118b5690cb5
 
 COCOAPODS: 1.4.0
