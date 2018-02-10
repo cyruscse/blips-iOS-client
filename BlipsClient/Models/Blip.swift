@@ -20,6 +20,7 @@ class Blip: NSObject, MKAnnotation {
     var rating: Double
     var price: Int
     var placeID: String
+    var photo: UIImage
     
     init?(json: [String: Any]) {
         guard let name = json["name"] as? String,
@@ -32,8 +33,6 @@ class Blip: NSObject, MKAnnotation {
         else {
             return nil
         }
-        
-       // GMSPlacesClient.shared().loadPlacePhoto(<#T##photo: GMSPlacePhotoMetadata##GMSPlacePhotoMetadata#>, constrainedTo: <#T##CGSize#>, scale: <#T##CGFloat#>, callback: <#T##GMSPlacePhotoImageResultCallback##GMSPlacePhotoImageResultCallback##(UIImage?, Error?) -> Void#>)
 
         self.title = name
         self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
@@ -41,6 +40,29 @@ class Blip: NSObject, MKAnnotation {
         self.rating = rating
         self.price = price
         self.placeID = placeID
+        self.photo = UIImage()
+    }
+    
+    func requestPhotoMetadata() {
+        GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { (photos, error) in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+            } else {
+                if let firstPhoto = photos?.results.first {
+                    self.loadImageForMetadata(photoMetadata: firstPhoto)
+                }
+            }
+        }
+    }
+    
+    func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata) {
+        GMSPlacesClient.shared().loadPlacePhoto(photoMetadata) { (photo, error) in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+            } else {
+                self.photo = photo ?? self.photo
+            }
+        }
     }
     
     var subtitle: String? {

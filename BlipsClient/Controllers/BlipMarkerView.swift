@@ -12,10 +12,15 @@ import MapKit
 class BlipMarkerView: MKMarkerAnnotationView {
     override var annotation: MKAnnotation? {
         willSet {
-            guard let _ = newValue as? Blip else { return }
+            guard let blip = newValue as? Blip else { return }
+            let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: self.frame.height, height: self.frame.height))
+            imageView.image = blip.photo
+            imageView.contentMode = .scaleAspectFit
+            
             canShowCallout = true
             calloutOffset = CGPoint(x: -5, y: 5)
             rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+            leftCalloutAccessoryView = imageView
         }
     }
 }

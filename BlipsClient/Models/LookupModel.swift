@@ -63,6 +63,7 @@ class LookupModel: UserHistoryObserver {
                 }
                 
                 self.clientGoogleKey = clientKey
+                notifyClientKeyReady()
             }
         }
     }

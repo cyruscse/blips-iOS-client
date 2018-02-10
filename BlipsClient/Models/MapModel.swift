@@ -93,6 +93,7 @@ class MapModel: UserAccountObserver {
             
             if let blip = Blip(json: blipEntry) {
                 currentAnnotations.append(blip)
+                blip.requestPhotoMetadata()
             }
             else {
                 if blipUnwrapFailed == false {
