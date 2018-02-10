@@ -24,9 +24,14 @@ class BlipDetailViewController: UIViewController {
         
         blipTitle.text = blip.title
         blipType.text = blip.attractionType
-        blipRating.rating = blip.rating
         blipImage.image = blip.photo
         
+        if blip.rating > 0 {
+            blipRating.rating = blip.rating
+        } else {
+            blipRating.isHidden = true
+        }
+
         if blip.price > 0 {
             var priceText = ""
         
@@ -35,8 +40,6 @@ class BlipDetailViewController: UIViewController {
             }
         
             blipPrice.text = priceText
-        } else {
-            blipPrice.text = ""
         }
     }
 

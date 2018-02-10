@@ -16,6 +16,7 @@ import GooglePlaces
 class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, LookupModelObserver {
     var window: UIWindow?
     private var mainVC: ViewController!
+    private var keySet: Bool = false
 
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if (error == nil) {
@@ -54,8 +55,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, Lookup
     
     func setAttractionTypes(attrToProperName: [String : String], properNameToAttr: [String : String], prioritySortedAttractions: [String]) {}
     
-    func gotGoogleClientKey(key: String) {
-        GMSPlacesClient.provideAPIKey(key)
+    func gotGoogleClientKey(key: String) {       
+        if (keySet == false) {
+            keySet = true
+            GMSPlacesClient.provideAPIKey(key)
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {

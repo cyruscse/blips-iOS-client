@@ -31,12 +31,13 @@ class LookupModel: UserHistoryObserver {
     
     func addLookupObserver(observer: LookupModelObserver) {
         lookupObservers.append(observer)
-    
+
         // If LookupVC is loaded after we have the attraction list (usual case),
         // we need to immediately notify all the observers (including LookupVC) that the list
         // of attraction types is ready.
         if serverSyncComplete == true {
             notifyAttractionTypesReady()
+            notifyClientKeyReady()
         }
     }
     
@@ -63,7 +64,6 @@ class LookupModel: UserHistoryObserver {
                 }
                 
                 self.clientGoogleKey = clientKey
-                notifyClientKeyReady()
             }
         }
     }
@@ -141,6 +141,7 @@ class LookupModel: UserHistoryObserver {
             }
 
             notifyAttractionTypesReady()
+            notifyClientKeyReady()
         } catch ServerInterfaceError.JSONParseFailed(description: let error) {
             print(error)
         } catch {

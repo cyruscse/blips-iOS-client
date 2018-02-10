@@ -40,7 +40,6 @@ class Location: NSObject, CLLocationManagerDelegate {
                 break
             
             case .authorizedWhenInUse, .authorizedAlways:
-                print("Got location features")
                 break
         }
         
