@@ -39,6 +39,7 @@
 		6EA4065420265FED009069F4 /* LookupModelObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA4065320265FED009069F4 /* LookupModelObserver.swift */; };
 		6EAD4E831FBB8748003C2E30 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EAD4E821FBB8748003C2E30 /* Default-568h@2x.png */; };
 		6ECE91942027B5EB009CAC91 /* BlipMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECE91932027B5EB009CAC91 /* BlipMarkerView.swift */; };
+		6EDE4DE6202E971500E80AF7 /* BlipDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDE4DE5202E971500E80AF7 /* BlipDetailViewController.swift */; };
 		6EE12FD12024C71400509452 /* MainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE12FD02024C71400509452 /* MainModel.swift */; };
 		6EE12FD32024C73E00509452 /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE12FD22024C73E00509452 /* MapModel.swift */; };
 		6EF0C66D2013A9C300C967C6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */; };
@@ -105,6 +106,7 @@
 		6EA4065320265FED009069F4 /* LookupModelObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupModelObserver.swift; sourceTree = "<group>"; };
 		6EAD4E821FBB8748003C2E30 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		6ECE91932027B5EB009CAC91 /* BlipMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlipMarkerView.swift; sourceTree = "<group>"; };
+		6EDE4DE5202E971500E80AF7 /* BlipDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlipDetailViewController.swift; sourceTree = "<group>"; };
 		6EE12FD02024C71400509452 /* MainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModel.swift; sourceTree = "<group>"; };
 		6EE12FD22024C73E00509452 /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
 		6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 		6E97D2982023CD7500DD8368 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				6EDE4DE5202E971500E80AF7 /* BlipDetailViewController.swift */,
 				6E97D28A2023CD5F00DD8368 /* AccountViewController.swift */,
 				6E18824D202CEF5000061C67 /* AnywhereUIAlertController.swift */,
 				6E97D28D2023CD6000DD8368 /* AttractionsTableViewCell.swift */,
@@ -491,6 +494,7 @@
 				6E97D2962023CD6100DD8368 /* AttractionsTableViewController.swift in Sources */,
 				6E97D2772023CD4C00DD8368 /* UserHistoryObserver.swift in Sources */,
 				6EE12FD32024C73E00509452 /* MapModel.swift in Sources */,
+				6EDE4DE6202E971500E80AF7 /* BlipDetailViewController.swift in Sources */,
 				6ECE91942027B5EB009CAC91 /* BlipMarkerView.swift in Sources */,
 				6E71ED3F202621FE00EC17B9 /* MapViewController.swift in Sources */,
 				6E97D2822023CD5800DD8368 /* CustomLookup.swift in Sources */,

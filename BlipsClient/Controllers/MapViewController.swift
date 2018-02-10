@@ -12,6 +12,11 @@ import MapKit
 class MapViewController: MKMapView, MapModelObserver, MKMapViewDelegate {
     private var myAnnotations = [MKAnnotation]()
     private var currentLocation: MKCoordinateRegion!
+    private var mainVC: ViewController!
+    
+    func setMainVC(vc: ViewController) {
+        self.mainVC = vc
+    }
     
     func annotationsUpdated(annotations: [MKAnnotation]) {
         self.removeAnnotations(myAnnotations)
@@ -22,5 +27,9 @@ class MapViewController: MKMapView, MapModelObserver, MKMapViewDelegate {
     func locationUpdated(location: CLLocationCoordinate2D, latitudinalMeters: CLLocationDistance, longitudinalMeters: CLLocationDistance) {
         currentLocation = MKCoordinateRegionMakeWithDistance(location, latitudinalMeters, longitudinalMeters)
         self.setRegion(currentLocation, animated: true)
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        mainVC.segueToBlipDetail(sender: control)
     }
 }

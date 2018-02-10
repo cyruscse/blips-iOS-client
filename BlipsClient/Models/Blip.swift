@@ -10,7 +10,7 @@ import Foundation
 import MapKit
 import GooglePlaces
 
-// potential TODO:
+// TODO:
 // use GMSPlacesClient to ascertain openNow status
 
 class Blip: NSObject, MKAnnotation {
