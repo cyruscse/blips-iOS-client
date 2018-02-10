@@ -8,13 +8,14 @@
 
 import Foundation
 import MapKit
+import SDWebImage
 
 class BlipMarkerView: MKMarkerAnnotationView {
     override var annotation: MKAnnotation? {
         willSet {
             guard let blip = newValue as? Blip else { return }
             let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: self.frame.height, height: self.frame.height))
-            imageView.image = blip.photo
+            imageView.sd_setImage(with: blip.icon) { (_, _, _, _) in }
             imageView.contentMode = .scaleAspectFit
             
             canShowCallout = true
