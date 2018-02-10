@@ -30,6 +30,6 @@ class MapViewController: MKMapView, MapModelObserver, MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        mainVC.segueToBlipDetail(sender: control)
+        mainVC.segueToBlipDetail(sender: control, annotation: (view as? BlipMarkerView)!)
     }
 }

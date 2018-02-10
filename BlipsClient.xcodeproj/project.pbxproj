@@ -219,12 +219,12 @@
 		6E97D2982023CD7500DD8368 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				6EDE4DE5202E971500E80AF7 /* BlipDetailViewController.swift */,
 				6E97D28A2023CD5F00DD8368 /* AccountViewController.swift */,
 				6E18824D202CEF5000061C67 /* AnywhereUIAlertController.swift */,
 				6E97D28D2023CD6000DD8368 /* AttractionsTableViewCell.swift */,
 				6E97D28E2023CD6000DD8368 /* AttractionsTableViewController.swift */,
 				6E97D2882023CD5E00DD8368 /* AttributesTableViewController.swift */,
+				6EDE4DE5202E971500E80AF7 /* BlipDetailViewController.swift */,
 				6ECE91932027B5EB009CAC91 /* BlipMarkerView.swift */,
 				6E97D28B2023CD5F00DD8368 /* LookupViewController.swift */,
 				6E71ED3E202621FE00EC17B9 /* MapViewController.swift */,

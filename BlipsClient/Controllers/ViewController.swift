@@ -44,17 +44,19 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
         mainModel.restoreMapVC()
     }
     
-    func segueToBlipDetail(sender: UIControl) {
-        let blipDetailPop = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "blipDetailView")
+    func segueToBlipDetail(sender: UIControl, annotation: BlipMarkerView) {
+        let blipDetailPop = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "blipDetailView") as? BlipDetailViewController
         
-        blipDetailPop.modalPresentationStyle = UIModalPresentationStyle.popover
+        blipDetailPop?.modalPresentationStyle = UIModalPresentationStyle.popover
         
-        blipDetailPop.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.up
-        blipDetailPop.popoverPresentationController?.delegate = self
-        blipDetailPop.popoverPresentationController?.sourceView = sender
-        blipDetailPop.popoverPresentationController?.sourceRect = sender.bounds
+        blipDetailPop?.popoverPresentationController?.permittedArrowDirections = UIPopoverArrowDirection.up
+        blipDetailPop?.popoverPresentationController?.delegate = self
+        blipDetailPop?.popoverPresentationController?.sourceView = sender
+        blipDetailPop?.popoverPresentationController?.sourceRect = sender.bounds
         
-        self.present(blipDetailPop, animated: true, completion: nil)
+        blipDetailPop?.setBlipAnnotation(annotation: annotation)
+        
+        self.present(blipDetailPop!, animated: true, completion: nil)
     }
     
     func adaptivePresentationStyle(for controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
