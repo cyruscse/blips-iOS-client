@@ -19,6 +19,7 @@ class BlipDetailViewController: UIViewController, UIPageViewControllerDataSource
     @IBOutlet weak var blipType: UILabel!
     @IBOutlet weak var blipRating: CosmosView!
     @IBOutlet weak var blipPrice: UILabel!
+    @IBOutlet weak var blipDescription: UITextView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +47,12 @@ class BlipDetailViewController: UIViewController, UIPageViewControllerDataSource
         }
         
         setupPageControl()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        blipDescription.setContentOffset(CGPoint.zero, animated: false)
     }
 
     @IBAction func gotoMaps(_ sender: Any) {

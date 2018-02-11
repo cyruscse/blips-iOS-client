@@ -15,6 +15,7 @@ class BlipPhotoViewController: UIViewController {
     var photoIndex: Int = 0
     
     override func viewDidLoad() {
+        self.imageView.contentMode = UIViewContentMode.scaleAspectFit
         self.imageView.image = self.image
     }
     

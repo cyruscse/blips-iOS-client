@@ -223,15 +223,15 @@
 		6E97D2982023CD7500DD8368 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				6E1B877E2030A8170004E364 /* BlipPhotoViewController.swift */,
 				6E97D28A2023CD5F00DD8368 /* AccountViewController.swift */,
 				6E18824D202CEF5000061C67 /* AnywhereUIAlertController.swift */,
 				6E97D28D2023CD6000DD8368 /* AttractionsTableViewCell.swift */,
 				6E97D28E2023CD6000DD8368 /* AttractionsTableViewController.swift */,
 				6E97D2882023CD5E00DD8368 /* AttributesTableViewController.swift */,
 				6EDE4DE5202E971500E80AF7 /* BlipDetailViewController.swift */,
-				6E97D28B2023CD5F00DD8368 /* LookupViewController.swift */,
 				6ECE91932027B5EB009CAC91 /* BlipMarkerView.swift */,
+				6E1B877E2030A8170004E364 /* BlipPhotoViewController.swift */,
+				6E97D28B2023CD5F00DD8368 /* LookupViewController.swift */,
 				6E71ED3E202621FE00EC17B9 /* MapViewController.swift */,
 				6E97D28F2023CD6100DD8368 /* SignInViewController.swift */,
 				6E97D2892023CD5E00DD8368 /* StatisticsViewController.swift */,
@@ -243,14 +243,14 @@
 		6E97D2992023CD9100DD8368 /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
+				6E6BAE0F202A5BEA0087FD92 /* AttractionTableObserver.swift */,
+				6ECE5E5A2030B35C00886884 /* BlipObserver.swift */,
 				6E97D2722023CD4B00DD8368 /* LocationObserver.swift */,
+				6EA4065320265FED009069F4 /* LookupModelObserver.swift */,
 				6E71ED3C2026213F00EC17B9 /* MapModelObserver.swift */,
 				6E97D2752023CD4C00DD8368 /* ServerInterface.swift */,
 				6E97D2742023CD4C00DD8368 /* UserAccountObserver.swift */,
 				6E97D2732023CD4B00DD8368 /* UserHistoryObserver.swift */,
-				6EA4065320265FED009069F4 /* LookupModelObserver.swift */,
-				6E6BAE0F202A5BEA0087FD92 /* AttractionTableObserver.swift */,
-				6ECE5E5A2030B35C00886884 /* BlipObserver.swift */,
 			);
 			path = Interfaces;
 			sourceTree = "<group>";
