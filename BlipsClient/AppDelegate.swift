@@ -55,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, Lookup
     
     func setAttractionTypes(attrToProperName: [String : String], properNameToAttr: [String : String], prioritySortedAttractions: [String]) {}
     
-    func gotGoogleClientKey(key: String) {       
+    func gotGoogleClientKey(key: String) {
         if (keySet == false) {
             keySet = true
             GMSPlacesClient.provideAPIKey(key)

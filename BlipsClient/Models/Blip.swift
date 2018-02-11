@@ -23,8 +23,12 @@ class Blip: NSObject, MKAnnotation {
     var rating: Double
     var price: Int
     var placeID: String
-    var photo: UIImage
+    var photos: [UIImage] = []
+    var photoMetadata: [GMSPlacePhotoMetadata] = []
+    var retrievedPhotos: Bool = false
     var icon: URL
+    
+    var observers: [BlipObserver] = []
     
     init?(json: [String: Any]) {
         guard let name = json["name"] as? String,
@@ -45,29 +49,50 @@ class Blip: NSObject, MKAnnotation {
         self.rating = rating
         self.price = price
         self.placeID = placeID
-        self.photo = UIImage()
         // Force unwrapping this is fine, String contents are set by the time this happens
         self.icon = URL(string: (Blip.iconURLPrefix + iconSuffix))!
     }
+    
+    func addObserver(observer: BlipObserver) {
+        self.observers.append(observer)
+    }
+    
+    func notifyPhotosReady() {
+        for observer in observers {
+            observer.photosReady()
+        }
+    }
 
     func requestPhotoMetadata() {
-        GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { (photos, error) in
+        GMSPlacesClient.shared().lookUpPhotos(forPlaceID: placeID) { (netPhotos, error) in
             if let _ = error {
                 print("Failed to lookup metadata for blip \(String(describing: error?.localizedDescription))")
             } else {
-                if let firstPhoto = photos?.results.first {
-                    self.loadImageForMetadata(photoMetadata: firstPhoto)
+                if let results = netPhotos?.results {
+                    self.photoMetadata.append(contentsOf: results)
                 }
             }
         }
     }
     
-    func loadImageForMetadata(photoMetadata: GMSPlacePhotoMetadata) {
-        GMSPlacesClient.shared().loadPlacePhoto(photoMetadata) { (photo, error) in
-            if let _ = error {
-                print("Failed to lookup photo for blip \(String(describing: error?.localizedDescription))")
-            } else {
-                self.photo = photo ?? self.photo
+    func loadImagesForMetadata() {
+        if retrievedPhotos == true {
+            notifyPhotosReady()
+        }
+        
+        retrievedPhotos = true
+        
+        for metadata in photoMetadata {
+            GMSPlacesClient.shared().loadPlacePhoto(metadata) { (photo, error) in
+                if let _ = error {
+                    print("Failed to lookup photo for blip \(String(describing: error?.localizedDescription))")
+                } else {
+                    self.photos.append(photo!)
+                    
+                    if self.photoMetadata.count == self.photos.count {
+                        self.notifyPhotosReady()
+                    }
+                }
             }
         }
     }
