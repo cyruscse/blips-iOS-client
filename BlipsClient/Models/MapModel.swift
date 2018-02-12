@@ -36,6 +36,12 @@ class MapModel: UserAccountObserver {
     }
     
     func guestReplaced() {}
+    
+    func focusMapOnBlip(blip: Blip) {
+        for observer in mapModelObservers {
+            observer.focusOnBlip(blip: blip)
+        }
+    }
 
     func addObserver(observer: MapModelObserver) {
         mapModelObservers.append(observer)

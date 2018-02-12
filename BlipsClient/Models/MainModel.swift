@@ -70,6 +70,14 @@ class MainModel {
         mapVC.register(BlipMarkerView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
     }
     
+    func registerBlipTableVC(blipTableVC: BlipTableViewController) {
+        mapModel.addObserver(observer: blipTableVC)
+    }
+    
+    func relayBlipRowSelection(blip: Blip) {
+        mapModel.focusMapOnBlip(blip: blip)
+    }
+    
     // Remove annotations from the map, either on user sign out or when making a new request
     func clearMapVC(retainAnnotations: Bool) {
         if retainAnnotations == true || signInModel.isUserLoggedIn() == false {

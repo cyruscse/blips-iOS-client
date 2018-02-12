@@ -18,6 +18,8 @@ class MapViewController: MKMapView, MapModelObserver, MKMapViewDelegate {
         self.mainVC = vc
     }
     
+    // MapModelObserver methods
+    
     func annotationsUpdated(annotations: [MKAnnotation]) {
         self.removeAnnotations(myAnnotations)
         self.myAnnotations = annotations
@@ -28,6 +30,12 @@ class MapViewController: MKMapView, MapModelObserver, MKMapViewDelegate {
         currentLocation = MKCoordinateRegionMakeWithDistance(location, latitudinalMeters, longitudinalMeters)
         self.setRegion(currentLocation, animated: true)
     }
+    
+    func focusOnBlip(blip: Blip) {
+        self.selectAnnotation(blip, animated: true)
+    }
+    
+    // Navigation
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         mainVC.segueToBlipDetail(sender: control, annotation: (view as? BlipMarkerView)!)

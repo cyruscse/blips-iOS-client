@@ -11,6 +11,8 @@ import UIKit
 
 class ViewController: UIViewController, UIPopoverPresentationControllerDelegate {
     @IBOutlet weak var mapVC: MapViewController!
+    @IBOutlet weak var blipTableVC: UIView!
+    
     private let mainModel = MainModel()
 
     func relayUserLogin(account: User) {
@@ -19,6 +21,10 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
     
     func relayAppDelegateLookupModelObserverAddition(observer: LookupModelObserver) {
         mainModel.relayLookupModelObserverAddition(observer: observer)
+    }
+    
+    func relayBlipRowSelection(blip: Blip) {
+        mainModel.relayBlipRowSelection(blip: blip)
     }
     
     override func viewDidLoad() {
@@ -44,6 +50,17 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
         mainModel.restoreMapVC()
     }
     
+    @IBAction func handlePan(recognizer: UIPanGestureRecognizer) {
+        let translation = recognizer.translation(in: self.blipTableVC)
+        
+        if let view = recognizer.view {
+            view.center = CGPoint(x: view.center.x, y: view.center.y + translation.y)
+            blipTableVC.center = CGPoint(x: blipTableVC.center.x, y: blipTableVC.center.y + translation.y)
+        }
+        
+        recognizer.setTranslation(CGPoint.zero, in: self.blipTableVC)
+    }
+
     func segueToBlipDetail(sender: UIControl, annotation: BlipMarkerView) {
         let blipDetailPop = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "blipDetailView") as? BlipDetailViewController
         
@@ -70,6 +87,11 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
             if let accountVC = destinationNC.topViewController as? AccountViewController {
                 mainModel.registerAccountVC(accountVC: accountVC)
             }
+        }
+        
+        if let destinationVC = segue.destination as? BlipTableViewController {
+            mainModel.registerBlipTableVC(blipTableVC: destinationVC)
+            destinationVC.mainVC = self
         }
     }
 }
