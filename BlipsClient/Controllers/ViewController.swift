@@ -54,9 +54,17 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
         let translation = recognizer.translation(in: self.blipTableVC)
         
         if let view = recognizer.view {
+            let oldViewFrame = view.frame
+            let oldTableFrame = blipTableVC.frame
+            
             view.center = CGPoint(x: view.center.x, y: view.center.y + translation.y)
             blipTableVC.center = CGPoint(x: blipTableVC.center.x, y: blipTableVC.center.y + translation.y)
             blipTableVC.frame.size.height -= translation.y
+            
+            if ((view.frame.minY < mapVC.frame.minY) || (view.frame.maxY > mapVC.frame.maxY)) {
+                view.frame = oldViewFrame
+                blipTableVC.frame = oldTableFrame
+            }
         }
         
         recognizer.setTranslation(CGPoint.zero, in: self.blipTableVC)
