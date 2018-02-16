@@ -11,21 +11,53 @@ import MapKit
 
 class MapAccessoryView: UIView, MapModelObserver {
     private var lastAlpha: CGFloat!
+    private var originFrame: CGRect!
+    private var setOriginFrame = false
+    
+    private func hideView() {
+        if self.alpha != 0 {
+            self.lastAlpha = self.alpha
+        }
+        
+        self.alpha = 0
+        self.isHidden = true
+        self.isUserInteractionEnabled = false
+    }
+    
+    private func showView() {
+        self.isHidden = false
+        self.isUserInteractionEnabled = true
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            self.alpha = self.lastAlpha
+        })
+    }
+    
+    func asyncHide() {
+        DispatchQueue.main.async {
+            self.hideView()
+        }
+    }
+    
+    func asyncShow() {
+        DispatchQueue.main.async {
+            self.showView()
+        }
+    }
     
     func annotationsUpdated(annotations: [MKAnnotation]) {
         DispatchQueue.main.async {            
             if annotations.count == 0 {
-                self.lastAlpha = self.alpha
-                self.alpha = 0
-                self.isHidden = true
-                self.isUserInteractionEnabled = false
+                self.hideView()
             } else {
-                self.isHidden = false
-                self.isUserInteractionEnabled = true
+                if self.setOriginFrame == false {
+                    self.setOriginFrame = true
+                    self.originFrame = self.frame
+                } else {
+                    self.frame = self.originFrame
+                }
                 
-                UIView.animate(withDuration: 0.3, animations: {
-                    self.alpha = self.lastAlpha
-                })
+                self.showView()
             }
         }
     }

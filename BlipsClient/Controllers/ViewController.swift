@@ -68,6 +68,11 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
                 view.frame = oldViewFrame
                 blipTableVC.frame = oldTableFrame
             }
+            
+            if view.frame.maxY >= (mapVC.frame.maxY * 0.95) {
+                blipTableVC.asyncHide()
+                grabberView.asyncHide()
+            }
         }
         
         recognizer.setTranslation(CGPoint.zero, in: self.blipTableVC)
