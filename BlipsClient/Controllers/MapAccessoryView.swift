@@ -15,7 +15,7 @@ enum AccessoryAnimationType {
 }
 
 class MapAccessoryView: UIView, MapModelObserver {
-    let fadeTimer: Double = 0.2
+    let fadeTimer: Double = 0.25
     
     private var lastAlpha: CGFloat!
     private var originFrame: CGRect!

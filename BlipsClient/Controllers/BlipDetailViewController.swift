@@ -119,6 +119,10 @@ class BlipDetailViewController: UIViewController, UIPageViewControllerDataSource
     // BlipObserver methods
     
     func photosReady() {
+        if blip.photoMetadata.count == 0 {
+            return
+        }
+        
         let firstController = getBlipPhotoVC(itemIndex: 0)!
         let startingVC = [firstController]
         

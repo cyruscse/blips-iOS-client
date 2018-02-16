@@ -14,6 +14,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
     @IBOutlet weak var blipTableVC: MapAccessoryView!
     @IBOutlet weak var grabberView: MapAccessoryView!
     @IBOutlet weak var toggleTable: BlipTableToggleButton!
+    @IBOutlet weak var toggleTableYPlacement: NSLayoutConstraint!
     
     private let mainModel = MainModel()
 
@@ -37,6 +38,8 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
         mainModel.registerMapModelObserver(observer: grabberView)
         mainModel.registerMapModelObserver(observer: blipTableVC)
         mainModel.registerMapModelObserver(observer: toggleTable)
+        
+       // toggleTableYPlacement.isActive = false
     }
 
     //MARK: Navigation

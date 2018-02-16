@@ -92,6 +92,7 @@
                         <outlet property="grabberView" destination="fc6-hV-NtL" id="xdS-nZ-wgF"/>
                         <outlet property="mapVC" destination="wGA-DM-R7L" id="qrw-u8-lWz"/>
                         <outlet property="toggleTable" destination="Mrc-IX-dqe" id="N1c-wH-x7A"/>
+                        <outlet property="toggleTableYPlacement" destination="JiR-rS-97R" id="Ids-0f-UTY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

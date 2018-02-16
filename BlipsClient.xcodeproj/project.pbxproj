@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6E00C50D2037771300026E31 /* BlipTableToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E00C50C2037771300026E31 /* BlipTableToggleButton.swift */; };
+		6E00C50F203796CF00026E31 /* down-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E00C50E203796CE00026E31 /* down-arrow.png */; };
 		6E0EEE8A2037299700F38EE1 /* MapAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0EEE892037299700F38EE1 /* MapAccessoryView.swift */; };
 		6E18824E202CEF5000061C67 /* AnywhereUIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E18824D202CEF5000061C67 /* AnywhereUIAlertController.swift */; };
 		6E1B877F2030A8180004E364 /* BlipPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1B877E2030A8170004E364 /* BlipPhotoViewController.swift */; };
@@ -40,6 +42,7 @@
 		6E97D2972023CD6100DD8368 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E97D28F2023CD6100DD8368 /* SignInViewController.swift */; };
 		6EA4065420265FED009069F4 /* LookupModelObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA4065320265FED009069F4 /* LookupModelObserver.swift */; };
 		6EAD4E831FBB8748003C2E30 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EAD4E821FBB8748003C2E30 /* Default-568h@2x.png */; };
+		6ECDD6972037616E00326E12 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ECDD6962037616E00326E12 /* background.png */; };
 		6ECE5E5B2030B35C00886884 /* BlipObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECE5E5A2030B35C00886884 /* BlipObserver.swift */; };
 		6ECE5E5D20311DAB00886884 /* BlipTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECE5E5C20311DAB00886884 /* BlipTableViewController.swift */; };
 		6ECE5E5F2031275800886884 /* BlipTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECE5E5E2031275800886884 /* BlipTableViewCell.swift */; };
@@ -72,6 +75,8 @@
 
 /* Begin PBXFileReference section */
 		05A60F4C5F6F59B26C13F533 /* Pods_BlipsClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlipsClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E00C50C2037771300026E31 /* BlipTableToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlipTableToggleButton.swift; sourceTree = "<group>"; };
+		6E00C50E203796CE00026E31 /* down-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "down-arrow.png"; sourceTree = "<group>"; };
 		6E0EEE892037299700F38EE1 /* MapAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAccessoryView.swift; sourceTree = "<group>"; };
 		6E18824D202CEF5000061C67 /* AnywhereUIAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnywhereUIAlertController.swift; sourceTree = "<group>"; };
 		6E1B877E2030A8170004E364 /* BlipPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlipPhotoViewController.swift; sourceTree = "<group>"; };
@@ -112,6 +117,7 @@
 		6E97D28F2023CD6100DD8368 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		6EA4065320265FED009069F4 /* LookupModelObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupModelObserver.swift; sourceTree = "<group>"; };
 		6EAD4E821FBB8748003C2E30 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		6ECDD6962037616E00326E12 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		6ECE5E5A2030B35C00886884 /* BlipObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlipObserver.swift; sourceTree = "<group>"; };
 		6ECE5E5C20311DAB00886884 /* BlipTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlipTableViewController.swift; sourceTree = "<group>"; };
 		6ECE5E5E2031275800886884 /* BlipTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlipTableViewCell.swift; sourceTree = "<group>"; };
@@ -187,6 +193,7 @@
 		6E20862B1FA2100F00C824D9 /* BlipsClient */ = {
 			isa = PBXGroup;
 			children = (
+				6ECDD69320375ECC00326E12 /* Resources */,
 				6E97D29A2023CDA100DD8368 /* Models */,
 				6E97D2992023CD9100DD8368 /* Interfaces */,
 				6E97D2982023CD7500DD8368 /* Controllers */,
@@ -229,6 +236,7 @@
 		6E97D2982023CD7500DD8368 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				6E00C50C2037771300026E31 /* BlipTableToggleButton.swift */,
 				6E0EEE892037299700F38EE1 /* MapAccessoryView.swift */,
 				6ECE5E5C20311DAB00886884 /* BlipTableViewController.swift */,
 				6ECE5E5E2031275800886884 /* BlipTableViewCell.swift */,
@@ -278,6 +286,15 @@
 				6E97D27F2023CD5600DD8368 /* User.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		6ECDD69320375ECC00326E12 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6ECDD6962037616E00326E12 /* background.png */,
+				6E00C50E203796CE00026E31 /* down-arrow.png */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -403,9 +420,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EAD4E831FBB8748003C2E30 /* Default-568h@2x.png in Resources */,
+				6ECDD6972037616E00326E12 /* background.png in Resources */,
 				6EF0C66D2013A9C300C967C6 /* GoogleService-Info.plist in Resources */,
 				6E2086341FA2100F00C824D9 /* Assets.xcassets in Resources */,
 				6E2086321FA2100F00C824D9 /* Main.storyboard in Resources */,
+				6E00C50F203796CF00026E31 /* down-arrow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -515,6 +534,7 @@
 				6EDE4DE6202E971500E80AF7 /* BlipDetailViewController.swift in Sources */,
 				6E0EEE8A2037299700F38EE1 /* MapAccessoryView.swift in Sources */,
 				6ECE91942027B5EB009CAC91 /* BlipMarkerView.swift in Sources */,
+				6E00C50D2037771300026E31 /* BlipTableToggleButton.swift in Sources */,
 				6ECE5E5F2031275800886884 /* BlipTableViewCell.swift in Sources */,
 				6E71ED3F202621FE00EC17B9 /* MapViewController.swift in Sources */,
 				6E97D2822023CD5800DD8368 /* CustomLookup.swift in Sources */,
