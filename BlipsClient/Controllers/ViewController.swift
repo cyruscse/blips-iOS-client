@@ -13,7 +13,8 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
     @IBOutlet weak var mapVC: MapViewController!
     @IBOutlet weak var blipTableVC: MapAccessoryView!
     @IBOutlet weak var grabberView: MapAccessoryView!
-
+    @IBOutlet weak var toggleTable: BlipTableToggleButton!
+    
     private let mainModel = MainModel()
 
     func relayUserLogin(account: User) {
@@ -35,6 +36,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
         mainModel.registerMapVC(mapVC: mapVC)
         mainModel.registerMapModelObserver(observer: grabberView)
         mainModel.registerMapModelObserver(observer: blipTableVC)
+        mainModel.registerMapModelObserver(observer: toggleTable)
     }
 
     //MARK: Navigation
@@ -59,25 +61,55 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
         if let view = recognizer.view {
             let oldViewFrame = view.frame
             let oldTableFrame = blipTableVC.frame
+            let oldButtonFrame = toggleTable.frame
             
             view.center = CGPoint(x: view.center.x, y: view.center.y + translation.y)
+            toggleTable.center = CGPoint(x: toggleTable.center.x, y: toggleTable.center.y + translation.y)
             blipTableVC.center = CGPoint(x: blipTableVC.center.x, y: blipTableVC.center.y + translation.y)
             blipTableVC.frame.size.height -= translation.y
             
-            if ((view.frame.minY < mapVC.frame.minY) || (view.frame.maxY > mapVC.frame.maxY)) {
+            if (((toggleTable.frame.minY - 8) < mapVC.frame.minY) || (view.frame.maxY > mapVC.frame.maxY)) {
                 view.frame = oldViewFrame
                 blipTableVC.frame = oldTableFrame
+                toggleTable.frame = oldButtonFrame
             }
             
             if view.frame.maxY >= (mapVC.frame.maxY * 0.95) {
-                blipTableVC.asyncHide()
-                grabberView.asyncHide()
+                blipTableVC.asyncHide(animationType: AccessoryAnimationType.fade, scrollPosition: 0.0)
+                grabberView.asyncHide(animationType: AccessoryAnimationType.fade, scrollPosition: 0.0)
+                toggleTable.scrollView(scrollPosition: mapVC.frame.maxY - toggleTable.frame.size.height)
+                
+                if toggleTable.viewsVisible == true {
+                    toggleTable.rotateButtonImage()
+                }
+                
+                toggleTable.viewsVisible = false
+                recognizer.isEnabled = false
+            }
+            
+            if (recognizer.isEnabled == false) {
+                recognizer.isEnabled = true
             }
         }
         
         recognizer.setTranslation(CGPoint.zero, in: self.blipTableVC)
     }
 
+    @IBAction func toggleTableView(_ sender: BlipTableToggleButton) {
+        if sender.viewsVisible {
+            blipTableVC.asyncHide(animationType: AccessoryAnimationType.scroll, scrollPosition: mapVC.frame.maxY * 2)
+            grabberView.asyncHide(animationType: AccessoryAnimationType.scroll, scrollPosition: mapVC.frame.maxY * 2)
+            toggleTable.scrollView(scrollPosition: mapVC.frame.maxY - toggleTable.frame.size.height)
+        } else {
+            blipTableVC.asyncShow(animationType: AccessoryAnimationType.scroll)
+            grabberView.asyncShow(animationType: AccessoryAnimationType.scroll)
+            toggleTable.scrollView(scrollPosition: 0.0)
+        }
+        
+        sender.rotateButtonImage()
+        sender.viewsVisible = !sender.viewsVisible
+    }
+    
     func segueToBlipDetail(sender: UIControl, annotation: BlipMarkerView) {
         let blipDetailPop = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "blipDetailView") as? BlipDetailViewController
         

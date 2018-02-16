@@ -9,46 +9,86 @@
 import UIKit
 import MapKit
 
+enum AccessoryAnimationType {
+    case fade
+    case scroll
+}
+
 class MapAccessoryView: UIView, MapModelObserver {
+    let fadeTimer: Double = 0.2
+    
     private var lastAlpha: CGFloat!
     private var originFrame: CGRect!
     private var setOriginFrame = false
     
-    private func hideView() {
+    private func fadeHideView() {
         if self.alpha != 0 {
             self.lastAlpha = self.alpha
         }
         
-        self.alpha = 0
+        UIView.animate(withDuration: fadeTimer) {
+            self.alpha = 0
+        }
+        
         self.isHidden = true
         self.isUserInteractionEnabled = false
     }
     
-    private func showView() {
-        self.isHidden = false
-        self.isUserInteractionEnabled = true
-        
-        UIView.animate(withDuration: 0.3, animations: {
-            self.alpha = self.lastAlpha
+    private func scrollHideView(scrollPosition: CGFloat) {
+        UIView.animate(withDuration: fadeTimer, delay: 0.0, options: [], animations: {
+            self.center.y = scrollPosition
+            self.frame.size.height = self.originFrame.size.height
+        }, completion: { (finished: Bool) in
+            self.isHidden = true
+            self.isUserInteractionEnabled = false
         })
     }
     
-    func asyncHide() {
-        DispatchQueue.main.async {
-            self.hideView()
+    private func fadeShowView() {
+        self.isHidden = false
+        self.isUserInteractionEnabled = true
+        
+        UIView.animate(withDuration: fadeTimer) {
+            self.alpha = self.lastAlpha
         }
     }
     
-    func asyncShow() {
+    private func scrollShowView(scrollPosition: CGFloat) {
+        self.isHidden = false
+        self.isUserInteractionEnabled = true
+        
+        self.alpha = self.lastAlpha
+        self.frame.size.height = self.originFrame.size.height
+        
+        UIView.animate(withDuration: fadeTimer) {
+            self.center.y = scrollPosition
+        }
+    }
+    
+    func asyncHide(animationType: AccessoryAnimationType, scrollPosition: CGFloat) {
         DispatchQueue.main.async {
-            self.showView()
+            if animationType == AccessoryAnimationType.fade {
+                self.fadeHideView()
+            } else if animationType == AccessoryAnimationType.scroll {
+                self.scrollHideView(scrollPosition: scrollPosition)
+            }
+        }
+    }
+    
+    func asyncShow(animationType: AccessoryAnimationType) {
+        DispatchQueue.main.async {
+            if animationType == AccessoryAnimationType.fade {
+                self.fadeShowView()
+            } else if animationType == AccessoryAnimationType.scroll {
+                self.scrollShowView(scrollPosition: self.originFrame.midY)
+            }
         }
     }
     
     func annotationsUpdated(annotations: [MKAnnotation]) {
         DispatchQueue.main.async {            
             if annotations.count == 0 {
-                self.hideView()
+                self.fadeHideView()
             } else {
                 if self.setOriginFrame == false {
                     self.setOriginFrame = true
@@ -57,7 +97,7 @@ class MapAccessoryView: UIView, MapModelObserver {
                     self.frame = self.originFrame
                 }
                 
-                self.showView()
+                self.fadeShowView()
             }
         }
     }
