@@ -10,14 +10,22 @@ import UIKit
 import MapKit
 
 class MapAccessoryView: UIView, MapModelObserver {
+    private var lastAlpha: CGFloat!
+    
     func annotationsUpdated(annotations: [MKAnnotation]) {
         DispatchQueue.main.async {            
             if annotations.count == 0 {
+                self.lastAlpha = self.alpha
+                self.alpha = 0
                 self.isHidden = true
                 self.isUserInteractionEnabled = false
             } else {
                 self.isHidden = false
                 self.isUserInteractionEnabled = true
+                
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.alpha = self.lastAlpha
+                })
             }
         }
     }
