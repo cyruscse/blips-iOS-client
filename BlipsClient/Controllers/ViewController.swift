@@ -11,8 +11,9 @@ import UIKit
 
 class ViewController: UIViewController, UIPopoverPresentationControllerDelegate {
     @IBOutlet weak var mapVC: MapViewController!
-    @IBOutlet weak var blipTableVC: UIView!
-    
+    @IBOutlet weak var blipTableVC: MapAccessoryView!
+    @IBOutlet weak var grabberView: MapAccessoryView!
+
     private let mainModel = MainModel()
 
     func relayUserLogin(account: User) {
@@ -29,9 +30,11 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         mapVC.setMainVC(vc: self)
         mainModel.registerMapVC(mapVC: mapVC)
+        mainModel.registerMapModelObserver(observer: grabberView)
+        mainModel.registerMapModelObserver(observer: blipTableVC)
     }
 
     //MARK: Navigation
@@ -52,7 +55,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
     
     @IBAction func handlePan(recognizer: UIPanGestureRecognizer) {
         let translation = recognizer.translation(in: self.blipTableVC)
-        
+                
         if let view = recognizer.view {
             let oldViewFrame = view.frame
             let oldTableFrame = blipTableVC.frame
@@ -99,7 +102,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
         }
         
         if let destinationVC = segue.destination as? BlipTableViewController {
-            mainModel.registerBlipTableVC(blipTableVC: destinationVC)
+            mainModel.registerMapModelObserver(observer: destinationVC)
             destinationVC.mainVC = self
         }
     }

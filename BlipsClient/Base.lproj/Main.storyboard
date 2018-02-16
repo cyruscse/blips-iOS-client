@@ -28,13 +28,13 @@
                                 <rect key="frame" x="0.0" y="88" width="375" height="690"/>
                                 <viewLayoutGuide key="safeArea" id="R5Y-L0-f0R"/>
                             </mapView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8hD-vo-HIh">
+                            <containerView hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8hD-vo-HIh" customClass="MapAccessoryView" customModule="BlipsClient" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="433" width="375" height="345"/>
                                 <connections>
                                     <segue destination="5tQ-Uo-2c5" kind="embed" id="BZp-u9-tPQ"/>
                                 </connections>
                             </containerView>
-                            <view opaque="NO" alpha="0.65000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fc6-hV-NtL">
+                            <view hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.65000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fc6-hV-NtL" customClass="MapAccessoryView" customModule="BlipsClient" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="398.66666666666669" width="375" height="34.333333333333314"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <gestureRecognizers/>
@@ -78,6 +78,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="blipTableVC" destination="8hD-vo-HIh" id="sWq-ei-BCg"/>
+                        <outlet property="grabberView" destination="fc6-hV-NtL" id="xdS-nZ-wgF"/>
                         <outlet property="mapVC" destination="wGA-DM-R7L" id="qrw-u8-lWz"/>
                     </connections>
                 </viewController>
@@ -658,7 +659,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LZS-ao-vm7">
-                                            <rect key="frame" x="16" y="0.0" width="288" height="43.666666666666664"/>
+                                            <rect key="frame" x="16" y="0.0" width="343" height="43.666666666666664"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>

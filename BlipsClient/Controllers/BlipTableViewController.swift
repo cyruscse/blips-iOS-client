@@ -17,6 +17,22 @@ class BlipTableViewController: UITableViewController, MapModelObserver {
         super.viewDidLoad()
 
         self.tableView.rowHeight = 44.0
+        
+        if (currentBlips.count == 0) {
+            self.hideTableView()
+        } else {
+            self.restoreTableView()
+        }
+    }
+    
+    func hideTableView() {
+        self.view.isHidden = true
+        self.view.isUserInteractionEnabled = false
+    }
+    
+    func restoreTableView() {
+        self.view.isHidden = false
+        self.view.isUserInteractionEnabled = true
     }
 
     // MARK: - Table view data source
@@ -36,6 +52,12 @@ class BlipTableViewController: UITableViewController, MapModelObserver {
         
         DispatchQueue.main.async {
             self.tableView.reloadData()
+
+            if self.currentBlips.count == 0 {
+                self.hideTableView()
+            } else {
+                self.restoreTableView()
+            }
         }
     }
     

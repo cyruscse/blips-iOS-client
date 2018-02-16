@@ -70,8 +70,8 @@ class MainModel {
         mapVC.register(BlipMarkerView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
     }
     
-    func registerBlipTableVC(blipTableVC: BlipTableViewController) {
-        mapModel.addObserver(observer: blipTableVC)
+    func registerMapModelObserver(observer: MapModelObserver) {
+        mapModel.addObserver(observer: observer)
     }
     
     func relayBlipRowSelection(blip: Blip) {
