@@ -20,11 +20,14 @@ class MapAccessoryView: UIView, MapModelObserver {
     private var lastAlpha: CGFloat!
     private var originFrame: CGRect!
     private var setOriginFrame = false
+    var heightConstraint: NSLayoutConstraint?
     
     private func fadeHideView() {
         if self.alpha != 0 {
             self.lastAlpha = self.alpha
         }
+        
+        //heightConstraint?.constant -= 25
         
         UIView.animate(withDuration: fadeTimer) {
             self.alpha = 0

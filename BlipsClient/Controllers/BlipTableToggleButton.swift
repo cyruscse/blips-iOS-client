@@ -59,7 +59,7 @@ class BlipTableToggleButton: UIButton, MapModelObserver {
                 self.transform = transform
             }
         }
-    }
+    } 
 
     func annotationsUpdated(annotations: [MKAnnotation]) {
         DispatchQueue.main.async {

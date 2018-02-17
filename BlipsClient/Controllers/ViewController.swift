@@ -14,7 +14,9 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
     @IBOutlet weak var blipTableVC: MapAccessoryView!
     @IBOutlet weak var grabberView: MapAccessoryView!
     @IBOutlet weak var toggleTable: BlipTableToggleButton!
+
     @IBOutlet weak var toggleTableYPlacement: NSLayoutConstraint!
+    @IBOutlet weak var blipTableVCYPlacement: NSLayoutConstraint!
     
     private let mainModel = MainModel()
 
@@ -29,17 +31,16 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
     func relayBlipRowSelection(blip: Blip) {
         mainModel.relayBlipRowSelection(blip: blip)
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         mapVC.setMainVC(vc: self)
         mainModel.registerMapVC(mapVC: mapVC)
         mainModel.registerMapModelObserver(observer: grabberView)
         mainModel.registerMapModelObserver(observer: blipTableVC)
         mainModel.registerMapModelObserver(observer: toggleTable)
-        
-       // toggleTableYPlacement.isActive = false
+       // blipTableVC.heightConstraint = blipTableVCYPlacement
     }
 
     //MARK: Navigation
@@ -62,25 +63,16 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
         let translation = recognizer.translation(in: self.blipTableVC)
                 
         if let view = recognizer.view {
-            let oldViewFrame = view.frame
-            let oldTableFrame = blipTableVC.frame
-            let oldButtonFrame = toggleTable.frame
-            
-            view.center = CGPoint(x: view.center.x, y: view.center.y + translation.y)
-            toggleTable.center = CGPoint(x: toggleTable.center.x, y: toggleTable.center.y + translation.y)
-            blipTableVC.center = CGPoint(x: blipTableVC.center.x, y: blipTableVC.center.y + translation.y)
-            blipTableVC.frame.size.height -= translation.y
-            
-            if (((toggleTable.frame.minY - 8) < mapVC.frame.minY) || (view.frame.maxY > mapVC.frame.maxY)) {
-                view.frame = oldViewFrame
-                blipTableVC.frame = oldTableFrame
-                toggleTable.frame = oldButtonFrame
+            if (((toggleTable.frame.minY + translation.y) < mapVC.frame.minY) || (view.frame.maxY > mapVC.frame.maxY)) {
+                return
             }
+            
+            blipTableVCYPlacement.constant -= translation.y
             
             if view.frame.maxY >= (mapVC.frame.maxY * 0.95) {
                 blipTableVC.asyncHide(animationType: AccessoryAnimationType.fade, scrollPosition: 0.0)
                 grabberView.asyncHide(animationType: AccessoryAnimationType.fade, scrollPosition: 0.0)
-                toggleTable.scrollView(scrollPosition: mapVC.frame.maxY - toggleTable.frame.size.height)
+                blipTableVCYPlacement.constant = (toggleTable.frame.height / 2) - (mapVC.frame.maxY / 2)
                 
                 if toggleTable.viewsVisible == true {
                     toggleTable.rotateButtonImage()

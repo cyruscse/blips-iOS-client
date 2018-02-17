@@ -52,7 +52,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="fc6-hV-NtL" firstAttribute="height" secondItem="8hD-vo-HIh" secondAttribute="height" multiplier="0.1" id="0z4-Y4-pDt"/>
+                            <constraint firstItem="fc6-hV-NtL" firstAttribute="height" secondItem="3hU-FH-mUI" secondAttribute="height" multiplier="0.05" id="0z4-Y4-pDt"/>
                             <constraint firstItem="Mrc-IX-dqe" firstAttribute="trailing" secondItem="3hU-FH-mUI" secondAttribute="trailing" constant="-8" id="3JL-zy-egB"/>
                             <constraint firstItem="wGA-DM-R7L" firstAttribute="top" secondItem="3hU-FH-mUI" secondAttribute="top" id="4oL-Ba-Ljr"/>
                             <constraint firstItem="8hD-vo-HIh" firstAttribute="bottom" secondItem="3hU-FH-mUI" secondAttribute="bottom" id="7Yb-Np-kkk"/>
@@ -89,6 +89,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="blipTableVC" destination="8hD-vo-HIh" id="sWq-ei-BCg"/>
+                        <outlet property="blipTableVCYPlacement" destination="srg-EQ-S9C" id="LDE-V8-4VA"/>
                         <outlet property="grabberView" destination="fc6-hV-NtL" id="xdS-nZ-wgF"/>
                         <outlet property="mapVC" destination="wGA-DM-R7L" id="qrw-u8-lWz"/>
                         <outlet property="toggleTable" destination="Mrc-IX-dqe" id="N1c-wH-x7A"/>
