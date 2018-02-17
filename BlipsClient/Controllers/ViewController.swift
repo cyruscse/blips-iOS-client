@@ -19,6 +19,9 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
     @IBOutlet weak var blipTableVCYPlacement: NSLayoutConstraint!
     
     private let mainModel = MainModel()
+    
+    private let animationTimer: Double = 0.25
+    private var bottomPosition: CGFloat!
 
     func relayUserLogin(account: User) {
         mainModel.relayUserLogin(account: account)
@@ -35,12 +38,16 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.bottomPosition = (toggleTable.frame.height / 2) - (mapVC.frame.maxY / 2)
+        blipTableVC.animationTimer = self.animationTimer
+        grabberView.animationTimer = self.animationTimer
+        toggleTable.animationTimer = self.animationTimer
+        
         mapVC.setMainVC(vc: self)
         mainModel.registerMapVC(mapVC: mapVC)
         mainModel.registerMapModelObserver(observer: grabberView)
         mainModel.registerMapModelObserver(observer: blipTableVC)
         mainModel.registerMapModelObserver(observer: toggleTable)
-       // blipTableVC.heightConstraint = blipTableVCYPlacement
     }
 
     //MARK: Navigation
@@ -70,9 +77,9 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
             blipTableVCYPlacement.constant -= translation.y
             
             if view.frame.maxY >= (mapVC.frame.maxY * 0.95) {
-                blipTableVC.asyncHide(animationType: AccessoryAnimationType.fade, scrollPosition: 0.0)
-                grabberView.asyncHide(animationType: AccessoryAnimationType.fade, scrollPosition: 0.0)
-                blipTableVCYPlacement.constant = (toggleTable.frame.height / 2) - (mapVC.frame.maxY / 2)
+                blipTableVC.asyncHide()
+                grabberView.asyncHide()
+                blipTableVCYPlacement.constant = bottomPosition
                 
                 if toggleTable.viewsVisible == true {
                     toggleTable.rotateButtonImage()
@@ -91,14 +98,18 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
     }
 
     @IBAction func toggleTableView(_ sender: BlipTableToggleButton) {
+        self.view.layoutIfNeeded()
+        
         if sender.viewsVisible {
-            blipTableVC.asyncHide(animationType: AccessoryAnimationType.scroll, scrollPosition: mapVC.frame.maxY * 2)
-            grabberView.asyncHide(animationType: AccessoryAnimationType.scroll, scrollPosition: mapVC.frame.maxY * 2)
-            toggleTable.scrollView(scrollPosition: mapVC.frame.maxY - toggleTable.frame.size.height)
+            blipTableVCYPlacement.constant = bottomPosition
         } else {
-            blipTableVC.asyncShow(animationType: AccessoryAnimationType.scroll)
-            grabberView.asyncShow(animationType: AccessoryAnimationType.scroll)
-            toggleTable.scrollView(scrollPosition: 0.0)
+            blipTableVCYPlacement.constant = 0.0
+            blipTableVC.makeVisible()
+            grabberView.makeVisible()
+        }
+        
+        UIView.animate(withDuration: 0.25) {
+            self.view.layoutIfNeeded()
         }
         
         sender.rotateButtonImage()

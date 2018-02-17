@@ -10,31 +10,17 @@ import UIKit
 import MapKit
 
 class BlipTableToggleButton: UIButton, MapModelObserver {
-    let fadeTimer: Double = 0.25
-    
     private var lastAlpha: CGFloat!
     private var originFrame: CGRect!
     private var setOriginFrame = false
     var viewsVisible: Bool = true
-    
-    private func fadeHideView() {
-        if self.alpha != 0 {
-            self.lastAlpha = self.alpha
-        }
-        
-        UIView.animate(withDuration: fadeTimer) {
-            self.alpha = 0
-        }
-        
-        self.isHidden = true
-        self.isUserInteractionEnabled = false
-    }
+    var animationTimer: Double!
     
     func fadeShowView() {
         self.isHidden = false
         self.isUserInteractionEnabled = true
         
-        UIView.animate(withDuration: fadeTimer) {
+        UIView.animate(withDuration: animationTimer) {
             self.alpha = self.lastAlpha
         }
     }
@@ -46,14 +32,14 @@ class BlipTableToggleButton: UIButton, MapModelObserver {
             scrollPos = originFrame.midY
         }
         
-        UIView.animate(withDuration: fadeTimer) {
+        UIView.animate(withDuration: animationTimer) {
             self.center.y = scrollPos
         }
     }
     
     func rotateButtonImage() {
         DispatchQueue.main.async {
-            UIView.animate(withDuration: self.fadeTimer) {
+            UIView.animate(withDuration: self.animationTimer) {
                 let transform = self.transform.rotated(by: CGFloat(Double.pi))
                 
                 self.transform = transform
@@ -69,7 +55,8 @@ class BlipTableToggleButton: UIButton, MapModelObserver {
             }
             
             if annotations.count == 0 {
-                self.fadeHideView()
+                self.alpha = 0.0
+                self.lastAlpha = 1.0
             } else {
                 self.frame = self.originFrame
                 self.fadeShowView()
