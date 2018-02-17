@@ -49,26 +49,11 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
         mainModel.registerMapModelObserver(observer: blipTableVC)
         mainModel.registerMapModelObserver(observer: toggleTable)
     }
-
-    //MARK: Navigation
-    @IBAction func unwindToBlipMap(sender: UIStoryboardSegue) {
-        if let sourceViewController = sender.source as? LookupViewController {
-            mainModel.relayBlipLookup(lookupVC: sourceViewController)
-        }
-        if let _ = sender.source as? AccountViewController {
-            mainModel.clearMapVC(retainAnnotations: false)
-        }
-    }
     
-    // Triggered on "Cancel" bar button in SignInVC
-    // Restore the annotations removed in segue preparation
-    @IBAction func cancelToBlipMap(sender: UIStoryboardSegue) {
-        mainModel.restoreMapVC()
-    }
-    
+    //MARK: Map Accessory Animations
     @IBAction func handlePan(recognizer: UIPanGestureRecognizer) {
         let translation = recognizer.translation(in: self.blipTableVC)
-                
+        
         if let view = recognizer.view {
             if (((toggleTable.frame.minY + translation.y) < mapVC.frame.minY) || (view.frame.maxY > mapVC.frame.maxY)) {
                 return
@@ -96,7 +81,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
         
         recognizer.setTranslation(CGPoint.zero, in: self.blipTableVC)
     }
-
+    
     @IBAction func toggleTableView(_ sender: BlipTableToggleButton) {
         self.view.layoutIfNeeded()
         
@@ -114,6 +99,22 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
         
         sender.rotateButtonImage()
         sender.viewsVisible = !sender.viewsVisible
+    }
+
+    //MARK: Navigation
+    @IBAction func unwindToBlipMap(sender: UIStoryboardSegue) {
+        if let sourceViewController = sender.source as? LookupViewController {
+            mainModel.relayBlipLookup(lookupVC: sourceViewController)
+        }
+        if let _ = sender.source as? AccountViewController {
+            mainModel.clearMapVC(retainAnnotations: false)
+        }
+    }
+    
+    // Triggered on "Cancel" bar button in SignInVC
+    // Restore the annotations removed in segue preparation
+    @IBAction func cancelToBlipMap(sender: UIStoryboardSegue) {
+        mainModel.restoreMapVC()
     }
     
     func segueToBlipDetail(sender: UIControl, annotation: BlipMarkerView) {
