@@ -108,7 +108,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
             grabberView.makeVisible()
         }
         
-        UIView.animate(withDuration: 0.25) {
+        UIView.animate(withDuration: animationTimer) {
             self.view.layoutIfNeeded()
         }
         
