@@ -10,4 +10,6 @@ import UIKit
 
 class BlipTableViewCell: UITableViewCell {
     @IBOutlet weak var blipName: UILabel!
+    @IBOutlet weak var blipType: UILabel!
+    @IBOutlet weak var typeImage: UIImageView!
 }

@@ -8,6 +8,7 @@
 
 import UIKit
 import MapKit
+import SDWebImage
 
 class BlipTableViewController: UITableViewController, MapModelObserver {
     private var currentBlips = [Blip]()
@@ -75,6 +76,8 @@ class BlipTableViewController: UITableViewController, MapModelObserver {
         
         cell.selectionStyle = .none
         cell.blipName.text = blip.title
+        cell.blipType.text = blip.attractionType
+        cell.typeImage.sd_setImage(with: blip.icon) { (_, _, _, _) in }
 
         return cell
     }

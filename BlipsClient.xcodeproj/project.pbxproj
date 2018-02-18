@@ -198,10 +198,10 @@
 				6E97D2992023CD9100DD8368 /* Interfaces */,
 				6E97D2982023CD7500DD8368 /* Controllers */,
 				6E20865A1FA2105900C824D9 /* BlipsClient.entitlements */,
-				6E20862C1FA2100F00C824D9 /* AppDelegate.swift */,
-				6E2086301FA2100F00C824D9 /* Main.storyboard */,
-				6E2086331FA2100F00C824D9 /* Assets.xcassets */,
 				6E2086381FA2100F00C824D9 /* Info.plist */,
+				6E20862C1FA2100F00C824D9 /* AppDelegate.swift */,
+				6E2086331FA2100F00C824D9 /* Assets.xcassets */,
+				6E2086301FA2100F00C824D9 /* Main.storyboard */,
 			);
 			path = BlipsClient;
 			sourceTree = "<group>";
@@ -236,10 +236,6 @@
 		6E97D2982023CD7500DD8368 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				6E00C50C2037771300026E31 /* BlipTableToggleButton.swift */,
-				6E0EEE892037299700F38EE1 /* MapAccessoryView.swift */,
-				6ECE5E5C20311DAB00886884 /* BlipTableViewController.swift */,
-				6ECE5E5E2031275800886884 /* BlipTableViewCell.swift */,
 				6E97D28A2023CD5F00DD8368 /* AccountViewController.swift */,
 				6E18824D202CEF5000061C67 /* AnywhereUIAlertController.swift */,
 				6E97D28D2023CD6000DD8368 /* AttractionsTableViewCell.swift */,
@@ -248,7 +244,11 @@
 				6EDE4DE5202E971500E80AF7 /* BlipDetailViewController.swift */,
 				6ECE91932027B5EB009CAC91 /* BlipMarkerView.swift */,
 				6E1B877E2030A8170004E364 /* BlipPhotoViewController.swift */,
+				6E00C50C2037771300026E31 /* BlipTableToggleButton.swift */,
+				6ECE5E5E2031275800886884 /* BlipTableViewCell.swift */,
+				6ECE5E5C20311DAB00886884 /* BlipTableViewController.swift */,
 				6E97D28B2023CD5F00DD8368 /* LookupViewController.swift */,
+				6E0EEE892037299700F38EE1 /* MapAccessoryView.swift */,
 				6E71ED3E202621FE00EC17B9 /* MapViewController.swift */,
 				6E97D28F2023CD6100DD8368 /* SignInViewController.swift */,
 				6E97D2892023CD5E00DD8368 /* StatisticsViewController.swift */,

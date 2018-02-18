@@ -33,6 +33,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
     
     func relayBlipRowSelection(blip: Blip) {
         mainModel.relayBlipRowSelection(blip: blip)
+        resizeTableView(percentage: -0.33)
     }
 
     override func viewDidLoad() {
@@ -99,6 +100,21 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
         
         sender.rotateButtonImage()
         sender.viewsVisible = !sender.viewsVisible
+    }
+    
+    func resizeTableView(percentage: CGFloat) {
+        if !toggleTable.viewsVisible {
+            return
+        }
+        
+        let location = percentage * (mapVC.frame.height / 2)
+        
+        self.view.layoutIfNeeded()
+        blipTableVCYPlacement.constant = location
+        
+        UIView.animate(withDuration: animationTimer) {
+            self.view.layoutIfNeeded()
+        }
     }
 
     //MARK: Navigation
