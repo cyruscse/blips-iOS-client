@@ -357,7 +357,7 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CmA-cX-D04" customClass="CosmosView" customModule="Cosmos">
+                                                <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CmA-cX-D04" customClass="CosmosView" customModule="Cosmos">
                                                     <rect key="frame" x="196" y="11" width="108" height="21"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <constraints>
@@ -700,7 +700,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LZS-ao-vm7">
-                                            <rect key="frame" x="57" y="13.5" width="229.5" height="17"/>
+                                            <rect key="frame" x="57" y="13.5" width="218.5" height="17"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
@@ -714,7 +714,7 @@
                                         <constraint firstItem="KE7-ag-xbg" firstAttribute="centerY" secondItem="Xsi-rr-zCX" secondAttribute="centerY" id="LUi-ZS-b4j"/>
                                         <constraint firstItem="LZS-ao-vm7" firstAttribute="centerY" secondItem="Xsi-rr-zCX" secondAttribute="centerY" id="ZBc-KH-BTT"/>
                                         <constraint firstItem="jbt-bo-Kdt" firstAttribute="leading" secondItem="Xsi-rr-zCX" secondAttribute="leadingMargin" id="c87-6Y-w29"/>
-                                        <constraint firstItem="KE7-ag-xbg" firstAttribute="leading" secondItem="LZS-ao-vm7" secondAttribute="trailing" constant="-11" id="mt5-MC-YrS"/>
+                                        <constraint firstItem="KE7-ag-xbg" firstAttribute="leading" secondItem="LZS-ao-vm7" secondAttribute="trailing" id="mt5-MC-YrS"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <gestureRecognizers/>
