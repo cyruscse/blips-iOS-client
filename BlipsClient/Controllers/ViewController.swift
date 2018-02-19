@@ -8,8 +8,9 @@
 
 import Foundation
 import UIKit
+import MapKit
 
-class ViewController: UIViewController, UIPopoverPresentationControllerDelegate {
+class ViewController: UIViewController, UIPopoverPresentationControllerDelegate, MapModelObserver {
     @IBOutlet weak var mapVC: MapViewController!
     @IBOutlet weak var blipTableVC: MapAccessoryView!
     @IBOutlet weak var grabberView: MapAccessoryView!
@@ -19,6 +20,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
     @IBOutlet weak var blipTableVCYPlacement: NSLayoutConstraint!
     
     private let mainModel = MainModel()
+    private var blipTableVCasVC: BlipTableViewController?
     
     private let animationTimer: Double = 0.25
     private var bottomPosition: CGFloat!
@@ -35,6 +37,28 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
         mainModel.relayBlipRowSelection(blip: blip)
         resizeTableView(percentage: -0.33)
     }
+    
+    func annotationsUpdated(annotations: [MKAnnotation]) {
+        let tableView = blipTableVCasVC?.view as! UITableView
+        
+        DispatchQueue.main.async {
+            if annotations.count == 0 {
+                return
+            }
+
+            let tableHeight = CGFloat(annotations.count) * tableView.rowHeight
+            
+            if tableHeight < (self.view.frame.height / 2) {
+                let tableAdjustment = self.mapVC.frame.height / 2 - tableHeight
+                self.blipTableVCYPlacement.constant -= tableAdjustment
+            }
+            
+        }
+    }
+    
+    func locationUpdated(location: CLLocationCoordinate2D, latitudinalMeters: CLLocationDistance, longitudinalMeters: CLLocationDistance) {}
+    
+    func focusOnBlip(blip: Blip) {}
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +73,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
         mainModel.registerMapModelObserver(observer: grabberView)
         mainModel.registerMapModelObserver(observer: blipTableVC)
         mainModel.registerMapModelObserver(observer: toggleTable)
+        mainModel.registerMapModelObserver(observer: self)
     }
     
     //MARK: Map Accessory Animations
@@ -169,6 +194,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
         if let destinationVC = segue.destination as? BlipTableViewController {
             mainModel.registerMapModelObserver(observer: destinationVC)
             destinationVC.mainVC = self
+            self.blipTableVCasVC = destinationVC
         }
     }
 }
