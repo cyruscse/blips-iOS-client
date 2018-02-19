@@ -27,6 +27,7 @@ class Blip: NSObject, MKAnnotation {
     var photoMetadata: [GMSPlacePhotoMetadata] = []
     var retrievedPhotos: Bool = false
     var icon: URL
+    var information: String
     
     var observers: [BlipObserver] = []
     
@@ -51,6 +52,7 @@ class Blip: NSObject, MKAnnotation {
         self.placeID = placeID
         // Force unwrapping this is fine, String contents are set by the time this happens
         self.icon = URL(string: (Blip.iconURLPrefix + iconSuffix))!
+        self.information = ""
     }
     
     func addObserver(observer: BlipObserver) {

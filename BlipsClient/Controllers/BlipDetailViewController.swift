@@ -14,15 +14,32 @@ class BlipDetailViewController: UIViewController, UIPageViewControllerDataSource
     private var blip: Blip!
     private var blipPageViewController: UIPageViewController?
     var photoIndex: Int!
+    var noDescriptionConstraint: NSLayoutConstraint?
 
     @IBOutlet weak var blipTitle: UILabel!
     @IBOutlet weak var blipType: UILabel!
     @IBOutlet weak var blipRating: CosmosView!
     @IBOutlet weak var blipPrice: UILabel!
     @IBOutlet weak var blipDescription: UITextView!
+    @IBOutlet weak var descriptionFirstBaseline: NSLayoutConstraint!
+    @IBOutlet weak var descriptionBottom: NSLayoutConstraint!
+    @IBOutlet weak var getDirectionsButton: UIButton!
+    @IBOutlet weak var photoViewContainer: UIView!
+    @IBOutlet weak var photoViewHeight: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        blipDescription.text = blip.information
+        
+        if blipDescription.text == "" {
+            blipDescription.isHidden = true
+            descriptionFirstBaseline.isActive = false
+            descriptionBottom.isActive = false
+            photoViewHeight.isActive = false
+            noDescriptionConstraint = NSLayoutConstraint(item: photoViewContainer, attribute: .firstBaseline, relatedBy: .equal, toItem: getDirectionsButton, attribute: .lastBaseline, multiplier: 1.0, constant: 8.0)
+            noDescriptionConstraint?.isActive = true
+        }
         
         blip.addObserver(observer: self)
         blip.loadImagesForMetadata()
@@ -46,6 +63,7 @@ class BlipDetailViewController: UIViewController, UIPageViewControllerDataSource
             blipPrice.text = priceText
         }
         
+        self.view.layoutIfNeeded()
         setupPageControl()
     }
     

@@ -506,19 +506,19 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lu8-9P-Mmv">
-                                <rect key="frame" x="3" y="22" width="317" height="21"/>
+                                <rect key="frame" x="8" y="24" width="312" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Attraction Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zWx-Gu-PZA">
-                                <rect key="frame" x="3" y="43" width="317" height="19.5"/>
+                                <rect key="frame" x="8" y="45" width="312" height="19.5"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleCallout"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ogb-ZI-2Wr" customClass="CosmosView" customModule="Cosmos">
-                                <rect key="frame" x="3" y="68" width="317" height="21"/>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ogb-ZI-2Wr" customClass="CosmosView" customModule="Cosmos">
+                                <rect key="frame" x="8" y="68" width="312" height="21"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="color" keyPath="filledColor">
@@ -560,8 +560,8 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tR9-f6-3IM">
-                                <rect key="frame" x="3" y="82.5" width="317" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tR9-f6-3IM">
+                                <rect key="frame" x="8" y="82.5" width="308" height="30"/>
                                 <state key="normal" title="Get Directions in Maps"/>
                                 <connections>
                                     <action selector="gotoMaps:" destination="wgI-J3-o53" eventType="touchUpInside" id="aiS-Ea-09l"/>
@@ -573,13 +573,13 @@
                                     <segue destination="PXF-er-3uX" kind="embed" id="eE8-Bh-L4i"/>
                                 </connections>
                             </containerView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b9K-b3-gQS">
-                                <rect key="frame" x="3" y="92.5" width="317" height="0.0"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b9K-b3-gQS">
+                                <rect key="frame" x="8" y="92.5" width="312" height="0.0"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="sFj-gu-upS">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="sFj-gu-upS">
                                 <rect key="frame" x="0.0" y="105.5" width="320" height="186.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
@@ -593,7 +593,7 @@
                             <constraint firstItem="Q2O-aF-V9k" firstAttribute="height" secondItem="RdX-5b-Xth" secondAttribute="height" multiplier="0.5" id="Aa5-Fw-enV"/>
                             <constraint firstItem="zWx-Gu-PZA" firstAttribute="top" secondItem="lu8-9P-Mmv" secondAttribute="bottom" id="E8u-G9-nhb"/>
                             <constraint firstItem="b9K-b3-gQS" firstAttribute="firstBaseline" secondItem="Ogb-ZI-2Wr" secondAttribute="baseline" constant="20" id="LZU-f2-SAg"/>
-                            <constraint firstItem="tR9-f6-3IM" firstAttribute="trailing" secondItem="b9K-b3-gQS" secondAttribute="trailing" id="LpR-FO-7FO"/>
+                            <constraint firstItem="tR9-f6-3IM" firstAttribute="trailing" secondItem="b9K-b3-gQS" secondAttribute="trailing" constant="-4" id="LpR-FO-7FO"/>
                             <constraint firstItem="sFj-gu-upS" firstAttribute="centerX" secondItem="RdX-5b-Xth" secondAttribute="centerX" id="Ml3-Rg-oBC"/>
                             <constraint firstItem="b9K-b3-gQS" firstAttribute="leading" secondItem="Ogb-ZI-2Wr" secondAttribute="leading" id="PVN-p3-vwl"/>
                             <constraint firstItem="sFj-gu-upS" firstAttribute="bottom" secondItem="RdX-5b-Xth" secondAttribute="centerY" constant="-2" id="Qfe-ez-u6z"/>
@@ -602,16 +602,16 @@
                             <constraint firstItem="Ogb-ZI-2Wr" firstAttribute="leading" secondItem="zWx-Gu-PZA" secondAttribute="leading" id="RLp-oy-YOG"/>
                             <constraint firstItem="lu8-9P-Mmv" firstAttribute="trailing" secondItem="RdX-5b-Xth" secondAttribute="trailing" id="RNx-4b-uwz"/>
                             <constraint firstItem="tR9-f6-3IM" firstAttribute="leading" secondItem="b9K-b3-gQS" secondAttribute="leading" id="VkL-f2-rGY"/>
-                            <constraint firstItem="lu8-9P-Mmv" firstAttribute="top" secondItem="RdX-5b-Xth" secondAttribute="top" constant="2" id="Ysd-IN-5mh"/>
+                            <constraint firstItem="lu8-9P-Mmv" firstAttribute="top" secondItem="RdX-5b-Xth" secondAttribute="top" constant="4" id="Ysd-IN-5mh"/>
                             <constraint firstItem="Q2O-aF-V9k" firstAttribute="centerX" secondItem="RdX-5b-Xth" secondAttribute="centerX" id="a67-rG-jTD"/>
-                            <constraint firstItem="lu8-9P-Mmv" firstAttribute="leading" secondItem="RdX-5b-Xth" secondAttribute="leading" constant="3" id="c98-gv-aEj"/>
+                            <constraint firstItem="lu8-9P-Mmv" firstAttribute="leading" secondItem="RdX-5b-Xth" secondAttribute="leading" constant="8" id="c98-gv-aEj"/>
                             <constraint firstItem="Ogb-ZI-2Wr" firstAttribute="trailing" secondItem="zWx-Gu-PZA" secondAttribute="trailing" id="fZH-p6-Pke"/>
                             <constraint firstItem="sFj-gu-upS" firstAttribute="leading" secondItem="RdX-5b-Xth" secondAttribute="leading" id="kz8-ig-KoX"/>
                             <constraint firstItem="zWx-Gu-PZA" firstAttribute="leading" secondItem="lu8-9P-Mmv" secondAttribute="leading" id="l6T-7C-xX5"/>
                             <constraint firstItem="zWx-Gu-PZA" firstAttribute="trailing" secondItem="lu8-9P-Mmv" secondAttribute="trailing" id="oAy-2o-eBi"/>
                             <constraint firstItem="b9K-b3-gQS" firstAttribute="trailing" secondItem="Ogb-ZI-2Wr" secondAttribute="trailing" id="pCn-hY-bJt"/>
                             <constraint firstItem="sFj-gu-upS" firstAttribute="trailing" secondItem="RdX-5b-Xth" secondAttribute="trailing" id="t58-53-cJb"/>
-                            <constraint firstItem="tR9-f6-3IM" firstAttribute="firstBaseline" secondItem="b9K-b3-gQS" secondAttribute="baseline" constant="15" id="vif-Oj-34p"/>
+                            <constraint firstItem="tR9-f6-3IM" firstAttribute="firstBaseline" secondItem="b9K-b3-gQS" secondAttribute="baseline" constant="24" id="vif-Oj-34p"/>
                             <constraint firstItem="Ogb-ZI-2Wr" firstAttribute="firstBaseline" secondItem="zWx-Gu-PZA" secondAttribute="baseline" constant="10" id="zsc-H2-dYI"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="RdX-5b-Xth"/>
@@ -623,6 +623,11 @@
                         <outlet property="blipRating" destination="Ogb-ZI-2Wr" id="nhj-8R-mcc"/>
                         <outlet property="blipTitle" destination="lu8-9P-Mmv" id="O48-5I-DAr"/>
                         <outlet property="blipType" destination="zWx-Gu-PZA" id="N39-Vg-PBE"/>
+                        <outlet property="descriptionBottom" destination="Qfe-ez-u6z" id="2EG-Gz-YTR"/>
+                        <outlet property="descriptionFirstBaseline" destination="RDA-XS-M6C" id="QCw-0v-PLP"/>
+                        <outlet property="getDirectionsButton" destination="tR9-f6-3IM" id="2gG-VS-8WD"/>
+                        <outlet property="photoViewContainer" destination="Q2O-aF-V9k" id="90T-Vm-jqX"/>
+                        <outlet property="photoViewHeight" destination="Aa5-Fw-enV" id="BHw-Oh-L61"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qhT-GZ-ZGr" userLabel="First Responder" sceneMemberID="firstResponder"/>

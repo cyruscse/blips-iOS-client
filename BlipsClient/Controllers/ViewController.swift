@@ -140,6 +140,11 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate 
         blipDetailPop?.popoverPresentationController?.delegate = self
         blipDetailPop?.popoverPresentationController?.sourceView = sender
         blipDetailPop?.popoverPresentationController?.sourceRect = sender.bounds
+                
+        if annotation.blip.information == "" {
+            let noDescriptionSize = CGSize(width: self.view.frame.width, height: self.view.frame.height * (0.6))
+            blipDetailPop?.preferredContentSize = noDescriptionSize
+        }
         
         blipDetailPop?.setBlipAnnotation(annotation: annotation)
         
