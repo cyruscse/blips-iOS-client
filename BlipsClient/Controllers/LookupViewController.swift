@@ -9,10 +9,11 @@
 import UIKit
 import os.log
 
-class LookupViewController: UIViewController, LocationObserver, LookupModelObserver {
+class LookupViewController: UIViewController, LocationObserver, LookupModelObserver, AttractionTableObserver {
     @IBOutlet weak var doneButton: UIBarButtonItem!
     
     private static var haveLocation: Bool = false
+    private static var selectedAttractions: Int = 0
     private var attrToProperName = [String: String]()
     private var properNameToAttr = [String: String]()
     private var prioritySortedAttractions = [String]()
@@ -22,13 +23,9 @@ class LookupViewController: UIViewController, LocationObserver, LookupModelObser
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if LookupViewController.haveLocation {
+        if (LookupViewController.selectedAttractions > 0) && (LookupViewController.haveLocation) {
             self.doneButton.isEnabled = true
         }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
     
     func getSelectedAttractions() -> [String] {
@@ -42,25 +39,49 @@ class LookupViewController: UIViewController, LocationObserver, LookupModelObser
     func getRadiusValue() -> Int {
         return (attributesVC?.getRadiusValue())!
     }
+    
+    func getPriceRange() -> Int {
+        return (attributesVC?.getPriceRange())!
+    }
+    
+    func getMinimumRating() -> Double {
+        return (attributesVC?.getMinimumRating())!
+    }
 
     func locationDetermined() {
         LookupViewController.haveLocation = true
 
-        if self.viewIfLoaded?.window != nil {
+        if (self.viewIfLoaded?.window != nil) && (LookupViewController.selectedAttractions > 0) {
             self.doneButton.isEnabled = true
         }
     }
+    
+    func didUpdateSelectedRows(selected: Int) {
+        LookupViewController.selectedAttractions = selected
+        
+        if (LookupViewController.selectedAttractions > 0) && (LookupViewController.haveLocation) {
+            self.doneButton.isEnabled = true
+        }
+        else {
+            self.doneButton.isEnabled = false
+        }
+    }
+    
+    // LookupModelObserver Methods
 
     func setAttractionTypes(attrToProperName: [String : String], properNameToAttr: [String : String], prioritySortedAttractions: [String]) {
         self.attrToProperName = attrToProperName
         self.properNameToAttr = properNameToAttr
         self.prioritySortedAttractions = prioritySortedAttractions
     }
-
+    
+    func gotGoogleClientKey(key: String) {}
+    
     //MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationVC = segue.destination as? AttractionsTableViewController {
             attractionsVC = destinationVC
+            attractionsVC?.addAttractionTableObserver(observer: self)
             attractionsVC?.setAttractionTypes(attrToProperName: attrToProperName, properNameToAttr: properNameToAttr, prioritySortedAttractions: prioritySortedAttractions)
         }
         else if let destinationVC = segue.destination as? AttributesTableViewController {

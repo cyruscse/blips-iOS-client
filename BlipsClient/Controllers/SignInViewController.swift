@@ -89,8 +89,4 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountOb
             updateUIOnLogout()
         }
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
 }

@@ -14,8 +14,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0F48FECFA5E2A0423553A43710FBE076"
-               BuildableName = "libPods-BlipsClient.a"
+               BlueprintIdentifier = "E841CDA8610CC846862065405FF5A4C5"
+               BuildableName = "Pods_BlipsClient.framework"
                BlueprintName = "Pods-BlipsClient"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
@@ -47,8 +47,8 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "0F48FECFA5E2A0423553A43710FBE076"
-            BuildableName = "libPods-BlipsClient.a"
+            BlueprintIdentifier = "E841CDA8610CC846862065405FF5A4C5"
+            BuildableName = "Pods_BlipsClient.framework"
             BlueprintName = "Pods-BlipsClient"
             ReferencedContainer = "container:Pods.xcodeproj">
          </BuildableReference>

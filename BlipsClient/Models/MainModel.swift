@@ -11,6 +11,7 @@
 // Sets up observer lists for most model classes, some observers are setup outside of here.
 
 import Foundation
+import MapKit
 
 class MainModel {
     private let locManager = Location()
@@ -37,6 +38,10 @@ class MainModel {
     
     // LookupModel Methods
     
+    func relayLookupModelObserverAddition(observer: LookupModelObserver) {
+        lookupModel.addLookupObserver(observer: observer)
+    }
+    
     // On LookupVC confirming a lookup request, delegate the request to MapModel
     // Also update the user's attraction history through SignInModel
     func relayBlipLookup(lookupVC: LookupViewController) {
@@ -61,6 +66,16 @@ class MainModel {
     // Register the map view as an observer of the map model
     func registerMapVC(mapVC: MapViewController) {
         mapModel.addObserver(observer: mapVC)
+        mapVC.delegate = mapVC
+        mapVC.register(BlipMarkerView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+    }
+    
+    func registerMapModelObserver(observer: MapModelObserver) {
+        mapModel.addObserver(observer: observer)
+    }
+    
+    func relayBlipRowSelection(blip: Blip) {
+        mapModel.focusMapOnBlip(blip: blip)
     }
     
     // Remove annotations from the map, either on user sign out or when making a new request

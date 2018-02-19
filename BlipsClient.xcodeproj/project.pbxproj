@@ -7,13 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0A351D145D80DB9B5A6D8D42 /* libPods-BlipsClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC402C54036475D1D037CE88 /* libPods-BlipsClient.a */; };
+		6E00C50D2037771300026E31 /* BlipTableToggleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E00C50C2037771300026E31 /* BlipTableToggleButton.swift */; };
+		6E00C50F203796CF00026E31 /* down-arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 6E00C50E203796CE00026E31 /* down-arrow.png */; };
+		6E0EEE8A2037299700F38EE1 /* MapAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E0EEE892037299700F38EE1 /* MapAccessoryView.swift */; };
+		6E18824E202CEF5000061C67 /* AnywhereUIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E18824D202CEF5000061C67 /* AnywhereUIAlertController.swift */; };
+		6E1B877F2030A8180004E364 /* BlipPhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1B877E2030A8170004E364 /* BlipPhotoViewController.swift */; };
 		6E20862D1FA2100F00C824D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E20862C1FA2100F00C824D9 /* AppDelegate.swift */; };
 		6E2086321FA2100F00C824D9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E2086301FA2100F00C824D9 /* Main.storyboard */; };
 		6E2086341FA2100F00C824D9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6E2086331FA2100F00C824D9 /* Assets.xcassets */; };
 		6E2086421FA2100F00C824D9 /* BlipsClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E2086411FA2100F00C824D9 /* BlipsClientTests.swift */; };
 		6E20864D1FA2100F00C824D9 /* BlipsClientUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E20864C1FA2100F00C824D9 /* BlipsClientUITests.swift */; };
 		6E20865D1FA2106100C824D9 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E20865C1FA2106100C824D9 /* MapKit.framework */; };
+		6E6BAE10202A5BEA0087FD92 /* AttractionTableObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E6BAE0F202A5BEA0087FD92 /* AttractionTableObserver.swift */; };
 		6E71ED3D2026213F00EC17B9 /* MapModelObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E71ED3C2026213F00EC17B9 /* MapModelObserver.swift */; };
 		6E71ED3F202621FE00EC17B9 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E71ED3E202621FE00EC17B9 /* MapViewController.swift */; };
 		6E97D2762023CD4C00DD8368 /* LocationObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E97D2722023CD4B00DD8368 /* LocationObserver.swift */; };
@@ -37,11 +42,18 @@
 		6E97D2972023CD6100DD8368 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E97D28F2023CD6100DD8368 /* SignInViewController.swift */; };
 		6EA4065420265FED009069F4 /* LookupModelObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EA4065320265FED009069F4 /* LookupModelObserver.swift */; };
 		6EAD4E831FBB8748003C2E30 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6EAD4E821FBB8748003C2E30 /* Default-568h@2x.png */; };
+		6ECDD6972037616E00326E12 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 6ECDD6962037616E00326E12 /* background.png */; };
+		6ECE5E5B2030B35C00886884 /* BlipObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECE5E5A2030B35C00886884 /* BlipObserver.swift */; };
+		6ECE5E5D20311DAB00886884 /* BlipTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECE5E5C20311DAB00886884 /* BlipTableViewController.swift */; };
+		6ECE5E5F2031275800886884 /* BlipTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECE5E5E2031275800886884 /* BlipTableViewCell.swift */; };
+		6ECE91942027B5EB009CAC91 /* BlipMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ECE91932027B5EB009CAC91 /* BlipMarkerView.swift */; };
+		6EDE4DE6202E971500E80AF7 /* BlipDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EDE4DE5202E971500E80AF7 /* BlipDetailViewController.swift */; };
 		6EE12FD12024C71400509452 /* MainModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE12FD02024C71400509452 /* MainModel.swift */; };
 		6EE12FD32024C73E00509452 /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE12FD22024C73E00509452 /* MapModel.swift */; };
 		6EF0C66D2013A9C300C967C6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */; };
 		6EF0C66E2013AA0100C967C6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */; };
 		6EF0C66F2013AA0100C967C6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */; };
+		C24D87B1193601577C95E75D /* Pods_BlipsClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05A60F4C5F6F59B26C13F533 /* Pods_BlipsClient.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +74,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		05A60F4C5F6F59B26C13F533 /* Pods_BlipsClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BlipsClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E00C50C2037771300026E31 /* BlipTableToggleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlipTableToggleButton.swift; sourceTree = "<group>"; };
+		6E00C50E203796CE00026E31 /* down-arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "down-arrow.png"; sourceTree = "<group>"; };
+		6E0EEE892037299700F38EE1 /* MapAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAccessoryView.swift; sourceTree = "<group>"; };
+		6E18824D202CEF5000061C67 /* AnywhereUIAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnywhereUIAlertController.swift; sourceTree = "<group>"; };
+		6E1B877E2030A8170004E364 /* BlipPhotoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlipPhotoViewController.swift; sourceTree = "<group>"; };
 		6E2086291FA2100F00C824D9 /* BlipsClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlipsClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E20862C1FA2100F00C824D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = BlipsClient/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
 		6E2086311FA2100F00C824D9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -75,6 +93,7 @@
 		6E20864E1FA2100F00C824D9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6E20865A1FA2105900C824D9 /* BlipsClient.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BlipsClient.entitlements; sourceTree = "<group>"; };
 		6E20865C1FA2106100C824D9 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		6E6BAE0F202A5BEA0087FD92 /* AttractionTableObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttractionTableObserver.swift; sourceTree = "<group>"; };
 		6E71ED3C2026213F00EC17B9 /* MapModelObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModelObserver.swift; sourceTree = "<group>"; };
 		6E71ED3E202621FE00EC17B9 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		6E97D2722023CD4B00DD8368 /* LocationObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationObserver.swift; sourceTree = "<group>"; };
@@ -98,10 +117,15 @@
 		6E97D28F2023CD6100DD8368 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		6EA4065320265FED009069F4 /* LookupModelObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupModelObserver.swift; sourceTree = "<group>"; };
 		6EAD4E821FBB8748003C2E30 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		6ECDD6962037616E00326E12 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		6ECE5E5A2030B35C00886884 /* BlipObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlipObserver.swift; sourceTree = "<group>"; };
+		6ECE5E5C20311DAB00886884 /* BlipTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlipTableViewController.swift; sourceTree = "<group>"; };
+		6ECE5E5E2031275800886884 /* BlipTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlipTableViewCell.swift; sourceTree = "<group>"; };
+		6ECE91932027B5EB009CAC91 /* BlipMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlipMarkerView.swift; sourceTree = "<group>"; };
+		6EDE4DE5202E971500E80AF7 /* BlipDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlipDetailViewController.swift; sourceTree = "<group>"; };
 		6EE12FD02024C71400509452 /* MainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModel.swift; sourceTree = "<group>"; };
 		6EE12FD22024C73E00509452 /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
 		6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		AC402C54036475D1D037CE88 /* libPods-BlipsClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-BlipsClient.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B11E4D0B8AFEA76033DF6A5A /* Pods-BlipsClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlipsClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BlipsClient/Pods-BlipsClient.debug.xcconfig"; sourceTree = "<group>"; };
 		F5C68D005D8613419F09CE03 /* Pods-BlipsClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlipsClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-BlipsClient/Pods-BlipsClient.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -112,7 +136,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E20865D1FA2106100C824D9 /* MapKit.framework in Frameworks */,
-				0A351D145D80DB9B5A6D8D42 /* libPods-BlipsClient.a in Frameworks */,
+				C24D87B1193601577C95E75D /* Pods_BlipsClient.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -169,14 +193,15 @@
 		6E20862B1FA2100F00C824D9 /* BlipsClient */ = {
 			isa = PBXGroup;
 			children = (
+				6ECDD69320375ECC00326E12 /* Resources */,
 				6E97D29A2023CDA100DD8368 /* Models */,
 				6E97D2992023CD9100DD8368 /* Interfaces */,
 				6E97D2982023CD7500DD8368 /* Controllers */,
 				6E20865A1FA2105900C824D9 /* BlipsClient.entitlements */,
-				6E20862C1FA2100F00C824D9 /* AppDelegate.swift */,
-				6E2086301FA2100F00C824D9 /* Main.storyboard */,
-				6E2086331FA2100F00C824D9 /* Assets.xcassets */,
 				6E2086381FA2100F00C824D9 /* Info.plist */,
+				6E20862C1FA2100F00C824D9 /* AppDelegate.swift */,
+				6E2086331FA2100F00C824D9 /* Assets.xcassets */,
+				6E2086301FA2100F00C824D9 /* Main.storyboard */,
 			);
 			path = BlipsClient;
 			sourceTree = "<group>";
@@ -203,7 +228,7 @@
 			isa = PBXGroup;
 			children = (
 				6E20865C1FA2106100C824D9 /* MapKit.framework */,
-				AC402C54036475D1D037CE88 /* libPods-BlipsClient.a */,
+				05A60F4C5F6F59B26C13F533 /* Pods_BlipsClient.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -212,10 +237,18 @@
 			isa = PBXGroup;
 			children = (
 				6E97D28A2023CD5F00DD8368 /* AccountViewController.swift */,
+				6E18824D202CEF5000061C67 /* AnywhereUIAlertController.swift */,
 				6E97D28D2023CD6000DD8368 /* AttractionsTableViewCell.swift */,
 				6E97D28E2023CD6000DD8368 /* AttractionsTableViewController.swift */,
 				6E97D2882023CD5E00DD8368 /* AttributesTableViewController.swift */,
+				6EDE4DE5202E971500E80AF7 /* BlipDetailViewController.swift */,
+				6ECE91932027B5EB009CAC91 /* BlipMarkerView.swift */,
+				6E1B877E2030A8170004E364 /* BlipPhotoViewController.swift */,
+				6E00C50C2037771300026E31 /* BlipTableToggleButton.swift */,
+				6ECE5E5E2031275800886884 /* BlipTableViewCell.swift */,
+				6ECE5E5C20311DAB00886884 /* BlipTableViewController.swift */,
 				6E97D28B2023CD5F00DD8368 /* LookupViewController.swift */,
+				6E0EEE892037299700F38EE1 /* MapAccessoryView.swift */,
 				6E71ED3E202621FE00EC17B9 /* MapViewController.swift */,
 				6E97D28F2023CD6100DD8368 /* SignInViewController.swift */,
 				6E97D2892023CD5E00DD8368 /* StatisticsViewController.swift */,
@@ -227,12 +260,14 @@
 		6E97D2992023CD9100DD8368 /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
+				6E6BAE0F202A5BEA0087FD92 /* AttractionTableObserver.swift */,
+				6ECE5E5A2030B35C00886884 /* BlipObserver.swift */,
 				6E97D2722023CD4B00DD8368 /* LocationObserver.swift */,
+				6EA4065320265FED009069F4 /* LookupModelObserver.swift */,
 				6E71ED3C2026213F00EC17B9 /* MapModelObserver.swift */,
 				6E97D2752023CD4C00DD8368 /* ServerInterface.swift */,
 				6E97D2742023CD4C00DD8368 /* UserAccountObserver.swift */,
 				6E97D2732023CD4B00DD8368 /* UserHistoryObserver.swift */,
-				6EA4065320265FED009069F4 /* LookupModelObserver.swift */,
 			);
 			path = Interfaces;
 			sourceTree = "<group>";
@@ -251,6 +286,15 @@
 				6E97D27F2023CD5600DD8368 /* User.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		6ECDD69320375ECC00326E12 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6ECDD6962037616E00326E12 /* background.png */,
+				6E00C50E203796CE00026E31 /* down-arrow.png */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -331,7 +375,7 @@
 								enabled = 1;
 							};
 							com.apple.NearFieldCommunicationTagReading = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.Push = {
 								enabled = 1;
@@ -376,9 +420,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EAD4E831FBB8748003C2E30 /* Default-568h@2x.png in Resources */,
+				6ECDD6972037616E00326E12 /* background.png in Resources */,
 				6EF0C66D2013A9C300C967C6 /* GoogleService-Info.plist in Resources */,
 				6E2086341FA2100F00C824D9 /* Assets.xcassets in Resources */,
 				6E2086321FA2100F00C824D9 /* Main.storyboard in Resources */,
+				6E00C50F203796CF00026E31 /* down-arrow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,9 +471,22 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-BlipsClient/Pods-BlipsClient-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Cosmos/Cosmos.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMOAuth2/GTMOAuth2.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Cosmos.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMOAuth2.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -441,12 +500,12 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-BlipsClient/Pods-BlipsClient-resources.sh",
-				"${PODS_ROOT}/GTMOAuth2/Source/Touch/GTMOAuth2ViewTouch.xib",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GTMOAuth2ViewTouch.nib",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -464,10 +523,19 @@
 				6E97D2842023CD5800DD8368 /* BlipRequest.swift in Sources */,
 				6E97D2782023CD4C00DD8368 /* UserAccountObserver.swift in Sources */,
 				6E97D2902023CD6100DD8368 /* AttributesTableViewController.swift in Sources */,
+				6ECE5E5B2030B35C00886884 /* BlipObserver.swift in Sources */,
+				6E18824E202CEF5000061C67 /* AnywhereUIAlertController.swift in Sources */,
 				6E97D2792023CD4C00DD8368 /* ServerInterface.swift in Sources */,
+				6ECE5E5D20311DAB00886884 /* BlipTableViewController.swift in Sources */,
+				6E1B877F2030A8180004E364 /* BlipPhotoViewController.swift in Sources */,
 				6E97D2962023CD6100DD8368 /* AttractionsTableViewController.swift in Sources */,
 				6E97D2772023CD4C00DD8368 /* UserHistoryObserver.swift in Sources */,
 				6EE12FD32024C73E00509452 /* MapModel.swift in Sources */,
+				6EDE4DE6202E971500E80AF7 /* BlipDetailViewController.swift in Sources */,
+				6E0EEE8A2037299700F38EE1 /* MapAccessoryView.swift in Sources */,
+				6ECE91942027B5EB009CAC91 /* BlipMarkerView.swift in Sources */,
+				6E00C50D2037771300026E31 /* BlipTableToggleButton.swift in Sources */,
+				6ECE5E5F2031275800886884 /* BlipTableViewCell.swift in Sources */,
 				6E71ED3F202621FE00EC17B9 /* MapViewController.swift in Sources */,
 				6E97D2822023CD5800DD8368 /* CustomLookup.swift in Sources */,
 				6E97D2832023CD5800DD8368 /* Blip.swift in Sources */,
@@ -476,6 +544,7 @@
 				6E20862D1FA2100F00C824D9 /* AppDelegate.swift in Sources */,
 				6E97D2942023CD6100DD8368 /* ViewController.swift in Sources */,
 				6EA4065420265FED009069F4 /* LookupModelObserver.swift in Sources */,
+				6E6BAE10202A5BEA0087FD92 /* AttractionTableObserver.swift in Sources */,
 				6E97D2812023CD5800DD8368 /* SignInModel.swift in Sources */,
 				6E97D2852023CD5800DD8368 /* LookupModel.swift in Sources */,
 				6E97D2922023CD6100DD8368 /* AccountViewController.swift in Sources */,

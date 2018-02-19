@@ -21,6 +21,8 @@ let longitudeTag = "longitude"
 let attractionTypeTag = "types"
 let radiusTag = "radius"
 let openNowTag = "openNow"
+let priceTag = "maxPrice"
+let ratingTag = "minRating"
 
 class BlipRequest {
     private let lookup: CustomLookup
@@ -60,7 +62,9 @@ class BlipRequest {
         let selectedAttributes = self.lookup.getAttributes()
         let openNow = self.lookup.getOpenNow()
         let radius = self.lookup.getRadius()
+        let priceRange = self.lookup.getPriceRange()
+        let minimumRating = self.lookup.getMinimumRating()
                 
-        return [requestTypeTag: queryTag, userIDTag: accountID, latitudeTag: latStr, longitudeTag: lngStr, attractionTypeTag: selectedAttributes, radiusTag: radius, openNowTag: openNow] as [String : Any]
+        return [requestTypeTag: queryTag, userIDTag: accountID, latitudeTag: latStr, longitudeTag: lngStr, attractionTypeTag: selectedAttributes, radiusTag: radius,  ratingTag: minimumRating, priceTag: priceRange, openNowTag: openNow] as [String : Any]
     }
 }

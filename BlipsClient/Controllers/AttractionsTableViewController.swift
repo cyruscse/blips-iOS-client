@@ -12,13 +12,23 @@ class AttractionsTableViewController: UITableViewController {
     private var prioritySortedAttractions: [String] = [String]()
     private var attrToProperName: [String: String] = [String: String]()
     private var properNameToAttr: [String: String] = [String: String]()
-    
     private var selectedAttractions: [String] = [String]()
+    private var observers: [AttractionTableObserver] = [AttractionTableObserver]()
     
     func setAttractionTypes(attrToProperName: [String : String], properNameToAttr: [String : String], prioritySortedAttractions: [String]) {
         self.attrToProperName = attrToProperName
         self.properNameToAttr = properNameToAttr
         self.prioritySortedAttractions = prioritySortedAttractions
+    }
+    
+    func addAttractionTableObserver(observer: AttractionTableObserver) {
+        self.observers.append(observer)
+    }
+    
+    func updateAttractionTableObservers(numRows: Int) {
+        for observer in observers {
+            observer.didUpdateSelectedRows(selected: numRows)
+        }
     }
 
     func getSelectedAttractions() -> [String] {
@@ -30,10 +40,6 @@ class AttractionsTableViewController: UITableViewController {
         
         self.tableView.allowsMultipleSelection = true
         self.tableView.rowHeight = 44.0
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -75,6 +81,7 @@ class AttractionsTableViewController: UITableViewController {
         // Set checkmark for row and add this attraction to the array of selected attractions
         cell.accessoryType = .checkmark
         selectedAttractions.append(prioritySortedAttractions[indexPath.row])
+        updateAttractionTableObservers(numRows: selectedAttractions.count)
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -87,5 +94,6 @@ class AttractionsTableViewController: UITableViewController {
         if let index = selectedAttractions.index(of: properNameToAttr[cell.attractionName.text!]!) {
             selectedAttractions.remove(at: index)
         }
+        updateAttractionTableObservers(numRows: selectedAttractions.count)
     }
 }
