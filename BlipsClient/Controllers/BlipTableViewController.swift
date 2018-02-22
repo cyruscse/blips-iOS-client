@@ -71,6 +71,11 @@ class BlipTableViewController: UITableViewController, MapModelObserver {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? BlipTableViewCell else {
             fatalError("Dequeued cell wasn't BlipTableViewCell")
         }
+        
+        if currentBlips.count == 0 {
+            self.hideTableView()
+            return UITableViewCell()
+        }
 
         let blip = currentBlips[indexPath.row]
         
