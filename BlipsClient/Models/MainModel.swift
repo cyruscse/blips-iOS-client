@@ -78,6 +78,10 @@ class MainModel {
         mapModel.focusMapOnBlip(blip: blip)
     }
     
+    func relayMapRefreshQuery(coordinate: CLLocationCoordinate2D, radius: Double) {
+        mapModel.mapRefreshBlipRequest(location: coordinate, radius: Int(radius))
+    }
+    
     // Remove annotations from the map, either on user sign out or when making a new request
     func clearMapVC(retainAnnotations: Bool) {
         if retainAnnotations == true || signInModel.isUserLoggedIn() == false {

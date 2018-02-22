@@ -150,6 +150,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
     }
 
     @IBAction func refreshMap(_ sender: MapRefreshButton) {
+        mainModel.relayMapRefreshQuery(coordinate: mapVC.centerCoordinate, radius: mapVC.currentRadius())
     }
     
     func resizeTableView(percentage: CGFloat) {
