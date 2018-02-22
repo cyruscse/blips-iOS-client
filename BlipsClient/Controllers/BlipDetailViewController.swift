@@ -31,6 +31,7 @@ class BlipDetailViewController: UIViewController, UIPageViewControllerDataSource
         super.viewDidLoad()
         
         blipDescription.text = blip.information
+        photoViewContainer.isUserInteractionEnabled = false
         
         if blipDescription.text == "" {
             blipDescription.isHidden = true
@@ -145,6 +146,7 @@ class BlipDetailViewController: UIViewController, UIPageViewControllerDataSource
         let startingVC = [firstController]
         
         blipPageViewController?.setViewControllers(startingVC, direction: UIPageViewControllerNavigationDirection.forward, animated: false, completion: nil)
+        photoViewContainer.isUserInteractionEnabled = true
     }
     
     // Navigation
