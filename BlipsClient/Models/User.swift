@@ -46,10 +46,12 @@ class User: NSObject, NSCoding, LookupModelObserver {
     private var image: UIImage
     private var email: String
     private var attractionHistory: [String: Int]
-    var autoQueryTypeGrabLength = 3
     private var userID: Int
     private var userHistoryObservers = [UserHistoryObserver]()
     private var guest: Bool
+    
+    var autoQueryTypeGrabLength = 3
+    var lastQuery: CustomLookup!
 
     init(firstName: String, lastName: String, imageURL: URL, email: String, userID: Int, attractionHistory: [String: Int], guest: Bool) {
         self.firstName = firstName

@@ -50,31 +50,42 @@
                                 </connections>
                             </button>
                             <view hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gkT-VB-ph0" userLabel="ToggleLeadingPlaceholder">
-                                <rect key="frame" x="0.0" y="252" width="273.5" height="39"/>
+                                <rect key="frame" x="46.5" y="252" width="227.5" height="39"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3oR-4r-zlC" customClass="MapRefreshButton" customModule="BlipsClient" customModuleProvider="target">
+                                <rect key="frame" x="8" y="244.5" width="38.5" height="38.5"/>
+                                <state key="normal" image="refresh.png" backgroundImage="background.png"/>
+                                <connections>
+                                    <action selector="refreshMap:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Xys-2H-tnN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="fc6-hV-NtL" firstAttribute="height" secondItem="3hU-FH-mUI" secondAttribute="height" multiplier="0.05" id="0z4-Y4-pDt"/>
                             <constraint firstItem="Mrc-IX-dqe" firstAttribute="trailing" secondItem="3hU-FH-mUI" secondAttribute="trailing" constant="-8" id="3JL-zy-egB"/>
                             <constraint firstItem="8hD-vo-HIh" firstAttribute="bottom" secondItem="3hU-FH-mUI" secondAttribute="bottom" id="7Yb-Np-kkk"/>
-                            <constraint firstItem="gkT-VB-ph0" firstAttribute="leading" secondItem="3hU-FH-mUI" secondAttribute="leading" id="7yw-2S-UnQ"/>
                             <constraint firstItem="fc6-hV-NtL" firstAttribute="leading" secondItem="3hU-FH-mUI" secondAttribute="leading" id="BZk-KE-8CP"/>
                             <constraint firstItem="wGA-DM-R7L" firstAttribute="leading" secondItem="3hU-FH-mUI" secondAttribute="leading" id="C44-5Z-zMY"/>
                             <constraint firstItem="8hD-vo-HIh" firstAttribute="trailing" secondItem="3hU-FH-mUI" secondAttribute="trailing" id="GUv-N4-2dG"/>
                             <constraint firstItem="Mrc-IX-dqe" firstAttribute="leading" secondItem="gkT-VB-ph0" secondAttribute="trailing" id="I4Q-M4-2Yt"/>
                             <constraint firstItem="Mrc-IX-dqe" firstAttribute="bottom" secondItem="fc6-hV-NtL" secondAttribute="top" constant="-8" id="JiR-rS-97R"/>
                             <constraint firstItem="wGA-DM-R7L" firstAttribute="bottom" secondItem="3hU-FH-mUI" secondAttribute="bottom" id="PvL-7I-CsM"/>
+                            <constraint firstItem="3oR-4r-zlC" firstAttribute="trailing" secondItem="gkT-VB-ph0" secondAttribute="leading" id="TXS-3c-cEL"/>
+                            <constraint firstItem="3oR-4r-zlC" firstAttribute="bottom" secondItem="fc6-hV-NtL" secondAttribute="top" constant="-8" id="XpM-dc-WS8"/>
+                            <constraint firstItem="3oR-4r-zlC" firstAttribute="width" secondItem="fc6-hV-NtL" secondAttribute="width" multiplier="0.12" id="YQU-nt-Qbp"/>
                             <constraint firstItem="Mrc-IX-dqe" firstAttribute="width" secondItem="fc6-hV-NtL" secondAttribute="width" multiplier="0.12" id="ab9-el-pNU"/>
                             <constraint firstItem="wGA-DM-R7L" firstAttribute="trailing" secondItem="3hU-FH-mUI" secondAttribute="trailing" id="cBk-Zf-B85"/>
                             <constraint firstItem="Mrc-IX-dqe" firstAttribute="height" secondItem="fc6-hV-NtL" secondAttribute="width" multiplier="0.12" id="fHX-Cl-O41"/>
+                            <constraint firstItem="3oR-4r-zlC" firstAttribute="height" secondItem="fc6-hV-NtL" secondAttribute="width" multiplier="0.12" id="iZx-cu-BI0"/>
                             <constraint firstItem="gkT-VB-ph0" firstAttribute="bottom" secondItem="fc6-hV-NtL" secondAttribute="top" id="jgl-Bn-PnS"/>
                             <constraint firstItem="gkT-VB-ph0" firstAttribute="height" secondItem="Mrc-IX-dqe" secondAttribute="height" id="jr7-5g-Ib0"/>
                             <constraint firstItem="8hD-vo-HIh" firstAttribute="leading" secondItem="3hU-FH-mUI" secondAttribute="leading" id="nc9-Af-pCQ"/>
                             <constraint firstItem="fc6-hV-NtL" firstAttribute="trailing" secondItem="3hU-FH-mUI" secondAttribute="trailing" id="no4-8y-77z"/>
                             <constraint firstItem="wGA-DM-R7L" firstAttribute="centerY" secondItem="3hU-FH-mUI" secondAttribute="centerY" id="qcB-5c-83x"/>
                             <constraint firstItem="8hD-vo-HIh" firstAttribute="height" secondItem="3hU-FH-mUI" secondAttribute="height" multiplier="0.5" id="srg-EQ-S9C"/>
+                            <constraint firstItem="3oR-4r-zlC" firstAttribute="leading" secondItem="3hU-FH-mUI" secondAttribute="leading" constant="8" id="vQK-RS-Xb4"/>
                             <constraint firstItem="wGA-DM-R7L" firstAttribute="top" secondItem="3hU-FH-mUI" secondAttribute="top" id="wDU-yj-BrL"/>
                             <constraint firstItem="wGA-DM-R7L" firstAttribute="centerX" secondItem="3hU-FH-mUI" secondAttribute="centerX" id="zY7-bU-0V4"/>
                             <constraint firstItem="8hD-vo-HIh" firstAttribute="top" secondItem="fc6-hV-NtL" secondAttribute="bottom" id="zYb-ik-cP2"/>
@@ -102,6 +113,7 @@
                         <outlet property="blipTableVCYPlacement" destination="srg-EQ-S9C" id="LDE-V8-4VA"/>
                         <outlet property="grabberView" destination="fc6-hV-NtL" id="xdS-nZ-wgF"/>
                         <outlet property="mapVC" destination="wGA-DM-R7L" id="qrw-u8-lWz"/>
+                        <outlet property="refreshMap" destination="3oR-4r-zlC" id="76z-7O-9OD"/>
                         <outlet property="toggleTable" destination="Mrc-IX-dqe" id="N1c-wH-x7A"/>
                         <outlet property="toggleTableYPlacement" destination="JiR-rS-97R" id="Ids-0f-UTY"/>
                     </connections>
@@ -113,7 +125,7 @@
                     </connections>
                 </panGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="546.39999999999998" y="128.57142857142858"/>
+            <point key="canvasLocation" x="545.625" y="127.8169014084507"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="0Ve-OA-NuO">
@@ -832,5 +844,6 @@
     <resources>
         <image name="background.png" width="750" height="750"/>
         <image name="down-arrow.png" width="512" height="512"/>
+        <image name="refresh.png" width="512" height="512"/>
     </resources>
 </document>

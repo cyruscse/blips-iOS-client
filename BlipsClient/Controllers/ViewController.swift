@@ -15,13 +15,14 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
     @IBOutlet weak var blipTableVC: MapAccessoryView!
     @IBOutlet weak var grabberView: MapAccessoryView!
     @IBOutlet weak var toggleTable: BlipTableToggleButton!
-
+    @IBOutlet weak var refreshMap: MapRefreshButton!
+    
     @IBOutlet weak var toggleTableYPlacement: NSLayoutConstraint!
     @IBOutlet weak var blipTableVCYPlacement: NSLayoutConstraint!
     
     private let mainModel = MainModel()
     private var blipTableVCasVC: BlipTableViewController?
-    
+
     private let animationTimer: Double = 0.25
     private var maximumTableSize: CGFloat!
     private var safeAreaHeight: CGFloat!
@@ -79,6 +80,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         blipTableVC.animationTimer = self.animationTimer
         grabberView.animationTimer = self.animationTimer
         toggleTable.animationTimer = self.animationTimer
+        refreshMap.animationTimer = self.animationTimer
         
         mapVC.setMainVC(vc: self)
         mainModel.registerMapVC(mapVC: mapVC)
@@ -145,6 +147,9 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         
         sender.rotateButtonImage()
         sender.viewsVisible = !sender.viewsVisible
+    }
+
+    @IBAction func refreshMap(_ sender: MapRefreshButton) {
     }
     
     func resizeTableView(percentage: CGFloat) {

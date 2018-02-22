@@ -166,6 +166,11 @@ class MapModel: UserAccountObserver, LocationObserver {
         requestBlips(attributes: lookupVC.getSelectedAttractions(), openNow: lookupVC.getOpenNowValue(), radius: lookupVC.getRadiusValue(), priceRange: lookupVC.getPriceRange(), minimumRating: lookupVC.getMinimumRating(), latitude: latitude, longitude: longitude)
     }
     
+    func mapRefreshBlipRequest(location: CLLocationCoordinate2D, radius: Int) {
+        let lastLookup = account.lastQuery
+        requestBlips(attributes: (lastLookup?.getAttributes())!, openNow: (lastLookup?.getOpenNow())!, radius: radius, priceRange: (lastLookup?.getPriceRange())!, minimumRating: (lastLookup?.getMinimumRating())!, latitude: location.latitude, longitude: location.longitude)
+    }
+    
     // Create a JSON request containing the user's location, ID, attraction types, and radius.
     // Send the request to the server and call our callback function on reply.
     // Center the map on the user's location.
@@ -173,6 +178,8 @@ class MapModel: UserAccountObserver, LocationObserver {
         let customLookup = CustomLookup(attribute: attributes, openNow: openNow, radius: radius, priceRange: priceRange, minimumRating: minimumRating)
         let blipRequest = BlipRequest(inLookup: customLookup!, accountID: account.getID(), latitude: latitude, longitude: longitude)
         let request = blipRequest.JSONify()
+        
+        account.lastQuery = customLookup
 
         ServerInterface.makeRequest(request: request, callback: blipsReplyCallback)
         
