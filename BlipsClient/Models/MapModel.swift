@@ -19,6 +19,7 @@ class MapModel: UserAccountObserver, LocationObserver {
     private var currentLocation: CLLocationCoordinate2D?
     private var lastAnnotations = [Blip]()
     private var mapModelObservers = [MapModelObserver]()
+    private var account: User!
     
     // LocationObserver Methods
     
@@ -28,7 +29,17 @@ class MapModel: UserAccountObserver, LocationObserver {
         }
         
         self.currentLocation = location
+        
+        // Center on user location, blips haven't been retrieved yet
         notifyLocationUpdated()
+        
+        // Initializes MapAccessoryViews on load
+        notifyAnnotationsUpdated()
+        
+        let topTypes = Array(account.orderedAttractionHistory()[0...3])
+        let topTypesStrings = topTypes.map { $0.attraction }
+        
+        requestBlips(attributes: topTypesStrings, openNow: true, radius: 10000, priceRange: 3, minimumRating: 0.0, latitude: location.latitude, longitude: location.longitude)
     }
     
     // UserAccountObserver Methods
@@ -37,12 +48,14 @@ class MapModel: UserAccountObserver, LocationObserver {
     // the user's location and top attractions on user login
     func userLoggedIn(account: User) {
         // auto lookup here (choose user's top attractions and current location)
+        self.account = account
     }
     
     // On a user logout, clear the annotations on the map
     func userLoggedOut() {
         currentAnnotations = []
         lastAnnotations = []
+        self.account = nil
         notifyAnnotationsUpdated()
     }
     
@@ -149,12 +162,16 @@ class MapModel: UserAccountObserver, LocationObserver {
         }
     }
     
+    func manualRequestBlips(lookupVC: LookupViewController, latitude: Double, longitude: Double) {
+        requestBlips(attributes: lookupVC.getSelectedAttractions(), openNow: lookupVC.getOpenNowValue(), radius: lookupVC.getRadiusValue(), priceRange: lookupVC.getPriceRange(), minimumRating: lookupVC.getMinimumRating(), latitude: latitude, longitude: longitude)
+    }
+    
     // Create a JSON request containing the user's location, ID, attraction types, and radius.
     // Send the request to the server and call our callback function on reply.
     // Center the map on the user's location.
-    func requestBlips(lookupVC: LookupViewController, accountID: Int, latitude: Double, longitude: Double) {
-        let customLookup = CustomLookup(attribute: lookupVC.getSelectedAttractions(), openNow: lookupVC.getOpenNowValue(), radius: lookupVC.getRadiusValue(), priceRange: lookupVC.getPriceRange(), minimumRating: lookupVC.getMinimumRating())
-        let blipRequest = BlipRequest(inLookup: customLookup!, accountID: accountID, latitude: latitude, longitude: longitude)
+    func requestBlips(attributes: [String], openNow: Bool, radius: Int, priceRange: Int, minimumRating: Double, latitude: Double, longitude: Double) {
+        let customLookup = CustomLookup(attribute: attributes, openNow: openNow, radius: radius, priceRange: priceRange, minimumRating: minimumRating)
+        let blipRequest = BlipRequest(inLookup: customLookup!, accountID: account.getID(), latitude: latitude, longitude: longitude)
         let request = blipRequest.JSONify()
 
         ServerInterface.makeRequest(request: request, callback: blipsReplyCallback)

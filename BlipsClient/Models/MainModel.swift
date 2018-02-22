@@ -45,7 +45,7 @@ class MainModel {
     // On LookupVC confirming a lookup request, delegate the request to MapModel
     // Also update the user's attraction history through SignInModel
     func relayBlipLookup(lookupVC: LookupViewController) {
-        mapModel.requestBlips(lookupVC: lookupVC, accountID: signInModel.getAccountID(), latitude: locManager.getLatitude(), longitude: locManager.getLongitude())
+        mapModel.manualRequestBlips(lookupVC: lookupVC, latitude: locManager.getLatitude(), longitude: locManager.getLongitude())
         signInModel.updateAttractionHistory(selections: lookupVC.getSelectedAttractions())
     }
     
