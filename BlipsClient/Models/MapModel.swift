@@ -36,7 +36,7 @@ class MapModel: UserAccountObserver, LocationObserver {
         // Initializes MapAccessoryViews on load
         notifyAnnotationsUpdated()
         
-        let topTypes = Array(account.orderedAttractionHistory()[0...3])
+        let topTypes = Array(account.orderedAttractionHistory()[0...account.autoQueryTypeGrabLength])
         let topTypesStrings = topTypes.map { $0.attraction }
         
         requestBlips(attributes: topTypesStrings, openNow: true, radius: 10000, priceRange: 3, minimumRating: 0.0, latitude: location.latitude, longitude: location.longitude)

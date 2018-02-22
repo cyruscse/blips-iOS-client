@@ -46,6 +46,7 @@ class User: NSObject, NSCoding, LookupModelObserver {
     private var image: UIImage
     private var email: String
     private var attractionHistory: [String: Int]
+    var autoQueryTypeGrabLength = 3
     private var userID: Int
     private var userHistoryObservers = [UserHistoryObserver]()
     private var guest: Bool
@@ -58,6 +59,10 @@ class User: NSObject, NSCoding, LookupModelObserver {
         self.userID = userID
         self.attractionHistory = attractionHistory
         self.guest = guest
+        
+        if attractionHistory.count < autoQueryTypeGrabLength {
+            autoQueryTypeGrabLength = attractionHistory.count
+        }
         
         if let data = try? Data(contentsOf: imageURL) {
             self.image = UIImage(data: data)!
