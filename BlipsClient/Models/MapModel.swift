@@ -12,7 +12,7 @@
 import Foundation
 import MapKit
 
-class MapModel: UserAccountObserver, LocationObserver {
+class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelegate {
     private let regionRadius: CLLocationDistance = 250
     
     private var currentAnnotations = [Blip]()
@@ -20,6 +20,10 @@ class MapModel: UserAccountObserver, LocationObserver {
     private var lastAnnotations = [Blip]()
     private var mapModelObservers = [MapModelObserver]()
     private var account: User!
+    private var haveAnnotations = false
+    private var lastQueryLocation: CLLocationCoordinate2D!
+    
+    var mainVC: ViewController!
     
     // LocationObserver Methods
     
@@ -73,6 +77,12 @@ class MapModel: UserAccountObserver, LocationObserver {
     
     // Notify MapVC when its annotations should change
     func notifyAnnotationsUpdated() {
+        if currentAnnotations.count != 0 {
+            haveAnnotations = true
+        } else {
+            haveAnnotations = false
+        }
+        
         for observer in mapModelObservers {
             observer.annotationsUpdated(annotations: currentAnnotations)
         }
@@ -180,10 +190,35 @@ class MapModel: UserAccountObserver, LocationObserver {
         let request = blipRequest.JSONify()
         
         account.lastQuery = customLookup
-
+        lastQueryLocation = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        
         ServerInterface.makeRequest(request: request, callback: blipsReplyCallback)
         
         currentLocation = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         notifyLocationUpdated()
+    }
+    
+    // Navigation
+    func distanceBetweenLocations(coordinate1: CLLocationCoordinate2D, coordinate2: CLLocationCoordinate2D) -> CLLocationDistance {
+        let from = CLLocation(latitude: coordinate1.latitude, longitude: coordinate1.longitude)
+        let to = CLLocation(latitude: coordinate2.latitude, longitude: coordinate2.longitude)
+        
+        return to.distance(from: from)
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        mainVC.segueToBlipDetail(sender: control, annotation: (view as? BlipMarkerView)!)
+    }
+    
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        if !haveAnnotations {
+            return
+        }
+        
+        if distanceBetweenLocations(coordinate1: lastQueryLocation, coordinate2: mapView.centerCoordinate) > Double(account.lastQuery.getRadius()) {
+            mainVC.showRefreshButton()
+        } else {
+            mainVC.hideRefreshButton()
+        }
     }
 }

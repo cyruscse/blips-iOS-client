@@ -9,15 +9,10 @@
 import UIKit
 import MapKit
 
-class MapViewController: MKMapView, MapModelObserver, MKMapViewDelegate {
+class MapViewController: MKMapView, MapModelObserver {
     private var myAnnotations = [MKAnnotation]()
     private var currentLocation: MKCoordinateRegion!
-    private var mainVC: ViewController!
-    
-    func setMainVC(vc: ViewController) {
-        self.mainVC = vc
-    }
-    
+
     // MapModelObserver methods
     
     func annotationsUpdated(annotations: [MKAnnotation]) {
@@ -33,11 +28,5 @@ class MapViewController: MKMapView, MapModelObserver, MKMapViewDelegate {
     
     func focusOnBlip(blip: Blip) {
         self.selectAnnotation(blip, animated: true)
-    }
-    
-    // Navigation
-    
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        mainVC.segueToBlipDetail(sender: control, annotation: (view as? BlipMarkerView)!)
     }
 }

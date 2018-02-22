@@ -82,7 +82,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         toggleTable.animationTimer = self.animationTimer
         refreshMap.animationTimer = self.animationTimer
         
-        mapVC.setMainVC(vc: self)
+        mainModel.setMainVC(vc: self)
         mainModel.registerMapVC(mapVC: mapVC)
         mainModel.registerMapModelObserver(observer: grabberView)
         mainModel.registerMapModelObserver(observer: blipTableVC)
@@ -165,6 +165,14 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         UIView.animate(withDuration: animationTimer) {
             self.view.layoutIfNeeded()
         }
+    }
+    
+    func showRefreshButton() {
+        refreshMap.asyncShow()
+    }
+    
+    func hideRefreshButton() {
+        refreshMap.asyncHide()
     }
 
     //MARK: Navigation

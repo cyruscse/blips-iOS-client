@@ -66,7 +66,7 @@ class MainModel {
     // Register the map view as an observer of the map model
     func registerMapVC(mapVC: MapViewController) {
         mapModel.addObserver(observer: mapVC)
-        mapVC.delegate = mapVC
+        mapVC.delegate = mapModel
         mapVC.register(BlipMarkerView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
     }
     
@@ -88,6 +88,10 @@ class MainModel {
     // Restore the map's annotations
     func restoreMapVC() {
         mapModel.restoreMapVC()
+    }
+    
+    func setMainVC(vc: ViewController) {
+        mapModel.mainVC = vc
     }
 
     init() {

@@ -9,7 +9,6 @@
 import UIKit
 
 class MapRefreshButton: UIButton {
-    private var lastAlpha: CGFloat!
     private var originFrame: CGRect!
     private var setOriginFrame = false
     var animationTimer: Double!
@@ -19,7 +18,17 @@ class MapRefreshButton: UIButton {
         self.isUserInteractionEnabled = true
         
         UIView.animate(withDuration: animationTimer) {
-            self.alpha = self.lastAlpha
+            self.alpha = 1.0
+        }
+    }
+    
+    func fadeHideView() {
+        self.isUserInteractionEnabled = false
+        
+        UIView.animate(withDuration: animationTimer, animations: {
+            self.alpha = 0.0
+        }) { (finished: Bool) in
+            self.isHidden = true
         }
     }
     
@@ -32,6 +41,18 @@ class MapRefreshButton: UIButton {
         
         UIView.animate(withDuration: animationTimer) {
             self.center.y = scrollPos
+        }
+    }
+    
+    func asyncShow() {
+        DispatchQueue.main.async {
+            self.fadeShowView()
+        }
+    }
+    
+    func asyncHide() {
+        DispatchQueue.main.async {
+            self.fadeHideView()
         }
     }
 }

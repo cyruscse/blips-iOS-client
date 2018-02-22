@@ -53,7 +53,7 @@
                                 <rect key="frame" x="46.5" y="252" width="227.5" height="39"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
-                            <button hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3oR-4r-zlC" customClass="MapRefreshButton" customModule="BlipsClient" customModuleProvider="target">
+                            <button hidden="YES" opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3oR-4r-zlC" customClass="MapRefreshButton" customModule="BlipsClient" customModuleProvider="target">
                                 <rect key="frame" x="8" y="244.5" width="38.5" height="38.5"/>
                                 <state key="normal" image="refresh.png" backgroundImage="background.png"/>
                                 <connections>
