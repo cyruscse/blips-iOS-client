@@ -55,6 +55,13 @@ class MapAccessoryView: UIView, MapModelObserver {
         self.alpha = self.lastAlpha
     }
     
+    func makeInVisible() {
+        self.isHidden = true
+        self.isUserInteractionEnabled = false
+        self.lastAlpha = self.alpha
+        self.alpha = 0.0
+    }
+    
     func annotationsUpdated(annotations: [MKAnnotation]) {
         DispatchQueue.main.async {            
             if annotations.count == 0 {

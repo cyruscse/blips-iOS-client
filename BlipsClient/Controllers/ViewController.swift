@@ -23,7 +23,9 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
     private var blipTableVCasVC: BlipTableViewController?
     
     private let animationTimer: Double = 0.25
-    private var bottomPosition: CGFloat!
+    private var maximumTableSize: CGFloat!
+    private var safeAreaHeight: CGFloat!
+    private var bottomPadding: CGFloat!
 
     func relayUserLogin(account: User) {
         mainModel.relayUserLogin(account: account)
@@ -40,6 +42,13 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
     
     func annotationsUpdated(annotations: [MKAnnotation]) {
         let tableView = blipTableVCasVC?.view as! UITableView
+        self.blipTableVCYPlacement.constant = 0.0
+        self.maximumTableSize = 0.0
+        
+        if toggleTable.viewsVisible == false {
+            toggleTable.viewsVisible = true
+            toggleTable.rotateButtonImage()
+        }
         
         DispatchQueue.main.async {
             if annotations.count == 0 {
@@ -47,12 +56,13 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             }
 
             let tableHeight = CGFloat(annotations.count) * tableView.rowHeight
+            self.maximumTableSize = self.safeAreaHeight / 2 - tableHeight
             
-            if tableHeight < (self.view.frame.height / 2) {
-                let tableAdjustment = self.mapVC.frame.height / 2 - tableHeight
-                self.blipTableVCYPlacement.constant -= tableAdjustment
+            if self.maximumTableSize > CGFloat(0.0) {
+                self.blipTableVCYPlacement.constant -= self.maximumTableSize
+            } else {
+                self.blipTableVCYPlacement.constant -= self.bottomPadding
             }
-            
         }
     }
     
@@ -62,8 +72,10 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let window = UIApplication.shared.keyWindow
+        bottomPadding = window?.safeAreaInsets.bottom
+        safeAreaHeight = (mapVC.frame.height - bottomPadding!)
         
-        self.bottomPosition = (toggleTable.frame.height / 2) - (mapVC.frame.maxY / 2)
         blipTableVC.animationTimer = self.animationTimer
         grabberView.animationTimer = self.animationTimer
         toggleTable.animationTimer = self.animationTimer
@@ -79,9 +91,10 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
     //MARK: Map Accessory Animations
     @IBAction func handlePan(recognizer: UIPanGestureRecognizer) {
         let translation = recognizer.translation(in: self.blipTableVC)
-        
+
         if let view = recognizer.view {
-            if (((toggleTable.frame.minY + translation.y) < mapVC.frame.minY) || (view.frame.maxY > mapVC.frame.maxY)) {
+            if (((toggleTable.frame.minY + translation.y) < mapVC.frame.minY) || (view.frame.maxY > mapVC.frame.maxY) ||
+                ((maximumTableSize + mapVC.frame.midY) >= (blipTableVC.frame.minY - (bottomPadding * 3) + translation.y))) {
                 return
             }
             
@@ -90,7 +103,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             if view.frame.maxY >= (mapVC.frame.maxY * 0.95) {
                 blipTableVC.asyncHide()
                 grabberView.asyncHide()
-                blipTableVCYPlacement.constant = bottomPosition
+                blipTableVCYPlacement.constant = -(mapVC.frame.height / 2 + toggleTable.frame.height / 2)
                 
                 if toggleTable.viewsVisible == true {
                     toggleTable.rotateButtonImage()
@@ -112,9 +125,16 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         self.view.layoutIfNeeded()
         
         if sender.viewsVisible {
-            blipTableVCYPlacement.constant = bottomPosition
+            blipTableVCYPlacement.constant -= (blipTableVC.frame.height + toggleTable.frame.height / 2)
+            blipTableVC.makeInVisible()
+            grabberView.makeInVisible()
         } else {
-            blipTableVCYPlacement.constant = 0.0
+            if abs(maximumTableSize) > (mapVC.frame.height / 2) {
+                blipTableVCYPlacement.constant = 0.0
+            } else {
+                blipTableVCYPlacement.constant = (maximumTableSize + bottomPadding)
+            }
+            
             blipTableVC.makeVisible()
             grabberView.makeVisible()
         }
