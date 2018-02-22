@@ -1,5 +1,5 @@
 //
-//  StatisticsViewController.swift
+//  AccountOptionsViewController.swift
 //  BlipsClient
 //
 //  Created by Cyrus Sadeghi on 2018-01-27.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class StatisticsViewController: UIViewController {
+class AccountOptionsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -127,7 +127,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         self.view.layoutIfNeeded()
         
         if sender.viewsVisible {
-            blipTableVCYPlacement.constant -= (blipTableVC.frame.height + toggleTable.frame.height / 2)
+            blipTableVCYPlacement.constant -= (blipTableVC.frame.height + toggleTable.frame.height / 3)
             blipTableVC.makeInVisible()
             grabberView.makeInVisible()
         } else {
