@@ -12,13 +12,24 @@
 import Foundation
 import MapKit
 
-class MapModel: UserAccountObserver {
+class MapModel: UserAccountObserver, LocationObserver {
     private let regionRadius: CLLocationDistance = 250
     
     private var currentAnnotations = [Blip]()
     private var currentLocation: CLLocationCoordinate2D?
     private var lastAnnotations = [Blip]()
     private var mapModelObservers = [MapModelObserver]()
+    
+    // LocationObserver Methods
+    
+    func locationDetermined(location: CLLocationCoordinate2D) {
+        if (location.latitude == self.currentLocation?.latitude) && (location.longitude == self.currentLocation?.longitude) {
+            return
+        }
+        
+        self.currentLocation = location
+        notifyLocationUpdated()
+    }
     
     // UserAccountObserver Methods
     

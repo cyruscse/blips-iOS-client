@@ -16,8 +16,7 @@ import CoreLocation
 class Location: NSObject, CLLocationManagerDelegate {
     let manager = CLLocationManager()
     private var locationCallback: (CLLocationCoordinate2D) -> ()
-    private var latitude: Double = 0.0
-    private var longitude: Double = 0.0
+    private var location: CLLocationCoordinate2D!
     private var locationObservers = [LocationObserver]()
     
     override init() {
@@ -71,21 +70,20 @@ class Location: NSObject, CLLocationManagerDelegate {
     // Notify our observers if the device's location changes
     func updateObservers() {
         for observer in locationObservers {
-            observer.locationDetermined()
+            observer.locationDetermined(location: location)
         }
     }
     
     // Callback for getLocation, saves the device's coordinates then notifies observers
     func getLocationCallback(coordinate: CLLocationCoordinate2D) {
-        self.latitude = coordinate.latitude
-        self.longitude = coordinate.longitude
+        self.location = coordinate
         
         updateObservers()
     }
     
     // Called by MainModel, check explanation in MainModel.swift
     func forceUpdateObservers() {
-        if self.latitude != 0.0 && self.longitude != 0.0 {
+        if self.location != nil {
             updateObservers()
         }
     }
@@ -95,10 +93,10 @@ class Location: NSObject, CLLocationManagerDelegate {
     }
     
     func getLatitude() -> Double {
-        return self.latitude
+        return self.location.latitude
     }
     
     func getLongitude() -> Double {
-        return self.longitude
+        return self.location.longitude
     }
 }

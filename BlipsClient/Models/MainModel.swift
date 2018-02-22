@@ -93,6 +93,7 @@ class MainModel {
     init() {
         signInModel.setLookupModel(lookupModel: lookupModel)
         signInModel.addUserAccountObserver(observer: mapModel)
+        locManager.addLocationObserver(observer: mapModel)
         locManager.getLocation(callback: { (coordinate) in self.locManager.getLocationCallback(coordinate: coordinate) })
         lookupModel.syncWithServer()
     }

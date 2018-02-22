@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import os.log
+import CoreLocation
 
 class LookupViewController: UIViewController, LocationObserver, LookupModelObserver, AttractionTableObserver {
     @IBOutlet weak var doneButton: UIBarButtonItem!
@@ -48,7 +48,7 @@ class LookupViewController: UIViewController, LocationObserver, LookupModelObser
         return (attributesVC?.getMinimumRating())!
     }
 
-    func locationDetermined() {
+    func locationDetermined(location: CLLocationCoordinate2D) {
         LookupViewController.haveLocation = true
 
         if (self.viewIfLoaded?.window != nil) && (LookupViewController.selectedAttractions > 0) {
