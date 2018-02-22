@@ -119,7 +119,7 @@
 		6E97D28F2023CD6100DD8368 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		6EA4065320265FED009069F4 /* LookupModelObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupModelObserver.swift; sourceTree = "<group>"; };
 		6EAD4E821FBB8748003C2E30 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		6ECD61F2203E6A8C00E6068F /* refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = refresh.png; path = Resources/refresh.png; sourceTree = "<group>"; };
+		6ECD61F2203E6A8C00E6068F /* refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refresh.png; sourceTree = "<group>"; };
 		6ECD61F4203E755800E6068F /* MapRefreshButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapRefreshButton.swift; sourceTree = "<group>"; };
 		6ECDD6962037616E00326E12 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		6ECE5E5A2030B35C00886884 /* BlipObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlipObserver.swift; sourceTree = "<group>"; };
@@ -206,7 +206,6 @@
 				6E20862C1FA2100F00C824D9 /* AppDelegate.swift */,
 				6E2086331FA2100F00C824D9 /* Assets.xcassets */,
 				6E2086301FA2100F00C824D9 /* Main.storyboard */,
-				6ECD61F2203E6A8C00E6068F /* refresh.png */,
 			);
 			path = BlipsClient;
 			sourceTree = "<group>";
@@ -297,6 +296,7 @@
 		6ECDD69320375ECC00326E12 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6ECD61F2203E6A8C00E6068F /* refresh.png */,
 				6ECDD6962037616E00326E12 /* background.png */,
 				6E00C50E203796CE00026E31 /* down-arrow.png */,
 			);
