@@ -83,8 +83,10 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
             haveAnnotations = false
         }
         
-        for observer in mapModelObservers {
-            observer.annotationsUpdated(annotations: currentAnnotations)
+        DispatchQueue.main.async {
+            for observer in self.mapModelObservers {
+                observer.annotationsUpdated(annotations: self.currentAnnotations)
+            }
         }
     }
     
