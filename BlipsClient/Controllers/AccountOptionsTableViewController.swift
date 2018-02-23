@@ -1,22 +1,24 @@
 //
-//  AccountOptionsViewController.swift
+//  AccountOptionsTableViewController.swift
 //  BlipsClient
 //
-//  Created by Cyrus Sadeghi on 2018-01-27.
+//  Created by Cyrus Sadeghi on 2018-02-22.
 //  Copyright © 2018 Cyrus Sadeghi. All rights reserved.
 //
 
 import UIKit
 
-class AccountOptionsViewController: UIViewController {
+class AccountOptionsTableViewController: UITableViewController {
+    // MARK: - Table view data source
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
 
-    /*
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -24,6 +26,4 @@ class AccountOptionsViewController: UIViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
-    */
-
 }
