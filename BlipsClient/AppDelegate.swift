@@ -20,11 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, Lookup
 
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if (error == nil) {
-            // 120 for withDimension matches the width of the UIImageView used for the picture
-            // Try to set this as a constant, or maybe pull the value from IB
             // On login, set user ID as 0, and give an empty dictionary for atttraction history
             // These values will be retrieved from the server after the User object is created
-            let account = User(firstName: user.profile.givenName, lastName: user.profile.familyName, imageURL: user.profile.imageURL(withDimension: 240), email: user.profile.email, userID: 0, attractionHistory: [:], guest: false)
+            let account = User(firstName: user.profile.givenName, lastName: user.profile.familyName, imageURL: user.profile.imageURL(withDimension: 240), email: user.profile.email, userID: 0, attractionHistory: [:], guest: false, autoQueryEnabled: true, autoQueryTypeGrabLength: 0, autoQueryOpenNow: true, autoQueryRating: 0.0, autoQueryPriceRange: 0)
             
             mainVC.relayUserLogin(account: account)
         } else {

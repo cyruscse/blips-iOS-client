@@ -35,7 +35,13 @@ class AccountOptionsTableViewController: UITableViewController, UserAccountObser
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let queryOptionsVC = segue.destination as? QueryOptionsTableViewController {
+            queryOptionsVC.addQueryOptionsObserver(observer: account)
             queryOptionsVC.attractionHistoryCount = account.getAttractionHistoryCount()
+            queryOptionsVC.openNow = account.autoQueryOpenNow
+            queryOptionsVC.autoQueryEnabled = account.autoQueryEnabled
+            queryOptionsVC.typeGrabLength = account.autoQueryTypeGrabLength
+            queryOptionsVC.rating = account.autoQueryRating
+            queryOptionsVC.priceRange = account.autoQueryPriceRange
         }
     }
 }

@@ -22,6 +22,7 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
     private var account: User!
     private var haveAnnotations = false
     private var lastQueryLocation: CLLocationCoordinate2D!
+    private var autoQueryEnabled = true
     
     var mainVC: ViewController!
     
@@ -34,6 +35,10 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
         
         self.currentLocation = location
         
+        if autoQueryEnabled == false {
+            return
+        }
+        
         // Center on user location, blips haven't been retrieved yet
         notifyLocationUpdated()
         
@@ -43,8 +48,11 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
         let topTypes = Array(account.orderedAttractionHistory()[0...account.autoQueryTypeGrabLength])
         let topTypesStrings = topTypes.map { $0.attraction }
         
+        // below attributes should come from user account...
         requestBlips(attributes: topTypesStrings, openNow: true, radius: 10000, priceRange: 3, minimumRating: 0.0, latitude: location.latitude, longitude: location.longitude)
     }
+    
+    // LocationObserver Methods end
     
     // UserAccountObserver Methods
     
@@ -65,6 +73,8 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
     
     func guestReplaced() {}
     
+    // UserAccountObserver Methods end
+
     func focusMapOnBlip(blip: Blip) {
         for observer in mapModelObservers {
             observer.focusOnBlip(blip: blip)

@@ -260,9 +260,9 @@
 				6E0EEE892037299700F38EE1 /* MapAccessoryView.swift */,
 				6ECD61F4203E755800E6068F /* MapRefreshButton.swift */,
 				6E71ED3E202621FE00EC17B9 /* MapViewController.swift */,
+				6EA3A44620407987004E5B2B /* QueryOptionsTableViewController.swift */,
 				6E97D28F2023CD6100DD8368 /* SignInViewController.swift */,
 				6E97D28C2023CD6000DD8368 /* ViewController.swift */,
-				6EA3A44620407987004E5B2B /* QueryOptionsTableViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -270,12 +270,12 @@
 		6E97D2992023CD9100DD8368 /* Interfaces */ = {
 			isa = PBXGroup;
 			children = (
-				6EA3A44A204091E9004E5B2B /* QueryOptionsObserver.swift */,
 				6E6BAE0F202A5BEA0087FD92 /* AttractionTableObserver.swift */,
 				6ECE5E5A2030B35C00886884 /* BlipObserver.swift */,
 				6E97D2722023CD4B00DD8368 /* LocationObserver.swift */,
 				6EA4065320265FED009069F4 /* LookupModelObserver.swift */,
 				6E71ED3C2026213F00EC17B9 /* MapModelObserver.swift */,
+				6EA3A44A204091E9004E5B2B /* QueryOptionsObserver.swift */,
 				6E97D2752023CD4C00DD8368 /* ServerInterface.swift */,
 				6E97D2742023CD4C00DD8368 /* UserAccountObserver.swift */,
 				6E97D2732023CD4B00DD8368 /* UserHistoryObserver.swift */,
@@ -802,6 +802,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = FY36VGL2Q2;
 				INFOPLIST_FILE = BlipsClientUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fourth.BlipsClientUITests;
@@ -817,6 +818,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = FY36VGL2Q2;
 				INFOPLIST_FILE = BlipsClientUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.fourth.BlipsClientUITests;

@@ -11,6 +11,9 @@ import Cosmos
 
 class QueryOptionsTableViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     @IBOutlet weak var attractionTypesToSelect: UITextField!
+    @IBOutlet weak var autoQueryEnabledSwitch: UISwitch!
+    @IBOutlet weak var openNowSwitch: UISwitch!
+    @IBOutlet weak var priceRangeControl: UISegmentedControl!
     @IBOutlet weak var starView: CosmosView!
     
     var attractionHistoryCount = 0
@@ -18,6 +21,8 @@ class QueryOptionsTableViewController: UITableViewController, UIPickerViewDelega
     var autoQueryEnabled = true
     var openNow = true
     var priceRange = 0
+    var rating = 0.0
+    var typeGrabLength = 0
     
     var observers = [QueryOptionsObserver]()
     
@@ -44,12 +49,19 @@ class QueryOptionsTableViewController: UITableViewController, UIPickerViewDelega
         self.title = "Autoquery Options"
         starView.settings.fillMode = .precise
         starView.settings.minTouchRating = 0.0
+        starView.didFinishTouchingCosmos = { rating in self.notifyRatingChanged(newValue: rating) }
         
         let intArray = Array(1...attractionHistoryCount)
         attractionHistoryCountArray = intArray.map { String($0) }
 
         attractionTypesPicker.showsSelectionIndicator = true
         attractionTypesPicker.delegate = self
+                
+        attractionTypesToSelect.text = String(typeGrabLength)
+        autoQueryEnabledSwitch.isOn = autoQueryEnabled
+        openNowSwitch.isOn = openNow
+        priceRangeControl.selectedSegmentIndex = priceRange
+        starView.rating = rating
     }
 
     @IBAction func autoQueryEnabledChanged(_ sender: UISwitch) {
@@ -100,9 +112,6 @@ class QueryOptionsTableViewController: UITableViewController, UIPickerViewDelega
     func notifyPriceRangeChanged(newValue: Int) {
         for observer in observers {
             observer.priceChanged(price: newValue)
-            
-            // Bundle in the rating here
-            observer.ratingChanged(rating: starView.rating)
         }
     }
     

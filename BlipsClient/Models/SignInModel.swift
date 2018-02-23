@@ -50,7 +50,7 @@ class SignInModel {
     }
     
     func guestUserLogin() {
-        account = User(firstName: "", lastName: "", imageURL: URL(string: ".")!, email: "", userID: -1, attractionHistory: [:], guest: true)
+        account = User()
         
         // lookupModel can be nil here on the app's first ever launch
         // No User info has been saved to disk, so we fall back to a guestLogin,
