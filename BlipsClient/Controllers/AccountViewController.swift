@@ -81,6 +81,10 @@ class AccountViewController: UIViewController, UserAccountObserver {
             signInModel!.addUserAccountObserver(observer: destinationVC)
         }
         
+        if let optionsVC = segue.destination as? AccountOptionsTableViewController {
+            signInModel!.addUserAccountObserver(observer: optionsVC)
+        }
+        
         super.prepare(for: segue, sender: sender)
     }
 }

@@ -35,7 +35,7 @@ class MainModel {
         accountVC.setSignInModel(signInModel: signInModel)
         signInModel.addUserAccountObserver(observer: accountVC)
     }
-    
+
     // LookupModel Methods
     
     func relayLookupModelObserverAddition(observer: LookupModelObserver) {

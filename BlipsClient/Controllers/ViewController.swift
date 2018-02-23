@@ -220,6 +220,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
                 mainModel.clearMapVC(retainAnnotations: true)
                 mainModel.registerLookupVC(lookupVC: lookupVC)
             }
+            
             if let accountVC = destinationNC.topViewController as? AccountViewController {
                 mainModel.registerAccountVC(accountVC: accountVC)
             }
@@ -230,5 +231,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             destinationVC.mainVC = self
             self.blipTableVCasVC = destinationVC
         }
+        
+        super.prepare(for: segue, sender: segue)
     }
 }

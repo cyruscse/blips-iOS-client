@@ -8,9 +8,10 @@
 
 import UIKit
 
-class AccountOptionsTableViewController: UITableViewController {
+class AccountOptionsTableViewController: UITableViewController, UserAccountObserver {
+    var account: User!
+    
     // MARK: - Table view data source
-
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
@@ -18,12 +19,23 @@ class AccountOptionsTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
+    
+    func userLoggedIn(account: User) {
+        self.account = account
+    }
+    
+    func userLoggedOut() {
+        self.account = nil
+    }
+    
+    func guestReplaced() {
+        self.account = nil
+    }
 
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if let queryOptionsVC = segue.destination as? QueryOptionsTableViewController {
+            queryOptionsVC.attractionHistoryCount = account.getAttractionHistoryCount()
+        }
     }
 }

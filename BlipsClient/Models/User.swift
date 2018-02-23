@@ -118,6 +118,10 @@ class User: NSObject, NSCoding, LookupModelObserver {
     func getAttractionHistory() -> [String: Int] {
         return attractionHistory
     }
+    
+    func getAttractionHistoryCount() -> Int {
+        return attractionHistory.count
+    }
 
     // NSCoder Persistence methods
     func encode(with aCoder: NSCoder) {
