@@ -925,12 +925,12 @@
         <scene sceneID="aiU-Qe-RMt">
             <objects>
                 <tableViewController id="8ly-By-pu2" customClass="QueryOptionsTableViewController" customModule="BlipsClient" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="qkV-4C-R9o">
+                    <tableView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="qkV-4C-R9o">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="336"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <sections>
-                            <tableViewSection footerTitle="Globally enable or disable automatic querying when the app is opened." id="Aei-cD-EHi">
+                            <tableViewSection footerTitle="Globally enable or disable automatic querying when the app is opened." id="Aei-cD-EHi" userLabel="Automatic Queries Section">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="iV4-WE-Plr">
                                         <rect key="frame" x="0.0" y="35" width="414" height="44"/>
@@ -960,7 +960,7 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection footerTitle="On automatic queries, how many of your top types should be selected." id="OrY-eE-mRR">
+                            <tableViewSection footerTitle="On automatic queries, how many of your top types should be selected." id="OrY-eE-mRR" userLabel="Attraction Types Section">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="pOJ-jI-8qj">
                                         <rect key="frame" x="0.0" y="143" width="414" height="44"/>
@@ -993,10 +993,10 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection id="FxO-bs-D8A">
+                            <tableViewSection headerTitle="Lookup Attributes" id="FxO-bs-D8A">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="zK4-ho-EMg">
-                                        <rect key="frame" x="0.0" y="251" width="414" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="zK4-ho-EMg" userLabel="Open Now Cell">
+                                        <rect key="frame" x="0.0" y="271" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zK4-ho-EMg" id="QEc-dB-kFf">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
@@ -1018,6 +1018,107 @@
                                                 <constraint firstItem="skH-PJ-2PF" firstAttribute="centerY" secondItem="QEc-dB-kFf" secondAttribute="centerY" id="PNK-Hp-wbT"/>
                                                 <constraint firstItem="XaE-VE-n4r" firstAttribute="trailing" secondItem="QEc-dB-kFf" secondAttribute="trailingMargin" id="PSL-vR-E1H"/>
                                                 <constraint firstItem="XaE-VE-n4r" firstAttribute="leading" secondItem="skH-PJ-2PF" secondAttribute="trailing" id="lmo-QF-4hv"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="pS4-Bl-SGD" userLabel="Price Cell">
+                                        <rect key="frame" x="0.0" y="315" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="pS4-Bl-SGD" id="G0y-u1-tDe">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="iyA-DF-fhG">
+                                                    <rect key="frame" x="207" y="8" width="187" height="29"/>
+                                                    <segments>
+                                                        <segment title="-"/>
+                                                        <segment title="$"/>
+                                                        <segment title="$$"/>
+                                                        <segment title="$$$"/>
+                                                    </segments>
+                                                </segmentedControl>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wyR-tM-3u1">
+                                                    <rect key="frame" x="20" y="11.000000000000002" width="187" height="20.666666666666671"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailingMargin" secondItem="iyA-DF-fhG" secondAttribute="trailing" id="06q-x1-DU2"/>
+                                                <constraint firstItem="iyA-DF-fhG" firstAttribute="centerY" secondItem="G0y-u1-tDe" secondAttribute="centerY" id="4er-1f-0Ux"/>
+                                                <constraint firstItem="iyA-DF-fhG" firstAttribute="leading" secondItem="G0y-u1-tDe" secondAttribute="centerX" id="Fe2-XG-fv8"/>
+                                                <constraint firstItem="wyR-tM-3u1" firstAttribute="leading" secondItem="G0y-u1-tDe" secondAttribute="leadingMargin" id="IlT-VN-5Hx"/>
+                                                <constraint firstItem="wyR-tM-3u1" firstAttribute="centerY" secondItem="G0y-u1-tDe" secondAttribute="centerY" id="gCe-YW-m6t"/>
+                                                <constraint firstItem="iyA-DF-fhG" firstAttribute="leading" secondItem="wyR-tM-3u1" secondAttribute="trailing" id="hAG-dc-hWz"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="RKt-xU-taJ" userLabel="Rating Cell">
+                                        <rect key="frame" x="0.0" y="359" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="bottomRight" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="RKt-xU-taJ" id="rsH-Mf-yCw">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.666666666666664"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Minimum Rating" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ATZ-9C-O1Q">
+                                                    <rect key="frame" x="8" y="11" width="398" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n8Z-bK-fzS" customClass="CosmosView" customModule="Cosmos">
+                                                    <rect key="frame" x="298" y="11" width="108" height="21"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="n8Z-bK-fzS" secondAttribute="height" multiplier="36:7" id="aUk-tT-GW4"/>
+                                                    </constraints>
+                                                    <userDefinedRuntimeAttributes>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="rating">
+                                                            <real key="value" value="0.0"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="filledColor">
+                                                            <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="totalStars">
+                                                            <integer key="value" value="5"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="starSize">
+                                                            <real key="value" value="21"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="emptyBorderColor">
+                                                            <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="color" keyPath="filledBorderColor">
+                                                            <color key="value" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="fillMode">
+                                                            <integer key="value" value="1"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="textMargin">
+                                                            <real key="value" value="0.0"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="emptyBorderWidth">
+                                                            <real key="value" value="1"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="filledBorderWidth">
+                                                            <real key="value" value="0.0"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="starMargin">
+                                                            <real key="value" value="0.0"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                        <userDefinedRuntimeAttribute type="number" keyPath="textSize">
+                                                            <real key="value" value="0.0"/>
+                                                        </userDefinedRuntimeAttribute>
+                                                    </userDefinedRuntimeAttributes>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="n8Z-bK-fzS" firstAttribute="centerY" secondItem="rsH-Mf-yCw" secondAttribute="centerY" id="3uI-Y3-eAc"/>
+                                                <constraint firstItem="ATZ-9C-O1Q" firstAttribute="centerY" secondItem="rsH-Mf-yCw" secondAttribute="centerY" id="D9X-FS-ku7"/>
+                                                <constraint firstItem="ATZ-9C-O1Q" firstAttribute="trailing" secondItem="n8Z-bK-fzS" secondAttribute="trailing" id="TMO-CX-feT"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="n8Z-bK-fzS" secondAttribute="trailing" id="c3I-QB-oBl"/>
+                                                <constraint firstItem="ATZ-9C-O1Q" firstAttribute="leading" secondItem="rsH-Mf-yCw" secondAttribute="leadingMargin" id="rdy-cR-Sza"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>

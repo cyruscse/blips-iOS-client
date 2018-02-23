@@ -22,6 +22,13 @@ class QueryOptionsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // Section 0 is Automatic Query global enable/disable (currently has 1 row)
+        // Section 1 is Attraction Type number to select (currently has 1 row)
+        // Section 2 is Lookup Attributes (currently has 3 rows)
+        if section == 2 {
+            return 3
+        }
+        
         return 1
     }
 
