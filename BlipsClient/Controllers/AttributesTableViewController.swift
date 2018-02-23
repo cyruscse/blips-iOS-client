@@ -1,4 +1,4 @@
-///
+ ///
 //  AttributesTableViewController.swift
 //  BlipsClient
 //
@@ -11,10 +11,6 @@ import Cosmos
 
 class AttributesTableViewController: UITableViewController {
     @IBOutlet weak var radiusTextField: UITextField!
-    @IBOutlet weak var openNowCell: UITableViewCell!
-    @IBOutlet weak var radiusCell: UITableViewCell!
-    @IBOutlet weak var priceCell: UITableViewCell!
-    @IBOutlet weak var ratingCell: UITableViewCell!
     @IBOutlet weak var starView: CosmosView!
     
     private let defaultRadius = 5000
@@ -28,11 +24,6 @@ class AttributesTableViewController: UITableViewController {
         let tap = UITapGestureRecognizer(target: self.view, action: #selector(UIView.endEditing(_:)))
         tap.cancelsTouchesInView = false
         self.view.addGestureRecognizer(tap)
-        
-        openNowCell.selectionStyle = .none
-        radiusCell.selectionStyle = .none
-        priceCell.selectionStyle = .none
-        ratingCell.selectionStyle = .none
         
         starView.settings.fillMode = .precise
         starView.settings.minTouchRating = 0.0

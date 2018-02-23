@@ -264,7 +264,7 @@
                         <sections>
                             <tableViewSection headerTitle="Lookup Attributes" id="fO9-6w-P5a">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="dXN-tq-bqL">
+                                    <tableViewCell clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="dXN-tq-bqL" userLabel="Open Now Cell">
                                         <rect key="frame" x="0.0" y="55.333333333333336" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dXN-tq-bqL" id="9vY-dX-XZl">
@@ -291,7 +291,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="AJ6-1O-qqZ">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="AJ6-1O-qqZ" userLabel="Radius Cell">
                                         <rect key="frame" x="0.0" y="99.333333333333343" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="AJ6-1O-qqZ" id="jxl-MY-QLO">
@@ -320,7 +320,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="c1D-h5-9fV">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="c1D-h5-9fV" userLabel="Price Cell">
                                         <rect key="frame" x="0.0" y="143.33333333333334" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="c1D-h5-9fV" id="6dW-aK-eIK">
@@ -356,7 +356,7 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="OhX-Cn-OF6">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" id="OhX-Cn-OF6" userLabel="Rating Cell">
                                         <rect key="frame" x="0.0" y="187.33333333333334" width="414" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="bottomRight" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="OhX-Cn-OF6" id="vKk-kU-yzJ">
@@ -433,11 +433,7 @@
                         </connections>
                     </tableView>
                     <connections>
-                        <outlet property="openNowCell" destination="dXN-tq-bqL" id="t8o-kE-ezF"/>
-                        <outlet property="priceCell" destination="c1D-h5-9fV" id="KOZ-ZG-ut9"/>
-                        <outlet property="radiusCell" destination="AJ6-1O-qqZ" id="cXs-YQ-yBN"/>
                         <outlet property="radiusTextField" destination="5TU-NL-fvB" id="Mgm-KM-gqO"/>
-                        <outlet property="ratingCell" destination="OhX-Cn-OF6" id="0re-TJ-0Sf"/>
                         <outlet property="starView" destination="CmA-cX-D04" id="zT0-TI-xfJ"/>
                     </connections>
                 </tableViewController>
@@ -1130,6 +1126,9 @@
                             <outlet property="delegate" destination="8ly-By-pu2" id="jfF-Sw-Ypo"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="attractionTypesField" destination="Eab-nZ-CQg" id="FDL-kU-lMa"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2BU-gb-Wov" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

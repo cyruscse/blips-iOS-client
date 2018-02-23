@@ -9,6 +9,8 @@
 import UIKit
 
 class QueryOptionsTableViewController: UITableViewController {
+    @IBOutlet weak var attractionTypesField: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
