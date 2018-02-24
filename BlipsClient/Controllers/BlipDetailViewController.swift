@@ -26,6 +26,7 @@ class BlipDetailViewController: UIViewController, UIPageViewControllerDataSource
     @IBOutlet weak var getDirectionsButton: UIButton!
     @IBOutlet weak var photoViewContainer: UIView!
     @IBOutlet weak var photoViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var saveButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,6 +81,9 @@ class BlipDetailViewController: UIViewController, UIPageViewControllerDataSource
         blip.mapItem().openInMaps(launchOptions: launchOptions)
     }
     
+    @IBAction func saveBlip(_ sender: UIButton) {
+    }
+
     func setBlipAnnotation(annotation: BlipMarkerView) {
         self.blip = annotation.blip
     }
