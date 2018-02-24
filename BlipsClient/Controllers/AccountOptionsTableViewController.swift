@@ -10,7 +10,7 @@ import UIKit
 
 class AccountOptionsTableViewController: UITableViewController, UserAccountObserver {
     var account: User!
-    
+
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
@@ -37,11 +37,7 @@ class AccountOptionsTableViewController: UITableViewController, UserAccountObser
         if let queryOptionsVC = segue.destination as? QueryOptionsTableViewController {
             queryOptionsVC.addQueryOptionsObserver(observer: account)
             queryOptionsVC.attractionHistoryCount = account.getAttractionHistoryCount()
-            queryOptionsVC.openNow = account.autoQueryOpenNow
-            queryOptionsVC.autoQueryEnabled = account.autoQueryEnabled
-            queryOptionsVC.typeGrabLength = account.autoQueryTypeGrabLength
-            queryOptionsVC.rating = account.autoQueryRating
-            queryOptionsVC.priceRange = account.autoQueryPriceRange
+            queryOptionsVC.queryOptions = account.autoQueryOptions
         }
     }
 }

@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, Lookup
         if (error == nil) {
             // On login, set user ID as 0, and give an empty dictionary for atttraction history
             // These values will be retrieved from the server after the User object is created
-            let account = User(firstName: user.profile.givenName, lastName: user.profile.familyName, imageURL: user.profile.imageURL(withDimension: 240), email: user.profile.email, userID: 0, attractionHistory: [:], guest: false, autoQueryEnabled: true, autoQueryTypeGrabLength: 0, autoQueryOpenNow: true, autoQueryRating: 0.0, autoQueryPriceRange: 0)
+            let account = User(firstName: user.profile.givenName, lastName: user.profile.familyName, imageURL: user.profile.imageURL(withDimension: 240), email: user.profile.email, userID: 0, attractionHistory: [:], guest: false, autoQueryOptions: AutoQueryOptions(autoQueryEnabled: true, autoQueryTypeGrabLength: 0, autoQueryOpenNow: true, autoQueryRating: 0.0, autoQueryPriceRange: 0))
             
             mainVC.relayUserLogin(account: account)
         } else {

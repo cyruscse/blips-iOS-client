@@ -39,13 +39,19 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
             return
         }
         
+        if account.autoQueryOptions.autoQueryTypeGrabLength == 0 {
+            // This returns if the account hasn't queried before.
+            // I need to change this to query with a list of "top" attractions from the server
+            return
+        }
+        
         // Center on user location, blips haven't been retrieved yet
         notifyLocationUpdated()
         
         // Initializes MapAccessoryViews on load
         notifyAnnotationsUpdated()
         
-        let topTypes = Array(account.orderedAttractionHistory()[0...account.autoQueryTypeGrabLength])
+        let topTypes = Array(account.orderedAttractionHistory()[0...(account.autoQueryOptions.autoQueryTypeGrabLength - 1)])
         let topTypesStrings = topTypes.map { $0.attraction }
         
         // below attributes should come from user account...

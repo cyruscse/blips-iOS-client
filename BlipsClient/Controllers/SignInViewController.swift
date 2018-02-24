@@ -84,8 +84,7 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountOb
         
         if userLoggedIn {
             updateUIOnLogin()
-        }
-        else {
+        } else {
             updateUIOnLogout()
         }
     }

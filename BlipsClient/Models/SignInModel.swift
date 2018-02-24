@@ -133,7 +133,7 @@ class SignInModel {
             deleteServerUser(id: account.getID())
         }
         
-        self.account.clearAttractionHistory()
+        self.account.clearAttractionHistoryAndSettings()
         self.account = nil
         
         guestUserLogin()
@@ -221,7 +221,7 @@ class SignInModel {
     }
     
     func clearAttractionHistory() {
-        account.clearAttractionHistory()
+        account.clearAttractionHistoryAndSettings()
         
         let jsonRequest = [requestTypeTag: dbSyncTag, syncTypeTag: clearHistoryTag, userIdTag: String(account.getID())]
         

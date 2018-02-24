@@ -11,6 +11,7 @@ import Cosmos
 
 class QueryOptionsTableViewController: UITableViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     @IBOutlet weak var attractionTypesToSelect: UITextField!
+    @IBOutlet weak var attractionTypeToSelectLabel: UILabel!
     @IBOutlet weak var autoQueryEnabledSwitch: UISwitch!
     @IBOutlet weak var openNowSwitch: UISwitch!
     @IBOutlet weak var priceRangeControl: UISegmentedControl!
@@ -18,11 +19,7 @@ class QueryOptionsTableViewController: UITableViewController, UIPickerViewDelega
     
     var attractionHistoryCount = 0
     var attractionHistoryCountArray: [String]!
-    var autoQueryEnabled = true
-    var openNow = true
-    var priceRange = 0
-    var rating = 0.0
-    var typeGrabLength = 0
+    var queryOptions: AutoQueryOptions!
     
     var observers = [QueryOptionsObserver]()
     
@@ -51,32 +48,45 @@ class QueryOptionsTableViewController: UITableViewController, UIPickerViewDelega
         starView.settings.minTouchRating = 0.0
         starView.didFinishTouchingCosmos = { rating in self.notifyRatingChanged(newValue: rating) }
         
-        let intArray = Array(1...attractionHistoryCount)
-        attractionHistoryCountArray = intArray.map { String($0) }
+        if attractionHistoryCount == 0 {
+            attractionTypesToSelect.isEnabled = false
+            attractionTypeToSelectLabel.textColor = UIColor.lightGray
+            attractionTypesToSelect.text = ""
+        } else {
+            let intArray = Array(1...attractionHistoryCount)
+            attractionHistoryCountArray = intArray.map { String($0) }
+            
+            attractionTypesToSelect.text = String(queryOptions.autoQueryTypeGrabLength)
+            attractionTypesPicker.selectRow(queryOptions.autoQueryTypeGrabLength - 1, inComponent: 0, animated: false)
+        }
 
         attractionTypesPicker.showsSelectionIndicator = true
         attractionTypesPicker.delegate = self
-                
-        attractionTypesToSelect.text = String(typeGrabLength)
-        autoQueryEnabledSwitch.isOn = autoQueryEnabled
-        openNowSwitch.isOn = openNow
-        priceRangeControl.selectedSegmentIndex = priceRange
-        starView.rating = rating
+        
+        if queryOptions.autoQueryTypeGrabLength == 0 {
+            queryOptions.autoQueryTypeGrabLength = attractionHistoryCount / 2
+            notifyAttractionTypesChanged(newValue: queryOptions.autoQueryTypeGrabLength)
+        }
+        
+        autoQueryEnabledSwitch.isOn = queryOptions.autoQueryEnabled
+        openNowSwitch.isOn = queryOptions.autoQueryOpenNow
+        priceRangeControl.selectedSegmentIndex = queryOptions.autoQueryPriceRange
+        starView.rating = queryOptions.autoQueryRating
     }
 
     @IBAction func autoQueryEnabledChanged(_ sender: UISwitch) {
-        autoQueryEnabled = sender.isOn
-        notifyAutoQueryStatusChanged(newValue: autoQueryEnabled)
+        queryOptions.autoQueryEnabled = sender.isOn
+        notifyAutoQueryStatusChanged(newValue: queryOptions.autoQueryEnabled)
     }
     
     @IBAction func openNowChanged(_ sender: UISwitch) {
-        openNow = sender.isOn
-        notifyOpenNowChanged(newValue: openNow)
+        queryOptions.autoQueryOpenNow = sender.isOn
+        notifyOpenNowChanged(newValue: queryOptions.autoQueryOpenNow)
     }
     
     @IBAction func priceRangeChanged(_ sender: UISegmentedControl) {
-        priceRange = sender.selectedSegmentIndex
-        notifyPriceRangeChanged(newValue: priceRange)
+        queryOptions.autoQueryPriceRange = sender.selectedSegmentIndex
+        notifyPriceRangeChanged(newValue: queryOptions.autoQueryPriceRange)
     }
     
     // MARK: - Observer Updating

@@ -46,7 +46,7 @@ class AccountViewController: UIViewController, UserAccountObserver {
     @IBAction func presentActionSheet(_ sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let clearHistoryAction = UIAlertAction(title: "Clear History", style: .default, handler: { (alert: UIAlertAction!) -> Void in
+        let clearHistoryAction = UIAlertAction(title: "Clear History and Settings", style: .default, handler: { (alert: UIAlertAction!) -> Void in
             self.signInModel?.clearAttractionHistory()
         })
         

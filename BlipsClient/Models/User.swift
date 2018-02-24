@@ -17,28 +17,7 @@ struct PropertyKey {
     static let userID = "userID"
     static let attractionHistory = "attractionHistory"
     static let guest = "guest"
-    static let autoQueryEnabled = "autoQueryEnabled"
-    static let autoQueryTypeGrabLength = "autoQueryTypeGrabLength"
-    static let autoQueryOpenNow = "autoQueryOpenNow"
-    static let autoQueryRating = "autoQueryRating"
-    static let autoQueryPriceRange = "autoQueryPriceRange"
-}
-
-struct AttractionHistory: Comparable, Hashable {
-    static func <(lhs: AttractionHistory, rhs: AttractionHistory) -> Bool {
-        return lhs.frequency > rhs.frequency
-    }
-    
-    static func ==(lhs: AttractionHistory, rhs: AttractionHistory) -> Bool {
-        return lhs.attraction == rhs.attraction
-    }
-    
-    var attraction: String
-    let frequency: Int
-    
-    var hashValue: Int {
-        return attraction.hashValue
-    }
+    static let autoQueryOptions = "autoQueryOptions"
 }
 
 class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver {
@@ -54,15 +33,11 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver {
     private var userID: Int
     private var userHistoryObservers = [UserHistoryObserver]()
     private var guest: Bool
-    
-    var autoQueryEnabled: Bool
-    var autoQueryTypeGrabLength: Int
-    var autoQueryOpenNow: Bool
-    var autoQueryRating: Double
-    var autoQueryPriceRange: Int
-    var lastQuery: CustomLookup!
 
-    init(firstName: String, lastName: String, imageURL: URL, email: String, userID: Int, attractionHistory: [String: Int], guest: Bool, autoQueryEnabled: Bool, autoQueryTypeGrabLength: Int, autoQueryOpenNow: Bool, autoQueryRating: Double, autoQueryPriceRange: Int) {
+    var autoQueryOptions: AutoQueryOptions
+    var lastQuery: CustomLookup!
+    
+    init(firstName: String, lastName: String, imageURL: URL, email: String, userID: Int, attractionHistory: [String: Int], guest: Bool, autoQueryOptions: AutoQueryOptions) {
         self.firstName = firstName
         self.lastName = lastName
         self.imageURL = imageURL
@@ -70,15 +45,7 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver {
         self.userID = userID
         self.attractionHistory = attractionHistory
         self.guest = guest
-        self.autoQueryEnabled = autoQueryEnabled
-        self.autoQueryTypeGrabLength = autoQueryTypeGrabLength
-        self.autoQueryOpenNow = autoQueryOpenNow
-        self.autoQueryRating = autoQueryRating
-        self.autoQueryPriceRange = autoQueryPriceRange
-        
-        if attractionHistory.count < autoQueryTypeGrabLength {
-            self.autoQueryTypeGrabLength = attractionHistory.count
-        }
+        self.autoQueryOptions = autoQueryOptions
         
         if let data = try? Data(contentsOf: imageURL) {
             self.image = UIImage(data: data)!
@@ -87,10 +54,11 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver {
             self.image = UIImage()
         }
     }
-    
+
     // Guest account initialization (default values)
     convenience override init() {
-        self.init(firstName: "", lastName: "", imageURL: URL(string: ".")!, email: "", userID: -1, attractionHistory: [:], guest: true, autoQueryEnabled: true, autoQueryTypeGrabLength: 0, autoQueryOpenNow: true, autoQueryRating: 0.0, autoQueryPriceRange: 0)
+        let queryOptions = AutoQueryOptions(autoQueryEnabled: true, autoQueryTypeGrabLength: 0, autoQueryOpenNow: true, autoQueryRating: 0.0, autoQueryPriceRange: 0)
+        self.init(firstName: "", lastName: "", imageURL: URL(string: ".")!, email: "", userID: -1, attractionHistory: [:], guest: true, autoQueryOptions: queryOptions)
     }
     
     // Standard getters and setters
@@ -151,11 +119,7 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver {
         aCoder.encode(self.userID, forKey: PropertyKey.userID)
         aCoder.encode(self.attractionHistory, forKey: PropertyKey.attractionHistory)
         aCoder.encode(self.guest, forKey: PropertyKey.guest)
-        aCoder.encode(self.autoQueryEnabled, forKey: PropertyKey.autoQueryEnabled)
-        aCoder.encode(self.autoQueryTypeGrabLength, forKey: PropertyKey.autoQueryTypeGrabLength)
-        aCoder.encode(self.autoQueryOpenNow, forKey: PropertyKey.autoQueryOpenNow)
-        aCoder.encode(self.autoQueryRating, forKey: PropertyKey.autoQueryRating)
-        aCoder.encode(self.autoQueryPriceRange, forKey: PropertyKey.autoQueryPriceRange)
+        aCoder.encode(self.autoQueryOptions, forKey: PropertyKey.autoQueryOptions)
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
@@ -187,13 +151,9 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver {
         }
         
         let gst = aDecoder.decodeBool(forKey: PropertyKey.guest)
-        let autoQuery = aDecoder.decodeBool(forKey: PropertyKey.autoQueryEnabled)
-        let autoQueryLength = aDecoder.decodeInteger(forKey: PropertyKey.autoQueryTypeGrabLength)
-        let openNow = aDecoder.decodeBool(forKey: PropertyKey.autoQueryOpenNow)
-        let rating = aDecoder.decodeDouble(forKey: PropertyKey.autoQueryRating)
-        let priceRange = aDecoder.decodeInteger(forKey: PropertyKey.autoQueryPriceRange)
+        let queryOptions = aDecoder.decodeObject(forKey: PropertyKey.autoQueryOptions) as! AutoQueryOptions
 
-        self.init(firstName: fName, lastName: lName, imageURL: iURL, email: eml, userID: id, attractionHistory: history, guest: gst, autoQueryEnabled: autoQuery, autoQueryTypeGrabLength: autoQueryLength, autoQueryOpenNow: openNow, autoQueryRating: rating, autoQueryPriceRange: priceRange)
+        self.init(firstName: fName, lastName: lName, imageURL: iURL, email: eml, userID: id, attractionHistory: history, guest: gst, autoQueryOptions: queryOptions)
     }
     
     func saveUser() {
@@ -263,8 +223,9 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver {
     
     func gotGoogleClientKey(key: String) {}
     
-    func clearAttractionHistory() {
+    func clearAttractionHistoryAndSettings() {
         self.attractionHistory = [:]
+        self.autoQueryOptions = AutoQueryOptions()
         
         updateHistoryListeners()
     }
@@ -274,27 +235,27 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver {
     // QueryOptionsObserver Methods
     
     func attractionTypesChanged(value: Int) {
-        autoQueryTypeGrabLength = value
+        autoQueryOptions.autoQueryTypeGrabLength = value
         saveUser()
     }
     
     func autoQueryStatusChanged(enabled: Bool) {
-        autoQueryEnabled = enabled
+        autoQueryOptions.autoQueryEnabled = enabled
         saveUser()
     }
     
     func openNowChanged(value: Bool) {
-        autoQueryOpenNow = value
+        autoQueryOptions.autoQueryOpenNow = value
         saveUser()
     }
     
     func ratingChanged(rating: Double) {
-        autoQueryRating = rating
+        autoQueryOptions.autoQueryRating = rating
         saveUser()
     }
     
     func priceChanged(price: Int) {
-        autoQueryPriceRange = price
+        autoQueryOptions.autoQueryPriceRange = price
         saveUser()
     }
     
