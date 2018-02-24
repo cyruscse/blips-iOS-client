@@ -234,6 +234,11 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver {
     
     // QueryOptionsObserver Methods
     
+    func setAutoQueryOptions(options: AutoQueryOptions) {
+        autoQueryOptions = options
+        saveUser()
+    }
+    
     func attractionTypesChanged(value: Int) {
         autoQueryOptions.autoQueryTypeGrabLength = value
         saveUser()

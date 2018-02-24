@@ -24,6 +24,12 @@ class SignInModel {
     let nameTag = "name"
     let emailTag = "email"
     let historyTag = "history"
+    let autoQueryOptionsTag = "autoQueryOptions"
+    let enabledTag = "enabled"
+    let typeGrabLengthTag = "typeGrabLength"
+    let openNowTag = "openNow"
+    let ratingTag = "rating"
+    let priceRangeTag = "priceRange"
     let okTag = "OK"
     
     private var lookupModel: LookupModel!
@@ -171,14 +177,69 @@ class SignInModel {
         do {
             let responseContents = try ServerInterface.readJSON(data: data)
             var serverAttractionHistory: [String: Int] = [:]
+            var autoQueryOptions: AutoQueryOptions!
             
             for (key, value) in responseContents {
                 if (key == userIdTag) {
-                    account.setID(userID: value as! Int)
+                    let accountIDArray = value as! [Int]
+                    account.setID(userID: accountIDArray.first!)
                     account.saveUser()
-                }
-                else if (key != statusTag) {
-                    serverAttractionHistory[key] = value as? Int
+                } else if (key == statusTag) {
+                    let status = value as! [String]
+                    
+                    if (status.first != okTag) {
+                        let alert = AnywhereUIAlertController(title: "Login Failed", message: "The server rejected your login request.", preferredStyle: .alert);
+                        alert.show();
+                        
+                        return
+                    }
+                } else if (key == historyTag) {
+                    let attractionHistoryArray = value as! [[String: Int]]
+                    
+                    for entry in attractionHistoryArray {
+                        // Only one entry in this dict
+                        for (attraction, frequency) in entry {
+                            serverAttractionHistory[attraction] = frequency
+                        }
+                    }
+                } else if (key == autoQueryOptionsTag) {
+                    let autoQueryOptionsArray = value as! [[String: Any]]
+                    var enabledValue: Bool!
+                    var typeGrabLengthValue: Int!
+                    var openNowValue: Bool!
+                    var ratingValue: Double!
+                    var priceRangeValue: Int!
+                    
+                    for entry in autoQueryOptionsArray {
+                        for (option, setting) in entry {
+                            switch (option) {
+                            case enabledTag:
+                                enabledValue = setting as! Bool
+                            case typeGrabLengthTag:
+                                typeGrabLengthValue = setting as! Int
+                            case openNowTag:
+                                openNowValue = setting as! Bool
+                            case ratingTag:
+                                ratingValue = setting as! Double
+                            case priceRangeTag:
+                                priceRangeValue = setting as! Int
+                            default:
+                                let alert = AnywhereUIAlertController(title: "Login Failed", message: "The server returned invalid data.", preferredStyle: .alert);
+                                alert.show();
+                                
+                                return
+                            }
+                        }
+                    }
+                    
+                    if enabledValue == nil || typeGrabLengthValue == nil || openNowValue == nil || ratingValue == nil || priceRangeValue == nil {
+                        let alert = AnywhereUIAlertController(title: "Login Failed", message: "The server didn't return all required data.", preferredStyle: .alert);
+                        alert.show();
+                        
+                        return
+                    }
+                    
+                    autoQueryOptions = AutoQueryOptions(autoQueryEnabled: enabledValue, autoQueryTypeGrabLength: typeGrabLengthValue, autoQueryOpenNow: openNowValue, autoQueryRating: ratingValue, autoQueryPriceRange: priceRangeValue)
                 }
             }
             
@@ -187,6 +248,8 @@ class SignInModel {
             if serverAttractionHistory.count != 0 {
                 account.setAttractionHistory(history: serverAttractionHistory)
             }
+            
+            account.setAutoQueryOptions(options: autoQueryOptions)
         } catch ServerInterfaceError.JSONParseFailed(description: let error) {
             print(error)
         } catch {
