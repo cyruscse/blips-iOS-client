@@ -54,8 +54,7 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
         let topTypes = Array(account.orderedAttractionHistory()[0...(account.autoQueryOptions.autoQueryTypeGrabLength - 1)])
         let topTypesStrings = topTypes.map { $0.attraction }
         
-        // below attributes should come from user account...
-        requestBlips(attributes: topTypesStrings, openNow: true, radius: 10000, priceRange: 3, minimumRating: 0.0, latitude: location.latitude, longitude: location.longitude)
+        requestBlips(attributes: topTypesStrings, openNow: account.autoQueryOptions.autoQueryOpenNow, radius: 10000, priceRange: account.autoQueryOptions.autoQueryPriceRange, minimumRating: account.autoQueryOptions.autoQueryRating, latitude: location.latitude, longitude: location.longitude)
     }
     
     // LocationObserver Methods end
