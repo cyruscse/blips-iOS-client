@@ -36,6 +36,7 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver {
 
     var autoQueryOptions: AutoQueryOptions
     var lastQuery: CustomLookup!
+    var signInModel: SignInModel!
     
     init(firstName: String, lastName: String, imageURL: URL, email: String, userID: Int, attractionHistory: [String: Int], guest: Bool, autoQueryOptions: AutoQueryOptions) {
         self.firstName = firstName
@@ -92,14 +93,6 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver {
     
     func isGuest() -> Bool {
         return guest
-    }
-    
-    func hasMadeRequests() -> Bool {
-        if attractionHistory.count != 0 {
-            return true
-        }
-        
-        return false
     }
     
     func getAttractionHistory() -> [String: Int] {
@@ -238,29 +231,34 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver {
         autoQueryOptions = options
         saveUser()
     }
-    
+
     func attractionTypesChanged(value: Int) {
         autoQueryOptions.autoQueryTypeGrabLength = value
+        signInModel.updateServerAutoQueryOptions(enabled: nil, typeGrabLength: value, openNow: nil, rating: nil, priceRange: nil)
         saveUser()
     }
     
     func autoQueryStatusChanged(enabled: Bool) {
         autoQueryOptions.autoQueryEnabled = enabled
+        signInModel.updateServerAutoQueryOptions(enabled: enabled, typeGrabLength: nil, openNow: nil, rating: nil, priceRange: nil)
         saveUser()
     }
     
     func openNowChanged(value: Bool) {
         autoQueryOptions.autoQueryOpenNow = value
+        signInModel.updateServerAutoQueryOptions(enabled: nil, typeGrabLength: nil, openNow: value, rating: nil, priceRange: nil)
         saveUser()
     }
     
     func ratingChanged(rating: Double) {
         autoQueryOptions.autoQueryRating = rating
+        signInModel.updateServerAutoQueryOptions(enabled: nil, typeGrabLength: nil, openNow: nil, rating: rating, priceRange: nil)
         saveUser()
     }
     
     func priceChanged(price: Int) {
         autoQueryOptions.autoQueryPriceRange = price
+        signInModel.updateServerAutoQueryOptions(enabled: nil, typeGrabLength: nil, openNow: nil, rating: nil, priceRange: price)
         saveUser()
     }
     

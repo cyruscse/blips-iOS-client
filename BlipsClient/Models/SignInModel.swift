@@ -25,11 +25,13 @@ class SignInModel {
     let emailTag = "email"
     let historyTag = "history"
     let autoQueryOptionsTag = "autoQueryOptions"
+    let updateAutoQueryOptionsTag = "updateAutoQueryOptions"
     let enabledTag = "enabled"
     let typeGrabLengthTag = "typeGrabLength"
     let openNowTag = "openNow"
     let ratingTag = "rating"
     let priceRangeTag = "priceRange"
+    let optionsTag = "options"
     let okTag = "OK"
     
     private var lookupModel: LookupModel!
@@ -57,6 +59,7 @@ class SignInModel {
     
     func guestUserLogin() {
         account = User()
+        account.signInModel = self
         
         // lookupModel can be nil here on the app's first ever launch
         // No User info has been saved to disk, so we fall back to a guestLogin,
@@ -85,7 +88,7 @@ class SignInModel {
         }
         else {
             self.account = loaded
-            
+            self.account.signInModel = self
             self.loggedIn = true
             
             notifyUserLoggedIn()
@@ -100,16 +103,19 @@ class SignInModel {
     
     func mergeGuestHistory() {
         self.account.mergeAttractionHistory(toMerge: self.replacedGuest.getAttractionHistory())
+        self.account.setAutoQueryOptions(options: self.replacedGuest.autoQueryOptions)
         self.setServerHistory(history: self.account.getAttractionHistory())
+        self.updateServerAutoQueryOptions(enabled: self.account.autoQueryOptions.autoQueryEnabled, typeGrabLength: self.account.autoQueryOptions.autoQueryTypeGrabLength, openNow: self.account.autoQueryOptions.autoQueryOpenNow, rating: self.account.autoQueryOptions.autoQueryRating, priceRange: self.account.autoQueryOptions.autoQueryPriceRange)
         self.replacedGuest = nil
     }
     
     func userLoggedIn(account: User) {
-        if loggedIn == true && self.account.isGuest() == true && self.account.hasMadeRequests() {
+        if loggedIn == true && self.account.isGuest() == true {
             replacedGuest = self.account
             notifyGuestReplaced()
         }
         
+        account.signInModel = self
         self.loggedIn = true
         self.account = account
         
@@ -265,7 +271,10 @@ class SignInModel {
                 if (key == statusTag) {
                     if let strValue = value as? String {
                         if strValue != okTag {
-                            print("Failed to sync with server!")
+                            let alert = AnywhereUIAlertController(title: "Server Sync Failed", message: "Client information couldn't be synced to the server.", preferredStyle: .alert);
+                            alert.show();
+                            
+                            return
                         }
                     }
                 }
@@ -298,7 +307,47 @@ class SignInModel {
     }
     
     func setServerHistory(history: [String: Int]) {
+        if history.count == 0 {
+            return
+        }
+        
         let jsonRequest = [requestTypeTag: dbSyncTag, syncTypeTag: setHistoryTag, userIdTag: String(account.getID()), historyTag: history.description]
+        
+        ServerInterface.makeRequest(request: jsonRequest, callback: serverSyncCallback)
+    }
+    
+    func updateServerAutoQueryOptions(enabled: Bool?, typeGrabLength: Int?, openNow: Bool?, rating: Double?, priceRange: Int?) {
+        if account.isGuest() {
+            return
+        }
+        
+        var autoQueryOptionsArray = [[String: String]]()
+        
+        if enabled != nil {
+            autoQueryOptionsArray.append([enabledTag : String(enabled!)])
+        }
+        
+        if typeGrabLength != nil {
+            autoQueryOptionsArray.append([typeGrabLengthTag: String(typeGrabLength!)])
+        }
+        
+        if openNow != nil {
+            autoQueryOptionsArray.append([openNowTag: String(openNow!)])
+        }
+        
+        if rating != nil {
+            autoQueryOptionsArray.append([ratingTag: String(rating!)])
+        }
+        
+        if priceRange != nil {
+            autoQueryOptionsArray.append([priceRangeTag: String(priceRange!)])
+        }
+        
+        if autoQueryOptionsArray.count == 0 {
+            return
+        }
+        
+        let jsonRequest = [requestTypeTag: dbSyncTag, syncTypeTag: updateAutoQueryOptionsTag, userIdTag: String(account.getID()), optionsTag: autoQueryOptionsArray] as [String : Any]
         
         ServerInterface.makeRequest(request: jsonRequest, callback: serverSyncCallback)
     }
