@@ -184,6 +184,16 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver {
                 self.attractionHistory[selection] = 1
             }
         }
+        
+        if autoQueryOptions.autoQueryTypeGrabLength == 0 {
+            if attractionHistory.count > 3 {
+                autoQueryOptions.autoQueryTypeGrabLength = 3
+            } else {
+                autoQueryOptions.autoQueryTypeGrabLength = attractionHistory.count
+            }
+            
+            attractionTypesChanged(value: autoQueryOptions.autoQueryTypeGrabLength)
+        }
 
         updateHistoryListeners()
     }

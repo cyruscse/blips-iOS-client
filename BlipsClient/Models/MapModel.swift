@@ -22,7 +22,6 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
     private var account: User!
     private var haveAnnotations = false
     private var lastQueryLocation: CLLocationCoordinate2D!
-    private var autoQueryEnabled = true
     
     var mainVC: ViewController!
     
@@ -35,7 +34,7 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
         
         self.currentLocation = location
         
-        if autoQueryEnabled == false {
+        if account.autoQueryOptions.autoQueryEnabled == false {
             return
         }
         
