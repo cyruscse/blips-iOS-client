@@ -900,22 +900,58 @@
             </objects>
             <point key="canvasLocation" x="3451.875" y="-7.394366197183099"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Saved Blip Table View Controller-->
         <scene sceneID="Xoo-WE-6TF">
             <objects>
-                <tableViewController id="PWW-WQ-sxz" sceneMemberID="viewController">
+                <tableViewController id="PWW-WQ-sxz" customClass="SavedBlipTableViewController" customModule="BlipsClient" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="ud2-Fh-1oT">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="252"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="PHx-9e-1oN">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="BlipTableViewCell" id="3po-gQ-oQh" customClass="BlipTableViewCell" customModule="BlipsClient" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="PHx-9e-1oN" id="eAD-2H-jis">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3po-gQ-oQh" id="mqm-hC-nSc">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="GcU-CI-fcH">
+                                            <rect key="frame" x="16" y="6" width="33" height="33"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" secondItem="GcU-CI-fcH" secondAttribute="height" multiplier="1:1" id="oDa-HM-NpD"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="751" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kNX-qH-iZC" userLabel="Type">
+                                            <rect key="frame" x="275.5" y="15.5" width="28.5" height="13.5"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eDV-xJ-ks7">
+                                            <rect key="frame" x="57" y="13.5" width="218.5" height="17"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="kNX-qH-iZC" firstAttribute="leading" secondItem="eDV-xJ-ks7" secondAttribute="trailing" id="0uS-Vg-ebS"/>
+                                        <constraint firstItem="GcU-CI-fcH" firstAttribute="leading" secondItem="mqm-hC-nSc" secondAttribute="leadingMargin" id="5BS-BI-1NO"/>
+                                        <constraint firstItem="GcU-CI-fcH" firstAttribute="top" secondItem="mqm-hC-nSc" secondAttribute="topMargin" constant="-5" id="DXe-sM-htb"/>
+                                        <constraint firstItem="eDV-xJ-ks7" firstAttribute="leading" secondItem="GcU-CI-fcH" secondAttribute="trailing" constant="8" id="FOT-dC-V2v"/>
+                                        <constraint firstItem="GcU-CI-fcH" firstAttribute="bottom" secondItem="mqm-hC-nSc" secondAttribute="bottomMargin" constant="6" id="TaM-al-HjF"/>
+                                        <constraint firstItem="kNX-qH-iZC" firstAttribute="centerY" secondItem="mqm-hC-nSc" secondAttribute="centerY" id="Zst-cD-BnO"/>
+                                        <constraint firstItem="eDV-xJ-ks7" firstAttribute="centerY" secondItem="mqm-hC-nSc" secondAttribute="centerY" id="s20-qo-gcH"/>
+                                        <constraint firstItem="kNX-qH-iZC" firstAttribute="trailing" secondItem="mqm-hC-nSc" secondAttribute="trailingMargin" id="zXc-47-2DC"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outlet property="blipName" destination="eDV-xJ-ks7" id="qt3-7f-gws"/>
+                                    <outlet property="blipType" destination="kNX-qH-iZC" id="GIP-S1-Gce"/>
+                                    <outlet property="typeImage" destination="GcU-CI-fcH" id="3tm-yQ-YMX"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

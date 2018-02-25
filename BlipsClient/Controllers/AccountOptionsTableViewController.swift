@@ -39,5 +39,9 @@ class AccountOptionsTableViewController: UITableViewController, UserAccountObser
             queryOptionsVC.attractionHistoryCount = account.getAttractionHistoryCount()
             queryOptionsVC.queryOptions = account.autoQueryOptions
         }
+        
+        if let savedBlipsVC = segue.destination as? SavedBlipTableViewController {
+            savedBlipsVC.savedBlips = account.savedBlips
+        }
     }
 }

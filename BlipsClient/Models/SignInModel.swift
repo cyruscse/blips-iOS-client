@@ -81,8 +81,10 @@ class SignInModel {
     }
     
     func notifyUserLoggedIn() {
-        for observer in userAccountObservers {
-            observer.userLoggedIn(account: account)
+        DispatchQueue.main.async {
+            for observer in self.userAccountObservers {
+                observer.userLoggedIn(account: self.account)
+            }
         }
     }
     
@@ -131,6 +133,7 @@ class SignInModel {
         
         retrieveSavedBlipMetadata()
         serverLogin()
+        notifyUserLoggedIn()
     }
     
     func userLoggedOut(deleteUser: Bool) {

@@ -35,16 +35,6 @@ class BlipTableViewController: UITableViewController, MapModelObserver {
         self.view.isHidden = false
         self.view.isUserInteractionEnabled = true
     }
-
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currentBlips.count
-    }
     
     func annotationsUpdated(annotations: [MKAnnotation]) {
         if let asBlips = annotations as? [Blip] {
@@ -65,6 +55,16 @@ class BlipTableViewController: UITableViewController, MapModelObserver {
     func locationUpdated(location: CLLocationCoordinate2D, latitudinalMeters: CLLocationDistance, longitudinalMeters: CLLocationDistance) {}
     func focusOnBlip(blip: Blip) {}
 
+    // MARK: - Table view data source
+    
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return currentBlips.count
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellIdentifier = "BlipTableViewCell"
 
