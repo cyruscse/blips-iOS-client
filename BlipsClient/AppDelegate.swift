@@ -57,6 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate, Lookup
         if (keySet == false) {
             keySet = true
             GMSPlacesClient.provideAPIKey(key)
+            mainVC.relayAPIKeyProvided()
         }
     }
 

@@ -105,6 +105,10 @@ class MainModel {
     func setMainVC(vc: ViewController) {
         mapModel.mainVC = vc
     }
+    
+    func relayAPIKeyProvided() {
+        signInModel.apiKeyProvided()
+    }
 
     init() {
         signInModel.setLookupModel(lookupModel: lookupModel)

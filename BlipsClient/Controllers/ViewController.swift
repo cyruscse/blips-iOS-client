@@ -41,6 +41,10 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         resizeTableView(percentage: -0.33)
     }
     
+    func relayAPIKeyProvided() {
+        mainModel.relayAPIKeyProvided()
+    }
+    
     func annotationsUpdated(annotations: [MKAnnotation]) {
         let tableView = blipTableVCasVC?.view as! UITableView
         self.blipTableVCYPlacement.constant = 0.0

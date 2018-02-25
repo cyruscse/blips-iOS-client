@@ -193,6 +193,10 @@ class SignInModel {
         }
     }
     
+    func apiKeyProvided() {
+        retrieveSavedBlipMetadata()
+    }
+    
     func serverLoginCallback(data: Data) {
         do {
             let responseContents = try ServerInterface.readJSON(data: data)
