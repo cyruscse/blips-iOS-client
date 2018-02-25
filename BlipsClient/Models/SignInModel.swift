@@ -99,9 +99,9 @@ class SignInModel {
         }
     }
     
-    func notifyGuestReplaced() {
+    func notifyGuestReplaced(guestQueried: Bool) {
         for observer in userAccountObservers {
-            observer.guestReplaced()
+            observer.guestReplaced(guestQueried: guestQueried)
         }
     }
     
@@ -115,8 +115,14 @@ class SignInModel {
     
     func userLoggedIn(account: User) {
         if loggedIn == true && self.account.isGuest() == true {
+            var guestQueried = false
+            
+            if account.getAttractionHistoryCount() != 0 {
+                guestQueried = true
+            }
+            
             replacedGuest = self.account
-            notifyGuestReplaced()
+            notifyGuestReplaced(guestQueried: guestQueried)
         }
         
         account.signInModel = self
@@ -125,8 +131,6 @@ class SignInModel {
         
         retrieveSavedBlipMetadata()
         serverLogin()
-        
-        notifyUserLoggedIn()
     }
     
     func userLoggedOut(deleteUser: Bool) {
@@ -298,6 +302,7 @@ class SignInModel {
             }
             
             account.setAutoQueryOptions(options: autoQueryOptions)
+            notifyUserLoggedIn()
         } catch ServerInterfaceError.JSONParseFailed(description: let error) {
             print(error)
         } catch {

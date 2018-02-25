@@ -76,7 +76,7 @@ class SignInViewController: UIViewController, GIDSignInUIDelegate, UserAccountOb
         }
     }
     
-    func guestReplaced() {}
+    func guestReplaced(guestQueried: Bool) {}
     
     override func viewDidLoad() {
         super.viewDidLoad()

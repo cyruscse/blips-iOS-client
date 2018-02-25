@@ -34,37 +34,19 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
         
         self.currentLocation = location
         
-        if account.autoQueryOptions.autoQueryEnabled == false {
-            return
-        }
-        
-        if account.autoQueryOptions.autoQueryTypeGrabLength == 0 {
-            // This returns if the account hasn't queried before.
-            // I need to change this to query with a list of "top" attractions from the server
-            return
-        }
-        
-        // Center on user location, blips haven't been retrieved yet
-        notifyLocationUpdated()
-        
-        // Initializes MapAccessoryViews on load
-        notifyAnnotationsUpdated()
-        
-        let topTypes = Array(account.orderedAttractionHistory()[0...(account.autoQueryOptions.autoQueryTypeGrabLength - 1)])
-        let topTypesStrings = topTypes.map { $0.attraction }
-        
-        requestBlips(attributes: topTypesStrings, openNow: account.autoQueryOptions.autoQueryOpenNow, radius: 10000, priceRange: account.autoQueryOptions.autoQueryPriceRange, minimumRating: account.autoQueryOptions.autoQueryRating, latitude: location.latitude, longitude: location.longitude)
+        autoQueryBlips()
     }
     
     // LocationObserver Methods end
     
     // UserAccountObserver Methods
     
-    // Not implemented yet, but the plan is to automatically query the server with
-    // the user's location and top attractions on user login
     func userLoggedIn(account: User) {
-        // auto lookup here (choose user's top attractions and current location)
         self.account = account
+        
+        if account.getAttractionHistoryCount() != 0 && currentLocation != nil {
+            autoQueryBlips()
+        }
     }
     
     // On a user logout, clear the annotations on the map
@@ -75,7 +57,7 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
         notifyAnnotationsUpdated()
     }
     
-    func guestReplaced() {}
+    func guestReplaced(guestQueried: Bool) {}
     
     // UserAccountObserver Methods end
 
@@ -182,6 +164,29 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
         } catch {
             print("Other error")
         }
+    }
+    
+    func autoQueryBlips() {
+        if account.autoQueryOptions.autoQueryEnabled == false {
+            return
+        }
+        
+        if account.autoQueryOptions.autoQueryTypeGrabLength == 0 {
+            // This returns if the account hasn't queried before.
+            // I need to change this to query with a list of "top" attractions from the server
+            return
+        }
+        
+        // Center on user location, blips haven't been retrieved yet
+        notifyLocationUpdated()
+        
+        // Initializes MapAccessoryViews on load
+        notifyAnnotationsUpdated()
+        
+        let topTypes = Array(account.orderedAttractionHistory()[0...(account.autoQueryOptions.autoQueryTypeGrabLength - 1)])
+        let topTypesStrings = topTypes.map { $0.attraction }
+        
+        requestBlips(attributes: topTypesStrings, openNow: account.autoQueryOptions.autoQueryOpenNow, radius: 10000, priceRange: account.autoQueryOptions.autoQueryPriceRange, minimumRating: account.autoQueryOptions.autoQueryRating, latitude: currentLocation!.latitude, longitude: currentLocation!.longitude)
     }
     
     func manualRequestBlips(lookupVC: LookupViewController, latitude: Double, longitude: Double) {

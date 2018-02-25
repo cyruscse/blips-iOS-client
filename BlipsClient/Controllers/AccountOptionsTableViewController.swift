@@ -28,7 +28,7 @@ class AccountOptionsTableViewController: UITableViewController, UserAccountObser
         self.account = nil
     }
     
-    func guestReplaced() {
+    func guestReplaced(guestQueried: Bool) {
         self.account = nil
     }
 
