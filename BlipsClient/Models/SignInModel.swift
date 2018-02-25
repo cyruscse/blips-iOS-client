@@ -187,6 +187,12 @@ class SignInModel {
         detailVC.addObserver(observer: account)
     }
     
+    func retrieveSavedBlipMetadata() {
+        for blip in account.savedBlips {
+            blip.requestPhotoMetadata()
+        }
+    }
+    
     func serverLoginCallback(data: Data) {
         do {
             let responseContents = try ServerInterface.readJSON(data: data)
