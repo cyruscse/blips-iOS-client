@@ -271,6 +271,7 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver, BlipD
     
     func blipSaved(blip: Blip) {
         savedBlips.append(blip)
+        signInModel.serverSaveBlip(blip: blip, save: true)
         saveUser()
     }
     
@@ -279,10 +280,17 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver, BlipD
             if blip.placeID == placeID {
                 if let idx = savedBlips.index(of: blip) {
                     savedBlips.remove(at: idx)
+                    signInModel.serverSaveBlip(blip: blip, save: false)
+                    saveUser()
+                    
+                    return
                 }
             }
         }
-        
+    }
+    
+    func setSavedBlips(savedBlips: [Blip]) {
+        self.savedBlips = savedBlips
         saveUser()
     }
 }

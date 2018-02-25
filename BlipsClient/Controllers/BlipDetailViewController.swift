@@ -95,12 +95,14 @@ class BlipDetailViewController: UIViewController, UIPageViewControllerDataSource
     @IBAction func saveBlip(_ sender: UIButton) {
         if saved {
             saveButton.setTitle("Save", for: .normal)
+            saved = false
             
             for observer in observers {
                 observer.blipUnsaved(placeID: blip.placeID)
             }
         } else {
             saveButton.setTitle("Unsave", for: .normal)
+            saved = true
             
             for observer in observers {
                 observer.blipSaved(blip: blip)

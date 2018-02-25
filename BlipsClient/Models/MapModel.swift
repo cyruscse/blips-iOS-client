@@ -141,7 +141,6 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
         currentAnnotations.removeAll()
         lastAnnotations.removeAll()
         
-        var blipUnwrapFailed: Bool = false
         
         for entry in serverDict {
             let dictEntry = (entry as NSDictionary).mutableCopy() as! NSMutableDictionary
@@ -150,15 +149,12 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
             if let blip = Blip(json: blipEntry) {
                 currentAnnotations.append(blip)
                 blip.requestPhotoMetadata()
-            }
-            else {
-                if blipUnwrapFailed == false {
-                    blipUnwrapFailed = true
-                    
-                    let alert = AnywhereUIAlertController(title: "Blip Display Failed", message: "The server didn't send blips in the correct format.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in }))
-                    alert.show()
-                }
+            } else {
+                let alert = AnywhereUIAlertController(title: "Blip Display Failed", message: "The server didn't send blips in the correct format.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in }))
+                alert.show()
+                
+                return
             }
         }
         

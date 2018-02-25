@@ -32,6 +32,10 @@ class SignInModel {
     let ratingTag = "rating"
     let priceRangeTag = "priceRange"
     let optionsTag = "options"
+    let savedBlipsTag = "savedBlips"
+    let serverSaveBlipTag = "saveBlip"
+    let serverUnSaveBlipTag = "unsaveBlip"
+    let blipIDTag = "blipID"
     let okTag = "OK"
     
     private var lookupModel: LookupModel!
@@ -203,6 +207,7 @@ class SignInModel {
             let responseContents = try ServerInterface.readJSON(data: data)
             var serverAttractionHistory: [String: Int] = [:]
             var autoQueryOptions: AutoQueryOptions!
+            var savedBlips = [Blip]()
             
             for (key, value) in responseContents {
                 if (key == userIdTag) {
@@ -265,6 +270,20 @@ class SignInModel {
                     }
                     
                     autoQueryOptions = AutoQueryOptions(autoQueryEnabled: enabledValue, autoQueryTypeGrabLength: typeGrabLengthValue, autoQueryOpenNow: openNowValue, autoQueryRating: ratingValue, autoQueryPriceRange: priceRangeValue)
+                } else if (key == savedBlipsTag) {
+                    let savedBlipsArray = value as! [[String: Any]]
+                    
+                    for entry in savedBlipsArray {
+                        if let blip = Blip(json: entry) {
+                            savedBlips.append(blip)
+                        } else {
+                            let alert = AnywhereUIAlertController(title: "Blip Retrieval Failed", message: "The server didn't send blips in the correct format.", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in }))
+                            alert.show()
+                            
+                            return
+                        }
+                    }
                 }
             }
             
@@ -272,6 +291,10 @@ class SignInModel {
             // setAttractionHistory calls User observers
             if serverAttractionHistory.count != 0 {
                 account.setAttractionHistory(history: serverAttractionHistory)
+            }
+            
+            if savedBlips.count != 0 {
+                account.setSavedBlips(savedBlips: savedBlips)
             }
             
             account.setAutoQueryOptions(options: autoQueryOptions)
@@ -366,8 +389,26 @@ class SignInModel {
             return
         }
         
-        let jsonRequest = [requestTypeTag: dbSyncTag, syncTypeTag: updateAutoQueryOptionsTag, userIdTag: String(account.getID()), optionsTag: autoQueryOptionsArray] as [String : Any]
+        let jsonRequest = [requestTypeTag: dbSyncTag, syncTypeTag: updateAutoQueryOptionsTag, userIdTag: String(account.getID()), optionsTag: autoQueryOptionsArray] as [String: Any]
         
+        ServerInterface.makeRequest(request: jsonRequest, callback: serverSyncCallback)
+    }
+    
+    func serverSaveBlip(blip: Blip, save: Bool) {
+        if account.isGuest() {
+            return
+        }
+        
+        var syncTag: String!
+        
+        if save == true {
+            syncTag = serverSaveBlipTag
+        } else {
+            syncTag = serverUnSaveBlipTag
+        }
+        
+        let jsonRequest = [requestTypeTag: dbSyncTag, syncTypeTag: syncTag, userIdTag: String(account.getID()), blipIDTag: blip.placeID] as [String: Any]
+                
         ServerInterface.makeRequest(request: jsonRequest, callback: serverSyncCallback)
     }
 }
