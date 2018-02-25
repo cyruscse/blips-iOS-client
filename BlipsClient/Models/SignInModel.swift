@@ -119,6 +119,7 @@ class SignInModel {
         self.loggedIn = true
         self.account = account
         
+        retrieveSavedBlipMetadata()
         serverLogin()
         
         notifyUserLoggedIn()
