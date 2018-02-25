@@ -21,7 +21,7 @@ struct PropertyKey {
     static let savedBlips = "savedBlips"
 }
 
-class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver, BlipDetailObserver {
+class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver, BlipDetailObserver, SavedBlipTableObserver {
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     static let ArchiveURL = DocumentsDirectory.appendingPathComponent("user")
     
@@ -293,4 +293,19 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver, BlipD
         self.savedBlips = savedBlips
         saveUser()
     }
+    
+    // SavedBlipTableObserver Methods
+    
+    func blipUnsaved(blip: Blip) {
+        for loopBlip in savedBlips {
+            if loopBlip.placeID == blip.placeID {
+                savedBlips.remove(at: savedBlips.index(of: loopBlip)!)
+            }
+        }
+        
+        signInModel.serverSaveBlip(blip: blip, save: false)
+        saveUser()
+    }
+    
+    // SavedBlipTableObserver Methods end
 }

@@ -10,11 +10,16 @@ import UIKit
 
 class SavedBlipTableViewController: UITableViewController {
     var savedBlips: [Blip]!
+    private var observers = [SavedBlipTableObserver]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.tableView.rowHeight = 44.0
+    }
+    
+    func addObserver(observer: SavedBlipTableObserver) {
+        observers.append(observer)
     }
 
     // MARK: - Table view data source
@@ -47,5 +52,19 @@ class SavedBlipTableViewController: UITableViewController {
         cell.typeImage.sd_setImage(with: blip.icon) { (_, _, _, _) in }
         
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+        let unsave = UITableViewRowAction(style: .destructive, title: "Unsave") { (action, indexPath) in
+            let unsavedBlip = self.savedBlips[indexPath.row]
+            self.savedBlips.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            
+            for observer in self.observers {
+                observer.blipUnsaved(blip: unsavedBlip)
+            }
+        }
+        
+        return [unsave]
     }
 }

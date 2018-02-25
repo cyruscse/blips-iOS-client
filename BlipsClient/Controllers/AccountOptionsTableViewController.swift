@@ -41,6 +41,7 @@ class AccountOptionsTableViewController: UITableViewController, UserAccountObser
         }
         
         if let savedBlipsVC = segue.destination as? SavedBlipTableViewController {
+            savedBlipsVC.addObserver(observer: account)
             savedBlipsVC.savedBlips = account.savedBlips
         }
     }
