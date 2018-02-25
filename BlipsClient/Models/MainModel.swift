@@ -35,6 +35,14 @@ class MainModel {
         accountVC.setSignInModel(signInModel: signInModel)
         signInModel.addUserAccountObserver(observer: accountVC)
     }
+    
+    func relayBlipSavedStatusCheck(placeID: String) -> Bool {
+        return signInModel.userSavedBlip(placeID: placeID)
+    }
+    
+    func relayBlipDetailObserverAddition(detailVC: BlipDetailViewController) {
+        signInModel.connectBlipDetailVC(detailVC: detailVC)
+    }
 
     // LookupModel Methods
     

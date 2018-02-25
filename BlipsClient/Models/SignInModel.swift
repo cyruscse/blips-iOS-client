@@ -102,7 +102,7 @@ class SignInModel {
     }
     
     func mergeGuestHistory() {
-        self.account.mergeAttractionHistory(toMerge: self.replacedGuest.getAttractionHistory())
+        self.account.mergeAttractionHistory(toMerge: self.replacedGuest.getAttractionHistory(), savedToMerge: self.replacedGuest.savedBlips)
         self.account.setAutoQueryOptions(options: self.replacedGuest.autoQueryOptions)
         self.setServerHistory(history: self.account.getAttractionHistory())
         self.updateServerAutoQueryOptions(enabled: self.account.autoQueryOptions.autoQueryEnabled, typeGrabLength: self.account.autoQueryOptions.autoQueryTypeGrabLength, openNow: self.account.autoQueryOptions.autoQueryOpenNow, rating: self.account.autoQueryOptions.autoQueryRating, priceRange: self.account.autoQueryOptions.autoQueryPriceRange)
@@ -177,6 +177,14 @@ class SignInModel {
     
     func getAccountID() -> Int {
         return account.getID()
+    }
+    
+    func userSavedBlip(placeID: String) -> Bool {
+        return account.blipIsSaved(placeID: placeID)
+    }
+    
+    func connectBlipDetailVC(detailVC: BlipDetailViewController) {
+        detailVC.addObserver(observer: account)
     }
     
     func serverLoginCallback(data: Data) {

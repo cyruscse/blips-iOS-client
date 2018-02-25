@@ -18,9 +18,10 @@ struct PropertyKey {
     static let attractionHistory = "attractionHistory"
     static let guest = "guest"
     static let autoQueryOptions = "autoQueryOptions"
+    static let savedBlips = "savedBlips"
 }
 
-class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver {
+class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver, BlipDetailObserver {
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
     static let ArchiveURL = DocumentsDirectory.appendingPathComponent("user")
     
@@ -37,8 +38,9 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver {
     var autoQueryOptions: AutoQueryOptions
     var lastQuery: CustomLookup!
     var signInModel: SignInModel!
+    var savedBlips: [Blip]!
     
-    init(firstName: String, lastName: String, imageURL: URL, email: String, userID: Int, attractionHistory: [String: Int], guest: Bool, autoQueryOptions: AutoQueryOptions) {
+    init(firstName: String, lastName: String, imageURL: URL, email: String, userID: Int, attractionHistory: [String: Int], guest: Bool, autoQueryOptions: AutoQueryOptions, savedBlips: [Blip]) {
         self.firstName = firstName
         self.lastName = lastName
         self.imageURL = imageURL
@@ -47,6 +49,7 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver {
         self.attractionHistory = attractionHistory
         self.guest = guest
         self.autoQueryOptions = autoQueryOptions
+        self.savedBlips = savedBlips
         
         if let data = try? Data(contentsOf: imageURL) {
             self.image = UIImage(data: data)!
@@ -59,7 +62,7 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver {
     // Guest account initialization (default values)
     convenience override init() {
         let queryOptions = AutoQueryOptions(autoQueryEnabled: true, autoQueryTypeGrabLength: 0, autoQueryOpenNow: true, autoQueryRating: 0.0, autoQueryPriceRange: 0)
-        self.init(firstName: "", lastName: "", imageURL: URL(string: ".")!, email: "", userID: -1, attractionHistory: [:], guest: true, autoQueryOptions: queryOptions)
+        self.init(firstName: "", lastName: "", imageURL: URL(string: ".")!, email: "", userID: -1, attractionHistory: [:], guest: true, autoQueryOptions: queryOptions, savedBlips: [Blip]())
     }
     
     // Standard getters and setters
@@ -113,40 +116,21 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver {
         aCoder.encode(self.attractionHistory, forKey: PropertyKey.attractionHistory)
         aCoder.encode(self.guest, forKey: PropertyKey.guest)
         aCoder.encode(self.autoQueryOptions, forKey: PropertyKey.autoQueryOptions)
+        aCoder.encode(self.savedBlips, forKey: PropertyKey.savedBlips)
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
-        guard let fName = aDecoder.decodeObject(forKey: PropertyKey.firstName) as? String else {
-            print("Failed to decode first name!")
-            return nil
-        }
-        
-        guard let lName = aDecoder.decodeObject(forKey: PropertyKey.lastName) as? String else {
-            print("Failed to decode last name!")
-            return nil
-        }
-        
-        guard let iURL = aDecoder.decodeObject(forKey: PropertyKey.imageURL) as? URL else {
-            print("Failed to decode image URL!")
-            return nil
-        }
-        
-        guard let eml = aDecoder.decodeObject(forKey: PropertyKey.email) as? String else {
-            print("Failed to decode email!")
-            return nil
-        }
-        
+        let fName = aDecoder.decodeObject(forKey: PropertyKey.firstName) as! String
+        let lName = aDecoder.decodeObject(forKey: PropertyKey.lastName) as! String
+        let iURL = aDecoder.decodeObject(forKey: PropertyKey.imageURL) as! URL
+        let eml = aDecoder.decodeObject(forKey: PropertyKey.email) as! String
         let id = aDecoder.decodeInteger(forKey: PropertyKey.userID)
-        
-        guard let history = aDecoder.decodeObject(forKey: PropertyKey.attractionHistory) as? [String: Int] else {
-            print("Failed to decode attraction history!")
-            return nil
-        }
-        
+        let history = aDecoder.decodeObject(forKey: PropertyKey.attractionHistory) as! [String: Int]
         let gst = aDecoder.decodeBool(forKey: PropertyKey.guest)
         let queryOptions = aDecoder.decodeObject(forKey: PropertyKey.autoQueryOptions) as! AutoQueryOptions
+        let saved = aDecoder.decodeObject(forKey: PropertyKey.savedBlips) as! [Blip]
 
-        self.init(firstName: fName, lastName: lName, imageURL: iURL, email: eml, userID: id, attractionHistory: history, guest: gst, autoQueryOptions: queryOptions)
+        self.init(firstName: fName, lastName: lName, imageURL: iURL, email: eml, userID: id, attractionHistory: history, guest: gst, autoQueryOptions: queryOptions, savedBlips: saved)
     }
     
     func saveUser() {
@@ -204,8 +188,11 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver {
         updateHistoryListeners()
     }
     
-    func mergeAttractionHistory(toMerge: [String: Int]) {
+    func mergeAttractionHistory(toMerge: [String: Int], savedToMerge: [Blip]) {
         self.attractionHistory.merge(toMerge, uniquingKeysWith: { first, second in return (first + second) })
+        
+        let mergedSavedBlips = Array(Set(self.savedBlips + savedToMerge))
+        self.savedBlips = mergedSavedBlips
     }
     
     func orderedAttractionHistory() -> [AttractionHistory] {
@@ -229,6 +216,7 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver {
     func clearAttractionHistoryAndSettings() {
         self.attractionHistory = [:]
         self.autoQueryOptions = AutoQueryOptions()
+        self.savedBlips = [Blip]()
         
         updateHistoryListeners()
     }
@@ -273,4 +261,33 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver {
     }
     
     // QueryOptionsObserver Methods end
+    
+    func saveBlip(blip: Blip) {
+        savedBlips.append(blip)
+        saveUser()
+    }
+    
+    func blipIsSaved(placeID: String) -> Bool {
+        for blip in savedBlips {
+            if blip.placeID == placeID {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
+    func blipSaved(blip: Blip) {
+        savedBlips.append(blip)
+    }
+    
+    func blipUnsaved(placeID: String) {
+        for blip in savedBlips {
+            if blip.placeID == placeID {
+                if let idx = savedBlips.index(of: blip) {
+                    savedBlips.remove(at: idx)
+                }
+            }
+        }
+    }
 }

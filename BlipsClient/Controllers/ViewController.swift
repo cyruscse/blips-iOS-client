@@ -206,6 +206,8 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         }
         
         blipDetailPop?.setBlipAnnotation(annotation: annotation)
+        blipDetailPop?.saved = mainModel.relayBlipSavedStatusCheck(placeID: annotation.blip.placeID)
+        mainModel.relayBlipDetailObserverAddition(detailVC: blipDetailPop!)
         
         self.present(blipDetailPop!, animated: true, completion: nil)
     }

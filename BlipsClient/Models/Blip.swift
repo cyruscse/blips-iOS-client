@@ -13,7 +13,7 @@ import GooglePlaces
 // TODO:
 // use GMSPlacesClient to ascertain openNow status
 
-class Blip: NSObject, MKAnnotation {
+class Blip: NSObject, MKAnnotation, NSCoding {
     // Server sends the suffix for the icon (i.e. for a hotel, icon will contain "lodging-71.png")
     static let iconURLPrefix: String = "https://maps.gstatic.com/mapfiles/place_api/icons/"
     
@@ -53,6 +53,20 @@ class Blip: NSObject, MKAnnotation {
         // Force unwrapping this is fine, String contents are set by the time this happens
         self.icon = URL(string: (Blip.iconURLPrefix + iconSuffix))!
         self.information = ""
+    }
+    
+    init(title: String, coordinate: CLLocationCoordinate2D, attractionType: String, rating: Double, price: Int, placeID: String, photos: [UIImage], photoMetadata: [GMSPlacePhotoMetadata], retrievedPhotos: Bool, icon: URL, information: String) {
+        self.title = title
+        self.coordinate = coordinate
+        self.attractionType = attractionType
+        self.rating = rating
+        self.price = price
+        self.placeID = placeID
+        self.photos = photos
+        self.photoMetadata = photoMetadata
+        self.retrievedPhotos = retrievedPhotos
+        self.icon = icon
+        self.information = information
     }
     
     func addObserver(observer: BlipObserver) {
@@ -110,4 +124,38 @@ class Blip: NSObject, MKAnnotation {
     var subtitle: String? {
         return attractionType
     }
+    
+    // NSCoding Methods
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(title, forKey: "title")
+        //aCoder.encode(coordinate, forKey: "coordinate")
+        aCoder.encode(attractionType, forKey: "attractionType")
+        aCoder.encode(rating, forKey: "rating")
+        aCoder.encode(price, forKey: "price")
+        aCoder.encode(placeID, forKey: "placeID")
+        //aCoder.encode(photos, forKey: "photos")
+        //aCoder.encode(photoMetadata, forKey: "photoMetadata")
+        aCoder.encode(retrievedPhotos, forKey: "retrievedPhotos")
+        //aCoder.encode(icon, forKey: "icon")
+        aCoder.encode(information, forKey: "information")
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        let name = aDecoder.decodeObject(forKey: "title") as! String
+        //let location = aDecoder.decodeObject(forKey: "coordinate") as! CLLocationCoordinate2D
+        let type = aDecoder.decodeObject(forKey: "attractionType") as! String
+        let blipRating = aDecoder.decodeDouble(forKey: "rating")
+        let blipPrice = aDecoder.decodeInteger(forKey: "price")
+        let id = aDecoder.decodeObject(forKey: "placeID") as! String
+        //let pictures = aDecoder.decodeObject(forKey: "photos") as! [UIImage]
+        //let metadata = aDecoder.decodeObject(forKey: "photoMetadata") as! [GMSPlacePhotoMetadata]
+        let retrieved = aDecoder.decodeBool(forKey: "retrievedPhotos")
+        //let iconURL = aDecoder.decodeObject(forKey: "icon") as! URL
+        let info = aDecoder.decodeObject(forKey: "information") as! String
+        
+        self.init(title: name, coordinate: CLLocationCoordinate2D(), attractionType: type, rating: blipRating, price: blipPrice, placeID: id, photos: [UIImage](), photoMetadata: [GMSPlacePhotoMetadata](), retrievedPhotos: retrieved, icon: URL(string: ".")!, information: info)
+    }
+    
+    // NSCoding Methods end
 }
