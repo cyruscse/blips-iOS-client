@@ -16,6 +16,8 @@ class SavedBlipTableViewController: UITableViewController {
         super.viewDidLoad()
         
         self.tableView.rowHeight = 44.0
+        self.navigationItem.title = "Saved Blips"
+        self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
     
     func addObserver(observer: SavedBlipTableObserver) {
@@ -66,5 +68,23 @@ class SavedBlipTableViewController: UITableViewController {
         }
         
         return [unsave]
+    }
+    
+    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+        return .none
+    }
+    
+    override func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+    
+    override func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let movedBlip = self.savedBlips[sourceIndexPath.row]
+        savedBlips.remove(at: sourceIndexPath.row)
+        savedBlips.insert(movedBlip, at: destinationIndexPath.row)
+        
+        for observer in observers {
+            observer.reorderedBlips(sourceRow: sourceIndexPath.row, destinationRow: destinationIndexPath.row)
+        }
     }
 }

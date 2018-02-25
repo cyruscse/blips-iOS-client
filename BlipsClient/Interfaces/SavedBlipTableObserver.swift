@@ -10,4 +10,5 @@ import Foundation
 
 protocol SavedBlipTableObserver {
     func blipUnsaved(blip: Blip)
+    func reorderedBlips(sourceRow: Int, destinationRow: Int)
 }

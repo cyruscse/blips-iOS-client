@@ -307,5 +307,11 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver, BlipD
         saveUser()
     }
     
+    func reorderedBlips(sourceRow: Int, destinationRow: Int) {
+        let movedBlip = self.savedBlips[sourceRow]
+        savedBlips.remove(at: sourceRow)
+        savedBlips.insert(movedBlip, at: destinationRow)
+    }
+    
     // SavedBlipTableObserver Methods end
 }
