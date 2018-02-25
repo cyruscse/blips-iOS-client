@@ -28,6 +28,8 @@ class Blip: NSObject, MKAnnotation, NSCoding {
     var retrievedPhotos: Bool = false
     var icon: URL
     var information: String
+    var city: String
+    var country: String
     
     var observers: [BlipObserver] = []
     
@@ -39,7 +41,9 @@ class Blip: NSObject, MKAnnotation, NSCoding {
         let rating = json["rating"] as? Double,
         let price = json["price"] as? Int,
         let placeID = json["placeID"] as? String,
-        let iconSuffix = json["icon"] as? String
+        let iconSuffix = json["icon"] as? String,
+        let cityName = json["city"] as? String,
+        let countryName = json["country"] as? String
         else {
             return nil
         }
@@ -53,9 +57,11 @@ class Blip: NSObject, MKAnnotation, NSCoding {
         // Force unwrapping this is fine, String contents are set by the time this happens
         self.icon = URL(string: (Blip.iconURLPrefix + iconSuffix))!
         self.information = ""
+        self.city = cityName
+        self.country = countryName
     }
     
-    init(title: String, coordinate: CLLocationCoordinate2D, attractionType: String, rating: Double, price: Int, placeID: String, photos: [UIImage], photoMetadata: [GMSPlacePhotoMetadata], retrievedPhotos: Bool, icon: URL, information: String) {
+    init(title: String, coordinate: CLLocationCoordinate2D, attractionType: String, rating: Double, price: Int, placeID: String, photos: [UIImage], photoMetadata: [GMSPlacePhotoMetadata], retrievedPhotos: Bool, icon: URL, information: String, city: String, country: String) {
         self.title = title
         self.coordinate = coordinate
         self.attractionType = attractionType
@@ -67,6 +73,8 @@ class Blip: NSObject, MKAnnotation, NSCoding {
         self.retrievedPhotos = retrievedPhotos
         self.icon = icon
         self.information = information
+        self.city = city
+        self.country = country
     }
     
     func addObserver(observer: BlipObserver) {
@@ -137,6 +145,8 @@ class Blip: NSObject, MKAnnotation, NSCoding {
         aCoder.encode(placeID, forKey: "placeID")
         aCoder.encode(icon, forKey: "icon")
         aCoder.encode(information, forKey: "information")
+        aCoder.encode(city, forKey: "city")
+        aCoder.encode(country, forKey: "country")
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
@@ -149,10 +159,12 @@ class Blip: NSObject, MKAnnotation, NSCoding {
         let id = aDecoder.decodeObject(forKey: "placeID") as! String
         let iconURL = aDecoder.decodeObject(forKey: "icon") as! URL
         let info = aDecoder.decodeObject(forKey: "information") as! String
+        let cityName = aDecoder.decodeObject(forKey: "city") as! String
+        let countryName = aDecoder.decodeObject(forKey: "country") as! String
         
         let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         
-        self.init(title: name, coordinate: location, attractionType: type, rating: blipRating, price: blipPrice, placeID: id, photos: [UIImage](), photoMetadata: [GMSPlacePhotoMetadata](), retrievedPhotos: false, icon: iconURL, information: info)
+        self.init(title: name, coordinate: location, attractionType: type, rating: blipRating, price: blipPrice, placeID: id, photos: [UIImage](), photoMetadata: [GMSPlacePhotoMetadata](), retrievedPhotos: false, icon: iconURL, information: info, city: cityName, country: countryName)
     }
     
     // NSCoding Methods end
