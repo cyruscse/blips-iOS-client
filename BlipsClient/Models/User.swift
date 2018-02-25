@@ -139,8 +139,6 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver, BlipD
         if isSuccessfulSave == false {
             print("Failed to save user")
         }
-        
-        // need to sync account with server
     }
     
     // User History observer methods
@@ -261,12 +259,6 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver, BlipD
     }
     
     // QueryOptionsObserver Methods end
-    
-    func saveBlip(blip: Blip) {
-        savedBlips.append(blip)
-        saveUser()
-    }
-    
     func blipIsSaved(placeID: String) -> Bool {
         for blip in savedBlips {
             if blip.placeID == placeID {
@@ -279,6 +271,7 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver, BlipD
     
     func blipSaved(blip: Blip) {
         savedBlips.append(blip)
+        saveUser()
     }
     
     func blipUnsaved(placeID: String) {
@@ -289,5 +282,7 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver, BlipD
                 }
             }
         }
+        
+        saveUser()
     }
 }

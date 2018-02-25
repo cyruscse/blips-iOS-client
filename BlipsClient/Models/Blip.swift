@@ -129,32 +129,30 @@ class Blip: NSObject, MKAnnotation, NSCoding {
     
     func encode(with aCoder: NSCoder) {
         aCoder.encode(title, forKey: "title")
-        //aCoder.encode(coordinate, forKey: "coordinate")
+        aCoder.encode(coordinate.latitude, forKey: "latitude")
+        aCoder.encode(coordinate.longitude, forKey: "longitude")
         aCoder.encode(attractionType, forKey: "attractionType")
         aCoder.encode(rating, forKey: "rating")
         aCoder.encode(price, forKey: "price")
         aCoder.encode(placeID, forKey: "placeID")
-        //aCoder.encode(photos, forKey: "photos")
-        //aCoder.encode(photoMetadata, forKey: "photoMetadata")
-        aCoder.encode(retrievedPhotos, forKey: "retrievedPhotos")
-        //aCoder.encode(icon, forKey: "icon")
+        aCoder.encode(icon, forKey: "icon")
         aCoder.encode(information, forKey: "information")
     }
     
     required convenience init?(coder aDecoder: NSCoder) {
         let name = aDecoder.decodeObject(forKey: "title") as! String
-        //let location = aDecoder.decodeObject(forKey: "coordinate") as! CLLocationCoordinate2D
+        let latitude = aDecoder.decodeDouble(forKey: "latitude")
+        let longitude = aDecoder.decodeDouble(forKey: "longitude")
         let type = aDecoder.decodeObject(forKey: "attractionType") as! String
         let blipRating = aDecoder.decodeDouble(forKey: "rating")
         let blipPrice = aDecoder.decodeInteger(forKey: "price")
         let id = aDecoder.decodeObject(forKey: "placeID") as! String
-        //let pictures = aDecoder.decodeObject(forKey: "photos") as! [UIImage]
-        //let metadata = aDecoder.decodeObject(forKey: "photoMetadata") as! [GMSPlacePhotoMetadata]
-        let retrieved = aDecoder.decodeBool(forKey: "retrievedPhotos")
-        //let iconURL = aDecoder.decodeObject(forKey: "icon") as! URL
+        let iconURL = aDecoder.decodeObject(forKey: "icon") as! URL
         let info = aDecoder.decodeObject(forKey: "information") as! String
         
-        self.init(title: name, coordinate: CLLocationCoordinate2D(), attractionType: type, rating: blipRating, price: blipPrice, placeID: id, photos: [UIImage](), photoMetadata: [GMSPlacePhotoMetadata](), retrievedPhotos: retrieved, icon: URL(string: ".")!, information: info)
+        let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        
+        self.init(title: name, coordinate: location, attractionType: type, rating: blipRating, price: blipPrice, placeID: id, photos: [UIImage](), photoMetadata: [GMSPlacePhotoMetadata](), retrievedPhotos: false, icon: iconURL, information: info)
     }
     
     // NSCoding Methods end
