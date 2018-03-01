@@ -959,8 +959,12 @@
                             <outlet property="delegate" destination="PWW-WQ-sxz" id="baM-XL-MWG"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="dOS-oa-xsD" kind="unwind" identifier="querySelectedBlips" unwindAction="unwindToBlipMapWithSender:" id="Cya-XW-tU1"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pux-d9-dEd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="dOS-oa-xsD" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4719" y="-261"/>
         </scene>

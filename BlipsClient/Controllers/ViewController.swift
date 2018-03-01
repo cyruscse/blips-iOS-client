@@ -27,6 +27,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
     private var maximumTableSize: CGFloat!
     private var safeAreaHeight: CGFloat!
     private var bottomPadding: CGFloat!
+    private var refreshButtonEnabled: Bool = true
 
     func relayUserLogin(account: User) {
         mainModel.relayUserLogin(account: account)
@@ -45,10 +46,17 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         mainModel.relayAPIKeyProvided()
     }
     
-    func annotationsUpdated(annotations: [MKAnnotation]) {
+    func annotationsUpdated(annotations: [MKAnnotation], updateType: UpdateType) {
         let tableView = blipTableVCasVC?.view as! UITableView
         self.blipTableVCYPlacement.constant = 0.0
         self.maximumTableSize = 0.0
+        
+        if updateType == UpdateType.SavedBlip {
+            hideRefreshButton()
+            refreshButtonEnabled = false
+        } else {
+            refreshButtonEnabled = true
+        }
         
         if toggleTable.viewsVisible == false {
             toggleTable.viewsVisible = true
@@ -173,7 +181,9 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
     }
     
     func showRefreshButton() {
-        refreshMap.asyncShow()
+        if refreshButtonEnabled {
+            refreshMap.asyncShow()
+        }
     }
     
     func hideRefreshButton() {
@@ -184,6 +194,9 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
     @IBAction func unwindToBlipMap(sender: UIStoryboardSegue) {
         if let sourceViewController = sender.source as? LookupViewController {
             mainModel.relayBlipLookup(lookupVC: sourceViewController)
+        }
+        if let savedBlipsVC = sender.source as? SavedBlipTableViewController {
+            mainModel.relaySavedBlipLookup(savedVC: savedBlipsVC)
         }
         if let _ = sender.source as? AccountViewController {
             mainModel.clearMapVC(retainAnnotations: false)

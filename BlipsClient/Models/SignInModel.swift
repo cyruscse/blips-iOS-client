@@ -82,7 +82,6 @@ class SignInModel {
     
     func notifyUserLoggedIn() {
         DispatchQueue.main.async {
-            print("async")
             for observer in self.userAccountObservers {
                 observer.userLoggedIn(account: self.account)
             }

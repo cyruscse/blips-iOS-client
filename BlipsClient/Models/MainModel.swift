@@ -57,6 +57,10 @@ class MainModel {
         signInModel.updateAttractionHistory(selections: lookupVC.getSelectedAttractions())
     }
     
+    func relaySavedBlipLookup(savedVC: SavedBlipTableViewController) {
+        mapModel.placeBlips(blips: savedVC.selectedBlips)
+    }
+    
     func registerLookupVC(lookupVC: LookupViewController) {
         // Account needs to know when Attraction Types are available
         // in order to set a prioritized list on app load

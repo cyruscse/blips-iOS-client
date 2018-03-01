@@ -12,6 +12,14 @@
 import Foundation
 import MapKit
 
+enum UpdateType {
+    case LookupRefresh
+    case ServerLookup
+    case SavedBlip
+    case MapClear
+    case MapRestore
+}
+
 class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelegate {
     private let regionRadius: CLLocationDistance = 250
     
@@ -54,7 +62,7 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
         currentAnnotations = []
         lastAnnotations = []
         self.account = nil
-        notifyAnnotationsUpdated()
+        notifyAnnotationsUpdated(updateType: UpdateType.MapClear)
     }
     
     func guestReplaced(guestQueried: Bool) {}
@@ -72,7 +80,7 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
     }
     
     // Notify MapVC when its annotations should change
-    func notifyAnnotationsUpdated() {
+    func notifyAnnotationsUpdated(updateType: UpdateType) {
         if currentAnnotations.count != 0 {
             haveAnnotations = true
         } else {
@@ -81,7 +89,7 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
         
         DispatchQueue.main.async {
             for observer in self.mapModelObservers {
-                observer.annotationsUpdated(annotations: self.currentAnnotations)
+                observer.annotationsUpdated(annotations: self.currentAnnotations, updateType: updateType)
             }
         }
     }
@@ -106,13 +114,13 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
         }
         
         currentAnnotations = []
-        notifyAnnotationsUpdated()
+        notifyAnnotationsUpdated(updateType: UpdateType.MapClear)
     }
     
     // As explained above, restore the saved annotations to the MapVC
     func restoreMapVC() {
         currentAnnotations = lastAnnotations
-        notifyAnnotationsUpdated()
+        notifyAnnotationsUpdated(updateType: UpdateType.MapRestore)
     }
     
     // Server query request methods
@@ -122,7 +130,6 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
     func parseBlips(serverDict: [Dictionary<String, Any>]) {
         currentAnnotations.removeAll()
         lastAnnotations.removeAll()
-        
         
         for entry in serverDict {
             let dictEntry = (entry as NSDictionary).mutableCopy() as! NSMutableDictionary
@@ -141,7 +148,15 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
             }
         }
         
-        notifyAnnotationsUpdated()
+        notifyAnnotationsUpdated(updateType: UpdateType.ServerLookup)
+    }
+    
+    func placeBlips(blips: [Blip]) {
+        currentAnnotations.removeAll()
+        lastAnnotations.removeAll()
+        
+        currentAnnotations.append(contentsOf: blips)
+        notifyAnnotationsUpdated(updateType: UpdateType.SavedBlip)
     }
     
     // Callback function for server query.
@@ -183,7 +198,7 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
         notifyLocationUpdated()
         
         // Initializes MapAccessoryViews on load
-        notifyAnnotationsUpdated()
+        notifyAnnotationsUpdated(updateType: UpdateType.ServerLookup)
         
         let topTypes = Array(account.orderedAttractionHistory()[0...(account.autoQueryOptions.autoQueryTypeGrabLength - 1)])
         let topTypesStrings = topTypes.map { $0.attraction }

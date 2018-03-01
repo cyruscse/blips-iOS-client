@@ -36,7 +36,7 @@ class BlipTableViewController: UITableViewController, MapModelObserver {
         self.view.isUserInteractionEnabled = true
     }
     
-    func annotationsUpdated(annotations: [MKAnnotation]) {
+    func annotationsUpdated(annotations: [MKAnnotation], updateType: UpdateType) {
         if let asBlips = annotations as? [Blip] {
             self.currentBlips = asBlips
         }

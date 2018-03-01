@@ -10,14 +10,24 @@ import UIKit
 
 class SavedBlipTableViewController: UITableViewController {
     var savedBlips: [Blip]!
+    var selectedBlips: [Blip] = [Blip]()
     private var observers = [SavedBlipTableObserver]()
+    private var doneButtonItem: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        doneButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.doneButtonPressed(sender:)))
+        doneButtonItem.isEnabled = false
+        
+        self.tableView.allowsMultipleSelection = true
         self.tableView.rowHeight = 44.0
         self.navigationItem.title = "Saved Blips"
-        self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.navigationItem.rightBarButtonItem = doneButtonItem
+    }
+    
+    @objc func doneButtonPressed(sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "querySelectedBlips", sender: self)
     }
     
     func addObserver(observer: SavedBlipTableObserver) {
@@ -47,6 +57,10 @@ class SavedBlipTableViewController: UITableViewController {
         }
         
         let blip = savedBlips[indexPath.row]
+
+        if selectedBlips.contains(blip) {
+            cell.accessoryType = .checkmark
+        }
         
         cell.selectionStyle = .none
         cell.blipName.text = blip.title
@@ -85,6 +99,31 @@ class SavedBlipTableViewController: UITableViewController {
         
         for observer in observers {
             observer.reorderedBlips(sourceRow: sourceIndexPath.row, destinationRow: destinationIndexPath.row)
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? BlipTableViewCell else {
+            fatalError("Cell wasn't BlipTableViewCell")
+        }
+        
+        cell.accessoryType = .checkmark
+        selectedBlips.append(savedBlips[indexPath.row])
+        
+        doneButtonItem.isEnabled = true
+    }
+    
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? BlipTableViewCell else {
+            fatalError("Cell wasn't BlipTableViewCell")
+        }
+        
+        cell.accessoryType = .none
+        let index = selectedBlips.index(of: savedBlips[indexPath.row])
+        selectedBlips.remove(at: index!)
+        
+        if selectedBlips.count == 0 {
+            doneButtonItem.isEnabled = false
         }
     }
 }
