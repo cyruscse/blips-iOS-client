@@ -17,7 +17,7 @@ class SavedBlipTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        doneButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(self.doneButtonPressed(sender:)))
+        doneButtonItem = UIBarButtonItem(title: "Lookup", style: .done, target: self, action: #selector(self.doneButtonPressed(sender:)))
         doneButtonItem.isEnabled = false
         
         self.tableView.allowsMultipleSelection = true
@@ -75,6 +75,11 @@ class SavedBlipTableViewController: UITableViewController {
             let unsavedBlip = self.savedBlips[indexPath.row]
             self.savedBlips.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
+            
+            if self.selectedBlips.contains(unsavedBlip) {
+                let index = self.selectedBlips.index(of: unsavedBlip)
+                self.selectedBlips.remove(at: index!)
+            }
             
             for observer in self.observers {
                 observer.blipUnsaved(blip: unsavedBlip)
