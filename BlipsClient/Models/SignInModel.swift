@@ -52,7 +52,7 @@ class SignInModel {
         userAccountObservers.append(observer)
         
         if loggedIn == true {
-            notifyUserLoggedIn()
+            observer.userLoggedIn(account: account)
         }
     }
     
@@ -82,6 +82,7 @@ class SignInModel {
     
     func notifyUserLoggedIn() {
         DispatchQueue.main.async {
+            print("async")
             for observer in self.userAccountObservers {
                 observer.userLoggedIn(account: self.account)
             }
