@@ -36,11 +36,8 @@ class SavedBlipTableViewController: UITableViewController {
 
     // MARK: - Table view data source
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        var sections = 0
-        
+    override func numberOfSections(in tableView: UITableView) -> Int {        
         if savedBlips.count != 0 {
-            sections = 1
             tableView.separatorStyle = .singleLine
         } else {
             let noSavedBlipsLabel = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.width, height: tableView.bounds.height))
@@ -56,7 +53,7 @@ class SavedBlipTableViewController: UITableViewController {
             tableView.separatorStyle = .none
         }
         
-        return sections
+        return 1
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -97,6 +94,10 @@ class SavedBlipTableViewController: UITableViewController {
             if self.selectedBlips.contains(unsavedBlip) {
                 let index = self.selectedBlips.index(of: unsavedBlip)
                 self.selectedBlips.remove(at: index!)
+                
+                if (self.selectedBlips.count == 0) {
+                    self.doneButtonItem.isEnabled = false
+                }
             }
             
             for observer in self.observers {
