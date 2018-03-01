@@ -63,7 +63,7 @@ class ServerInterface {
         } catch ServerInterfaceError.badJSONRequest(description: let error) {
             print(error)
         } catch {
-            print("Other error")
+            print("Generic request failed")
         }
     }
 }

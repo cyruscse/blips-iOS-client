@@ -135,6 +135,7 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
                 let alert = AnywhereUIAlertController(title: "Blip Display Failed", message: "The server didn't send blips in the correct format.", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in }))
                 alert.show()
+                print("bad blips")
                 
                 return
             }
@@ -158,11 +159,12 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
                 let alert = AnywhereUIAlertController(title: "Query Failed", message: status[0], preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in }))
                 alert.show()
+                print("query failed")
             }
         } catch ServerInterfaceError.JSONParseFailed(description: let error) {
             print(error)
         } catch {
-            print("Other error")
+            print("Blip Query failed")
         }
     }
     

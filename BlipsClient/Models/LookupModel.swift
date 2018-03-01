@@ -145,7 +145,7 @@ class LookupModel: UserHistoryObserver {
         } catch ServerInterfaceError.JSONParseFailed(description: let error) {
             print(error)
         } catch {
-            print("Other error")
+            print("Attraction Type query failed")
         }
     }
     

@@ -227,6 +227,7 @@ class SignInModel {
                     if (status.first != okTag) {
                         let alert = AnywhereUIAlertController(title: "Login Failed", message: "The server rejected your login request.", preferredStyle: .alert);
                         alert.show();
+                        print("bad login")
                         
                         return
                     }
@@ -263,6 +264,7 @@ class SignInModel {
                             default:
                                 let alert = AnywhereUIAlertController(title: "Login Failed", message: "The server returned invalid data.", preferredStyle: .alert);
                                 alert.show();
+                                print("login failed")
                                 
                                 return
                             }
@@ -272,6 +274,7 @@ class SignInModel {
                     if enabledValue == nil || typeGrabLengthValue == nil || openNowValue == nil || ratingValue == nil || priceRangeValue == nil {
                         let alert = AnywhereUIAlertController(title: "Login Failed", message: "The server didn't return all required data.", preferredStyle: .alert);
                         alert.show();
+                        print("login missing data")
                         
                         return
                     }
@@ -287,6 +290,7 @@ class SignInModel {
                             let alert = AnywhereUIAlertController(title: "Blip Retrieval Failed", message: "The server didn't send blips in the correct format.", preferredStyle: .alert)
                             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in }))
                             alert.show()
+                            print("bad blip format")
                             
                             return
                         }
@@ -309,7 +313,7 @@ class SignInModel {
         } catch ServerInterfaceError.JSONParseFailed(description: let error) {
             print(error)
         } catch {
-            print("Other error")
+            print("User login failed")
         }
     }
     
@@ -323,6 +327,7 @@ class SignInModel {
                         if strValue != okTag {
                             let alert = AnywhereUIAlertController(title: "Server Sync Failed", message: "Client information couldn't be synced to the server.", preferredStyle: .alert);
                             alert.show();
+                            print("couldn't sync to server")
                             
                             return
                         }
@@ -332,7 +337,7 @@ class SignInModel {
         } catch ServerInterfaceError.JSONParseFailed(description: let error) {
             print(error)
         } catch {
-            print("Other error")
+            print("Failed to sync to server")
         }
     }
     
