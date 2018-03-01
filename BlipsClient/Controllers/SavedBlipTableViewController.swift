@@ -37,7 +37,26 @@ class SavedBlipTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        var sections = 0
+        
+        if savedBlips.count != 0 {
+            sections = 1
+            tableView.separatorStyle = .singleLine
+        } else {
+            let noSavedBlipsLabel = UILabel(frame: CGRect(x: 0.0, y: 0.0, width: tableView.bounds.width, height: tableView.bounds.height))
+            let font = UIFontDescriptor(name: "Embrina", size: 30.0)
+            
+            noSavedBlipsLabel.text = "No Saved Blips"
+            noSavedBlipsLabel.textColor = UIColor.lightGray
+            noSavedBlipsLabel.baselineAdjustment = .alignBaselines
+            noSavedBlipsLabel.backgroundColor = UIColor.clear
+            noSavedBlipsLabel.textAlignment = .center
+            noSavedBlipsLabel.font = UIFont(descriptor: font, size: 30.0)
+            tableView.backgroundView = noSavedBlipsLabel
+            tableView.separatorStyle = .none
+        }
+        
+        return sections
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -52,7 +71,6 @@ class SavedBlipTableViewController: UITableViewController {
         }
         
         if savedBlips.count == 0 {
-            //self.hideTableView() - hide table and display background message instead
             return UITableViewCell()
         }
         
