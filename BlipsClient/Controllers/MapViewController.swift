@@ -27,7 +27,7 @@ class MapViewController: MKMapView, MapModelObserver {
 
     // MapModelObserver methods
     
-    func annotationsUpdated(annotations: [MKAnnotation]) {
+    func annotationsUpdated(annotations: [MKAnnotation], updateType: UpdateType) {
         self.removeAnnotations(myAnnotations)
         self.myAnnotations = annotations
         self.addAnnotations(myAnnotations)

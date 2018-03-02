@@ -32,8 +32,12 @@ class AccountViewController: UIViewController, UserAccountObserver {
         userSignedIn = false
     }
     
-    func guestReplaced() {
-        let alert = UIAlertController(title: "Save Guest History", message: "Do you want to merge your history with the guest account's history?", preferredStyle: .alert)
+    func guestReplaced(guestQueried: Bool) {
+        if guestQueried == false {
+            return
+        }
+        
+        let alert = UIAlertController(title: "Save Guest History and Options", message: "Do you want to merge your history and options with the guest account's history and options?", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in self.signInModel?.mergeGuestHistory() }))
         alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { _ in return }))
         self.present(alert, animated: true, completion: nil)
@@ -46,7 +50,7 @@ class AccountViewController: UIViewController, UserAccountObserver {
     @IBAction func presentActionSheet(_ sender: UIBarButtonItem) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let clearHistoryAction = UIAlertAction(title: "Clear History", style: .default, handler: { (alert: UIAlertAction!) -> Void in
+        let clearHistoryAction = UIAlertAction(title: "Clear History and Settings", style: .default, handler: { (alert: UIAlertAction!) -> Void in
             self.signInModel?.clearAttractionHistory()
         })
         
@@ -79,6 +83,10 @@ class AccountViewController: UIViewController, UserAccountObserver {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationVC = segue.destination as? SignInViewController {
             signInModel!.addUserAccountObserver(observer: destinationVC)
+        }
+        
+        if let optionsVC = segue.destination as? AccountOptionsTableViewController {
+            signInModel!.addUserAccountObserver(observer: optionsVC)
         }
         
         super.prepare(for: segue, sender: sender)

@@ -62,7 +62,7 @@ class MapAccessoryView: UIView, MapModelObserver {
         self.alpha = 0.0
     }
     
-    func annotationsUpdated(annotations: [MKAnnotation]) {
+    func annotationsUpdated(annotations: [MKAnnotation], updateType: UpdateType) {
         DispatchQueue.main.async {            
             if annotations.count == 0 {
                 self.fadeHideView()

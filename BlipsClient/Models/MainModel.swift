@@ -36,6 +36,14 @@ class MainModel {
         signInModel.addUserAccountObserver(observer: accountVC)
     }
     
+    func relayBlipSavedStatusCheck(placeID: String) -> Bool {
+        return signInModel.userSavedBlip(placeID: placeID)
+    }
+    
+    func relayBlipDetailObserverAddition(detailVC: BlipDetailViewController) {
+        signInModel.connectBlipDetailVC(detailVC: detailVC)
+    }
+
     // LookupModel Methods
     
     func relayLookupModelObserverAddition(observer: LookupModelObserver) {
@@ -47,6 +55,10 @@ class MainModel {
     func relayBlipLookup(lookupVC: LookupViewController) {
         mapModel.manualRequestBlips(lookupVC: lookupVC, latitude: locManager.getLatitude(), longitude: locManager.getLongitude())
         signInModel.updateAttractionHistory(selections: lookupVC.getSelectedAttractions())
+    }
+    
+    func relaySavedBlipLookup(savedVC: SavedBlipTableViewController) {
+        mapModel.placeBlips(blips: savedVC.selectedBlips)
     }
     
     func registerLookupVC(lookupVC: LookupViewController) {
@@ -96,6 +108,10 @@ class MainModel {
     
     func setMainVC(vc: ViewController) {
         mapModel.mainVC = vc
+    }
+    
+    func relayAPIKeyProvided() {
+        signInModel.apiKeyProvided()
     }
 
     init() {

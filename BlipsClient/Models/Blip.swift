@@ -13,7 +13,7 @@ import GooglePlaces
 // TODO:
 // use GMSPlacesClient to ascertain openNow status
 
-class Blip: NSObject, MKAnnotation {
+class Blip: NSObject, MKAnnotation, NSCoding {
     // Server sends the suffix for the icon (i.e. for a hotel, icon will contain "lodging-71.png")
     static let iconURLPrefix: String = "https://maps.gstatic.com/mapfiles/place_api/icons/"
     
@@ -28,6 +28,8 @@ class Blip: NSObject, MKAnnotation {
     var retrievedPhotos: Bool = false
     var icon: URL
     var information: String
+    var city: String
+    var country: String
     
     var observers: [BlipObserver] = []
     
@@ -39,7 +41,9 @@ class Blip: NSObject, MKAnnotation {
         let rating = json["rating"] as? Double,
         let price = json["price"] as? Int,
         let placeID = json["placeID"] as? String,
-        let iconSuffix = json["icon"] as? String
+        let iconSuffix = json["icon"] as? String,
+        let cityName = json["city"] as? String,
+        let countryName = json["country"] as? String
         else {
             return nil
         }
@@ -53,6 +57,24 @@ class Blip: NSObject, MKAnnotation {
         // Force unwrapping this is fine, String contents are set by the time this happens
         self.icon = URL(string: (Blip.iconURLPrefix + iconSuffix))!
         self.information = ""
+        self.city = cityName
+        self.country = countryName
+    }
+    
+    init(title: String, coordinate: CLLocationCoordinate2D, attractionType: String, rating: Double, price: Int, placeID: String, photos: [UIImage], photoMetadata: [GMSPlacePhotoMetadata], retrievedPhotos: Bool, icon: URL, information: String, city: String, country: String) {
+        self.title = title
+        self.coordinate = coordinate
+        self.attractionType = attractionType
+        self.rating = rating
+        self.price = price
+        self.placeID = placeID
+        self.photos = photos
+        self.photoMetadata = photoMetadata
+        self.retrievedPhotos = retrievedPhotos
+        self.icon = icon
+        self.information = information
+        self.city = city
+        self.country = country
     }
     
     func addObserver(observer: BlipObserver) {
@@ -110,4 +132,40 @@ class Blip: NSObject, MKAnnotation {
     var subtitle: String? {
         return attractionType
     }
+    
+    // NSCoding Methods
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(title, forKey: "title")
+        aCoder.encode(coordinate.latitude, forKey: "latitude")
+        aCoder.encode(coordinate.longitude, forKey: "longitude")
+        aCoder.encode(attractionType, forKey: "attractionType")
+        aCoder.encode(rating, forKey: "rating")
+        aCoder.encode(price, forKey: "price")
+        aCoder.encode(placeID, forKey: "placeID")
+        aCoder.encode(icon, forKey: "icon")
+        aCoder.encode(information, forKey: "information")
+        aCoder.encode(city, forKey: "city")
+        aCoder.encode(country, forKey: "country")
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        let name = aDecoder.decodeObject(forKey: "title") as! String
+        let latitude = aDecoder.decodeDouble(forKey: "latitude")
+        let longitude = aDecoder.decodeDouble(forKey: "longitude")
+        let type = aDecoder.decodeObject(forKey: "attractionType") as! String
+        let blipRating = aDecoder.decodeDouble(forKey: "rating")
+        let blipPrice = aDecoder.decodeInteger(forKey: "price")
+        let id = aDecoder.decodeObject(forKey: "placeID") as! String
+        let iconURL = aDecoder.decodeObject(forKey: "icon") as! URL
+        let info = aDecoder.decodeObject(forKey: "information") as! String
+        let cityName = aDecoder.decodeObject(forKey: "city") as! String
+        let countryName = aDecoder.decodeObject(forKey: "country") as! String
+        
+        let location = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        
+        self.init(title: name, coordinate: location, attractionType: type, rating: blipRating, price: blipPrice, placeID: id, photos: [UIImage](), photoMetadata: [GMSPlacePhotoMetadata](), retrievedPhotos: false, icon: iconURL, information: info, city: cityName, country: countryName)
+    }
+    
+    // NSCoding Methods end
 }

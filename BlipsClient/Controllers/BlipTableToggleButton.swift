@@ -47,7 +47,7 @@ class BlipTableToggleButton: UIButton, MapModelObserver {
         }
     } 
 
-    func annotationsUpdated(annotations: [MKAnnotation]) {
+    func annotationsUpdated(annotations: [MKAnnotation], updateType: UpdateType) {
         DispatchQueue.main.async {
             if self.setOriginFrame == false {
                 self.setOriginFrame = true

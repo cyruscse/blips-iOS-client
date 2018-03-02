@@ -13,8 +13,11 @@ import Cosmos
 class BlipDetailViewController: UIViewController, UIPageViewControllerDataSource, BlipObserver {
     private var blip: Blip!
     private var blipPageViewController: UIPageViewController?
+    
     var photoIndex: Int!
     var noDescriptionConstraint: NSLayoutConstraint?
+    var observers: [BlipDetailObserver] = [BlipDetailObserver]()
+    var saved = false
 
     @IBOutlet weak var blipTitle: UILabel!
     @IBOutlet weak var blipType: UILabel!
@@ -26,6 +29,7 @@ class BlipDetailViewController: UIViewController, UIPageViewControllerDataSource
     @IBOutlet weak var getDirectionsButton: UIButton!
     @IBOutlet weak var photoViewContainer: UIView!
     @IBOutlet weak var photoViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var saveButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,6 +68,10 @@ class BlipDetailViewController: UIViewController, UIPageViewControllerDataSource
             blipPrice.text = priceText
         }
         
+        if saved {
+            saveButton.setTitle("Unsave", for: .normal)
+        }
+        
         self.view.layoutIfNeeded()
         setupPageControl()
     }
@@ -73,6 +81,10 @@ class BlipDetailViewController: UIViewController, UIPageViewControllerDataSource
         
         blipDescription.setContentOffset(CGPoint.zero, animated: false)
     }
+    
+    func addObserver(observer: BlipDetailObserver) {
+        observers.append(observer)
+    }
 
     @IBAction func gotoMaps(_ sender: Any) {
         // add ability to save preferred transporation in user account then set it here - will need to pass user pref on class creation
@@ -80,6 +92,24 @@ class BlipDetailViewController: UIViewController, UIPageViewControllerDataSource
         blip.mapItem().openInMaps(launchOptions: launchOptions)
     }
     
+    @IBAction func saveBlip(_ sender: UIButton) {
+        if saved {
+            saveButton.setTitle("Save", for: .normal)
+            saved = false
+            
+            for observer in observers {
+                observer.blipUnsaved(placeID: blip.placeID)
+            }
+        } else {
+            saveButton.setTitle("Unsave", for: .normal)
+            saved = true
+            
+            for observer in observers {
+                observer.blipSaved(blip: blip)
+            }
+        }
+    }
+
     func setBlipAnnotation(annotation: BlipMarkerView) {
         self.blip = annotation.blip
     }

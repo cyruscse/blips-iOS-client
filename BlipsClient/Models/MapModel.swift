@@ -12,6 +12,14 @@
 import Foundation
 import MapKit
 
+enum UpdateType {
+    case LookupRefresh
+    case ServerLookup
+    case SavedBlip
+    case MapClear
+    case MapRestore
+}
+
 class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelegate {
     private let regionRadius: CLLocationDistance = 250
     
@@ -34,25 +42,19 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
         
         self.currentLocation = location
         
-        // Center on user location, blips haven't been retrieved yet
-        notifyLocationUpdated()
-        
-        // Initializes MapAccessoryViews on load
-        notifyAnnotationsUpdated()
-        
-        let topTypes = Array(account.orderedAttractionHistory()[0...account.autoQueryTypeGrabLength])
-        let topTypesStrings = topTypes.map { $0.attraction }
-        
-        requestBlips(attributes: topTypesStrings, openNow: true, radius: 10000, priceRange: 3, minimumRating: 0.0, latitude: location.latitude, longitude: location.longitude)
+        autoQueryBlips()
     }
+    
+    // LocationObserver Methods end
     
     // UserAccountObserver Methods
     
-    // Not implemented yet, but the plan is to automatically query the server with
-    // the user's location and top attractions on user login
     func userLoggedIn(account: User) {
-        // auto lookup here (choose user's top attractions and current location)
         self.account = account
+        
+        if account.getAttractionHistoryCount() != 0 && currentLocation != nil {
+            autoQueryBlips()
+        }
     }
     
     // On a user logout, clear the annotations on the map
@@ -60,11 +62,13 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
         currentAnnotations = []
         lastAnnotations = []
         self.account = nil
-        notifyAnnotationsUpdated()
+        notifyAnnotationsUpdated(updateType: UpdateType.MapClear)
     }
     
-    func guestReplaced() {}
+    func guestReplaced(guestQueried: Bool) {}
     
+    // UserAccountObserver Methods end
+
     func focusMapOnBlip(blip: Blip) {
         for observer in mapModelObservers {
             observer.focusOnBlip(blip: blip)
@@ -76,7 +80,7 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
     }
     
     // Notify MapVC when its annotations should change
-    func notifyAnnotationsUpdated() {
+    func notifyAnnotationsUpdated(updateType: UpdateType) {
         if currentAnnotations.count != 0 {
             haveAnnotations = true
         } else {
@@ -85,7 +89,7 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
         
         DispatchQueue.main.async {
             for observer in self.mapModelObservers {
-                observer.annotationsUpdated(annotations: self.currentAnnotations)
+                observer.annotationsUpdated(annotations: self.currentAnnotations, updateType: updateType)
             }
         }
     }
@@ -110,13 +114,13 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
         }
         
         currentAnnotations = []
-        notifyAnnotationsUpdated()
+        notifyAnnotationsUpdated(updateType: UpdateType.MapClear)
     }
     
     // As explained above, restore the saved annotations to the MapVC
     func restoreMapVC() {
         currentAnnotations = lastAnnotations
-        notifyAnnotationsUpdated()
+        notifyAnnotationsUpdated(updateType: UpdateType.MapRestore)
     }
     
     // Server query request methods
@@ -127,8 +131,6 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
         currentAnnotations.removeAll()
         lastAnnotations.removeAll()
         
-        var blipUnwrapFailed: Bool = false
-        
         for entry in serverDict {
             let dictEntry = (entry as NSDictionary).mutableCopy() as! NSMutableDictionary
             let blipEntry = dictEntry as? [String: Any] ?? [:]
@@ -136,19 +138,25 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
             if let blip = Blip(json: blipEntry) {
                 currentAnnotations.append(blip)
                 blip.requestPhotoMetadata()
-            }
-            else {
-                if blipUnwrapFailed == false {
-                    blipUnwrapFailed = true
-                    
-                    let alert = AnywhereUIAlertController(title: "Blip Display Failed", message: "The server didn't send blips in the correct format.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in }))
-                    alert.show()
-                }
+            } else {
+                let alert = AnywhereUIAlertController(title: "Blip Display Failed", message: "The server didn't send blips in the correct format.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in }))
+                alert.show()
+                print("bad blips")
+                
+                return
             }
         }
         
-        notifyAnnotationsUpdated()
+        notifyAnnotationsUpdated(updateType: UpdateType.ServerLookup)
+    }
+    
+    func placeBlips(blips: [Blip]) {
+        currentAnnotations.removeAll()
+        lastAnnotations.removeAll()
+        
+        currentAnnotations.append(contentsOf: blips)
+        notifyAnnotationsUpdated(updateType: UpdateType.SavedBlip)
     }
     
     // Callback function for server query.
@@ -166,12 +174,36 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
                 let alert = AnywhereUIAlertController(title: "Query Failed", message: status[0], preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in }))
                 alert.show()
+                print("query failed")
             }
         } catch ServerInterfaceError.JSONParseFailed(description: let error) {
             print(error)
         } catch {
-            print("Other error")
+            print("Blip Query failed")
         }
+    }
+    
+    func autoQueryBlips() {
+        if account.autoQueryOptions.autoQueryEnabled == false {
+            return
+        }
+        
+        if account.autoQueryOptions.autoQueryTypeGrabLength == 0 {
+            // This returns if the account hasn't queried before.
+            // I need to change this to query with a list of "top" attractions from the server
+            return
+        }
+        
+        // Center on user location, blips haven't been retrieved yet
+        notifyLocationUpdated()
+        
+        // Initializes MapAccessoryViews on load
+        notifyAnnotationsUpdated(updateType: UpdateType.ServerLookup)
+        
+        let topTypes = Array(account.orderedAttractionHistory()[0...(account.autoQueryOptions.autoQueryTypeGrabLength - 1)])
+        let topTypesStrings = topTypes.map { $0.attraction }
+        
+        requestBlips(attributes: topTypesStrings, openNow: account.autoQueryOptions.autoQueryOpenNow, radius: 10000, priceRange: account.autoQueryOptions.autoQueryPriceRange, minimumRating: account.autoQueryOptions.autoQueryRating, latitude: currentLocation!.latitude, longitude: currentLocation!.longitude)
     }
     
     func manualRequestBlips(lookupVC: LookupViewController, latitude: Double, longitude: Double) {

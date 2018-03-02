@@ -10,7 +10,7 @@ import Foundation
 import MapKit
 
 protocol MapModelObserver {
-    func annotationsUpdated(annotations: [MKAnnotation])
+    func annotationsUpdated(annotations: [MKAnnotation], updateType: UpdateType)
     func locationUpdated(location: CLLocationCoordinate2D, latitudinalMeters: CLLocationDistance, longitudinalMeters: CLLocationDistance)
     func focusOnBlip(blip: Blip)
 }

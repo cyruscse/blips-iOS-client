@@ -24,6 +24,18 @@ class SignInModel {
     let nameTag = "name"
     let emailTag = "email"
     let historyTag = "history"
+    let autoQueryOptionsTag = "autoQueryOptions"
+    let updateAutoQueryOptionsTag = "updateAutoQueryOptions"
+    let enabledTag = "enabled"
+    let typeGrabLengthTag = "typeGrabLength"
+    let openNowTag = "openNow"
+    let ratingTag = "rating"
+    let priceRangeTag = "priceRange"
+    let optionsTag = "options"
+    let savedBlipsTag = "savedBlips"
+    let serverSaveBlipTag = "saveBlip"
+    let serverUnSaveBlipTag = "unsaveBlip"
+    let blipIDTag = "blipID"
     let okTag = "OK"
     
     private var lookupModel: LookupModel!
@@ -40,7 +52,7 @@ class SignInModel {
         userAccountObservers.append(observer)
         
         if loggedIn == true {
-            notifyUserLoggedIn()
+            observer.userLoggedIn(account: account)
         }
     }
     
@@ -50,7 +62,8 @@ class SignInModel {
     }
     
     func guestUserLogin() {
-        account = User(firstName: "", lastName: "", imageURL: URL(string: ".")!, email: "", userID: -1, attractionHistory: [:], guest: true)
+        account = User()
+        account.signInModel = self
         
         // lookupModel can be nil here on the app's first ever launch
         // No User info has been saved to disk, so we fall back to a guestLogin,
@@ -68,8 +81,10 @@ class SignInModel {
     }
     
     func notifyUserLoggedIn() {
-        for observer in userAccountObservers {
-            observer.userLoggedIn(account: account)
+        DispatchQueue.main.async {
+            for observer in self.userAccountObservers {
+                observer.userLoggedIn(account: self.account)
+            }
         }
     }
     
@@ -79,36 +94,45 @@ class SignInModel {
         }
         else {
             self.account = loaded
-            
+            self.account.signInModel = self
             self.loggedIn = true
             
             notifyUserLoggedIn()
         }
     }
     
-    func notifyGuestReplaced() {
+    func notifyGuestReplaced(guestQueried: Bool) {
         for observer in userAccountObservers {
-            observer.guestReplaced()
+            observer.guestReplaced(guestQueried: guestQueried)
         }
     }
     
     func mergeGuestHistory() {
-        self.account.mergeAttractionHistory(toMerge: self.replacedGuest.getAttractionHistory())
+        self.account.mergeAttractionHistory(toMerge: self.replacedGuest.getAttractionHistory(), savedToMerge: self.replacedGuest.savedBlips)
+        self.account.setAutoQueryOptions(options: self.replacedGuest.autoQueryOptions)
         self.setServerHistory(history: self.account.getAttractionHistory())
+        self.updateServerAutoQueryOptions(enabled: self.account.autoQueryOptions.autoQueryEnabled, typeGrabLength: self.account.autoQueryOptions.autoQueryTypeGrabLength, openNow: self.account.autoQueryOptions.autoQueryOpenNow, rating: self.account.autoQueryOptions.autoQueryRating, priceRange: self.account.autoQueryOptions.autoQueryPriceRange)
         self.replacedGuest = nil
     }
     
     func userLoggedIn(account: User) {
-        if loggedIn == true && self.account.isGuest() == true && self.account.hasMadeRequests() {
+        if loggedIn == true && self.account.isGuest() == true {
+            var guestQueried = false
+            
+            if account.getAttractionHistoryCount() != 0 {
+                guestQueried = true
+            }
+            
             replacedGuest = self.account
-            notifyGuestReplaced()
+            notifyGuestReplaced(guestQueried: guestQueried)
         }
         
+        account.signInModel = self
         self.loggedIn = true
         self.account = account
         
+        retrieveSavedBlipMetadata()
         serverLogin()
-        
         notifyUserLoggedIn()
     }
     
@@ -133,7 +157,7 @@ class SignInModel {
             deleteServerUser(id: account.getID())
         }
         
-        self.account.clearAttractionHistory()
+        self.account.clearAttractionHistoryAndSettings()
         self.account = nil
         
         guestUserLogin()
@@ -167,18 +191,110 @@ class SignInModel {
         return account.getID()
     }
     
+    func userSavedBlip(placeID: String) -> Bool {
+        return account.blipIsSaved(placeID: placeID)
+    }
+    
+    func connectBlipDetailVC(detailVC: BlipDetailViewController) {
+        detailVC.addObserver(observer: account)
+    }
+    
+    func retrieveSavedBlipMetadata() {
+        for blip in account.savedBlips {
+            blip.requestPhotoMetadata()
+        }
+    }
+    
+    func apiKeyProvided() {
+        retrieveSavedBlipMetadata()
+    }
+    
     func serverLoginCallback(data: Data) {
         do {
             let responseContents = try ServerInterface.readJSON(data: data)
             var serverAttractionHistory: [String: Int] = [:]
+            var autoQueryOptions: AutoQueryOptions!
+            var savedBlips = [Blip]()
             
             for (key, value) in responseContents {
                 if (key == userIdTag) {
-                    account.setID(userID: value as! Int)
+                    let accountIDArray = value as! [Int]
+                    account.setID(userID: accountIDArray.first!)
                     account.saveUser()
-                }
-                else if (key != statusTag) {
-                    serverAttractionHistory[key] = value as? Int
+                } else if (key == statusTag) {
+                    let status = value as! [String]
+                    
+                    if (status.first != okTag) {
+                        let alert = AnywhereUIAlertController(title: "Login Failed", message: "The server rejected your login request.", preferredStyle: .alert);
+                        alert.show();
+                        print("bad login")
+                        
+                        return
+                    }
+                } else if (key == historyTag) {
+                    let attractionHistoryArray = value as! [[String: Int]]
+                    
+                    for entry in attractionHistoryArray {
+                        // Only one entry in this dict
+                        for (attraction, frequency) in entry {
+                            serverAttractionHistory[attraction] = frequency
+                        }
+                    }
+                } else if (key == autoQueryOptionsTag) {
+                    let autoQueryOptionsArray = value as! [[String: Any]]
+                    var enabledValue: Bool!
+                    var typeGrabLengthValue: Int!
+                    var openNowValue: Bool!
+                    var ratingValue: Double!
+                    var priceRangeValue: Int!
+                    
+                    for entry in autoQueryOptionsArray {
+                        for (option, setting) in entry {
+                            switch (option) {
+                            case enabledTag:
+                                enabledValue = setting as! Bool
+                            case typeGrabLengthTag:
+                                typeGrabLengthValue = setting as! Int
+                            case openNowTag:
+                                openNowValue = setting as! Bool
+                            case ratingTag:
+                                ratingValue = setting as! Double
+                            case priceRangeTag:
+                                priceRangeValue = setting as! Int
+                            default:
+                                let alert = AnywhereUIAlertController(title: "Login Failed", message: "The server returned invalid data.", preferredStyle: .alert);
+                                alert.show();
+                                print("login failed")
+                                
+                                return
+                            }
+                        }
+                    }
+                    
+                    if enabledValue == nil || typeGrabLengthValue == nil || openNowValue == nil || ratingValue == nil || priceRangeValue == nil {
+                        let alert = AnywhereUIAlertController(title: "Login Failed", message: "The server didn't return all required data.", preferredStyle: .alert);
+                        alert.show();
+                        print("login missing data")
+                        
+                        return
+                    }
+                    
+                    autoQueryOptions = AutoQueryOptions(autoQueryEnabled: enabledValue, autoQueryTypeGrabLength: typeGrabLengthValue, autoQueryOpenNow: openNowValue, autoQueryRating: ratingValue, autoQueryPriceRange: priceRangeValue)
+                } else if (key == savedBlipsTag) {
+                    let savedBlipsArray = value as! [[String: Any]]
+                    
+                    for entry in savedBlipsArray {
+                        if let blip = Blip(json: entry) {
+                            savedBlips.append(blip)
+                        } else {
+                            let alert = AnywhereUIAlertController(title: "Blip Retrieval Failed", message: "The server didn't send blips in the correct format.", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in }))
+                            alert.show()
+                            print("bad blip format")
+                            
+                            return
+                        }
+                    }
                 }
             }
             
@@ -187,10 +303,17 @@ class SignInModel {
             if serverAttractionHistory.count != 0 {
                 account.setAttractionHistory(history: serverAttractionHistory)
             }
+            
+            if savedBlips.count != 0 {
+                account.setSavedBlips(savedBlips: savedBlips)
+            }
+            
+            account.setAutoQueryOptions(options: autoQueryOptions)
+            notifyUserLoggedIn()
         } catch ServerInterfaceError.JSONParseFailed(description: let error) {
             print(error)
         } catch {
-            print("Other error")
+            print("User login failed")
         }
     }
     
@@ -202,7 +325,11 @@ class SignInModel {
                 if (key == statusTag) {
                     if let strValue = value as? String {
                         if strValue != okTag {
-                            print("Failed to sync with server!")
+                            let alert = AnywhereUIAlertController(title: "Server Sync Failed", message: "Client information couldn't be synced to the server.", preferredStyle: .alert);
+                            alert.show();
+                            print("couldn't sync to server")
+                            
+                            return
                         }
                     }
                 }
@@ -210,7 +337,7 @@ class SignInModel {
         } catch ServerInterfaceError.JSONParseFailed(description: let error) {
             print(error)
         } catch {
-            print("Other error")
+            print("Failed to sync to server")
         }
     }
     
@@ -221,7 +348,7 @@ class SignInModel {
     }
     
     func clearAttractionHistory() {
-        account.clearAttractionHistory()
+        account.clearAttractionHistoryAndSettings()
         
         let jsonRequest = [requestTypeTag: dbSyncTag, syncTypeTag: clearHistoryTag, userIdTag: String(account.getID())]
         
@@ -235,8 +362,66 @@ class SignInModel {
     }
     
     func setServerHistory(history: [String: Int]) {
+        if history.count == 0 {
+            return
+        }
+        
         let jsonRequest = [requestTypeTag: dbSyncTag, syncTypeTag: setHistoryTag, userIdTag: String(account.getID()), historyTag: history.description]
         
+        ServerInterface.makeRequest(request: jsonRequest, callback: serverSyncCallback)
+    }
+    
+    func updateServerAutoQueryOptions(enabled: Bool?, typeGrabLength: Int?, openNow: Bool?, rating: Double?, priceRange: Int?) {
+        if account.isGuest() {
+            return
+        }
+        
+        var autoQueryOptionsArray = [[String: String]]()
+        
+        if enabled != nil {
+            autoQueryOptionsArray.append([enabledTag : String(enabled!)])
+        }
+        
+        if typeGrabLength != nil {
+            autoQueryOptionsArray.append([typeGrabLengthTag: String(typeGrabLength!)])
+        }
+        
+        if openNow != nil {
+            autoQueryOptionsArray.append([openNowTag: String(openNow!)])
+        }
+        
+        if rating != nil {
+            autoQueryOptionsArray.append([ratingTag: String(rating!)])
+        }
+        
+        if priceRange != nil {
+            autoQueryOptionsArray.append([priceRangeTag: String(priceRange!)])
+        }
+        
+        if autoQueryOptionsArray.count == 0 {
+            return
+        }
+        
+        let jsonRequest = [requestTypeTag: dbSyncTag, syncTypeTag: updateAutoQueryOptionsTag, userIdTag: String(account.getID()), optionsTag: autoQueryOptionsArray] as [String: Any]
+        
+        ServerInterface.makeRequest(request: jsonRequest, callback: serverSyncCallback)
+    }
+    
+    func serverSaveBlip(blip: Blip, save: Bool) {
+        if account.isGuest() {
+            return
+        }
+        
+        var syncTag: String!
+        
+        if save == true {
+            syncTag = serverSaveBlipTag
+        } else {
+            syncTag = serverUnSaveBlipTag
+        }
+        
+        let jsonRequest = [requestTypeTag: dbSyncTag, syncTypeTag: syncTag, userIdTag: String(account.getID()), blipIDTag: blip.placeID] as [String: Any]
+                
         ServerInterface.makeRequest(request: jsonRequest, callback: serverSyncCallback)
     }
 }
