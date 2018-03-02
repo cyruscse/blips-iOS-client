@@ -61,10 +61,10 @@ class SavedBlipTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellIdentifier = "BlipTableViewCell"
+        let cellIdentifier = "SavedBlipTableViewCell"
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? BlipTableViewCell else {
-            fatalError("Dequeued cell wasn't BlipTableViewCell")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? SavedBlipTableViewCell else {
+            fatalError("Dequeued cell wasn't SavedBlipTableViewCell")
         }
         
         if savedBlips.count == 0 {
@@ -80,6 +80,7 @@ class SavedBlipTableViewController: UITableViewController {
         cell.selectionStyle = .none
         cell.blipName.text = blip.title
         cell.blipType.text = blip.attractionType
+        cell.blipCityCountry.text = blip.city + ", " + blip.country
         cell.typeImage.sd_setImage(with: blip.icon) { (_, _, _, _) in }
         
         return cell
@@ -127,8 +128,8 @@ class SavedBlipTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? BlipTableViewCell else {
-            fatalError("Cell wasn't BlipTableViewCell")
+        guard let cell = tableView.cellForRow(at: indexPath) as? SavedBlipTableViewCell else {
+            fatalError("Cell wasn't SavedBlipTableViewCell")
         }
         
         cell.accessoryType = .checkmark
@@ -138,8 +139,8 @@ class SavedBlipTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? BlipTableViewCell else {
-            fatalError("Cell wasn't BlipTableViewCell")
+        guard let cell = tableView.cellForRow(at: indexPath) as? SavedBlipTableViewCell else {
+            fatalError("Cell wasn't SavedBlipTableViewCell")
         }
         
         cell.accessoryType = .none

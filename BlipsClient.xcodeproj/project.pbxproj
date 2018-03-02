@@ -62,6 +62,7 @@
 		6EF0C66D2013A9C300C967C6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */; };
 		6EF0C66E2013AA0100C967C6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */; };
 		6EF0C66F2013AA0100C967C6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */; };
+		6EF807392048EE5B00FABFB5 /* SavedBlipTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF807382048EE5B00FABFB5 /* SavedBlipTableViewCell.swift */; };
 		C24D87B1193601577C95E75D /* Pods_BlipsClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05A60F4C5F6F59B26C13F533 /* Pods_BlipsClient.framework */; };
 /* End PBXBuildFile section */
 
@@ -144,6 +145,7 @@
 		6EE12FD02024C71400509452 /* MainModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModel.swift; sourceTree = "<group>"; };
 		6EE12FD22024C73E00509452 /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
 		6EF0C66C2013A9C300C967C6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		6EF807382048EE5B00FABFB5 /* SavedBlipTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedBlipTableViewCell.swift; sourceTree = "<group>"; };
 		B11E4D0B8AFEA76033DF6A5A /* Pods-BlipsClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlipsClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-BlipsClient/Pods-BlipsClient.debug.xcconfig"; sourceTree = "<group>"; };
 		F5C68D005D8613419F09CE03 /* Pods-BlipsClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BlipsClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-BlipsClient/Pods-BlipsClient.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -274,6 +276,7 @@
 				6E9E5683204282640076C88F /* SavedBlipTableViewController.swift */,
 				6E97D28F2023CD6100DD8368 /* SignInViewController.swift */,
 				6E97D28C2023CD6000DD8368 /* ViewController.swift */,
+				6EF807382048EE5B00FABFB5 /* SavedBlipTableViewCell.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -564,6 +567,7 @@
 				6E97D2962023CD6100DD8368 /* AttractionsTableViewController.swift in Sources */,
 				6E97D2772023CD4C00DD8368 /* UserHistoryObserver.swift in Sources */,
 				6EE12FD32024C73E00509452 /* MapModel.swift in Sources */,
+				6EF807392048EE5B00FABFB5 /* SavedBlipTableViewCell.swift in Sources */,
 				6EDE4DE6202E971500E80AF7 /* BlipDetailViewController.swift in Sources */,
 				6E0EEE8A2037299700F38EE1 /* MapAccessoryView.swift in Sources */,
 				6ECE91942027B5EB009CAC91 /* BlipMarkerView.swift in Sources */,
