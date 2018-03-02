@@ -35,8 +35,14 @@ class AccountOptionsTableViewController: UITableViewController, UserAccountObser
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let queryOptionsVC = segue.destination as? QueryOptionsTableViewController {
+            var attractionHistoryCount = account.getAttractionHistoryCount()
+            
+            if attractionHistoryCount > 10 {
+                attractionHistoryCount = 10
+            }
+            
             queryOptionsVC.addQueryOptionsObserver(observer: account)
-            queryOptionsVC.attractionHistoryCount = account.getAttractionHistoryCount()
+            queryOptionsVC.attractionHistoryCount = attractionHistoryCount
             queryOptionsVC.queryOptions = account.autoQueryOptions
         }
         

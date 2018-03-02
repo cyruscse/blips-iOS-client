@@ -23,7 +23,7 @@ class LookupViewController: UIViewController, LocationObserver, LookupModelObser
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if (LookupViewController.selectedAttractions > 0) && (LookupViewController.haveLocation) {
+        if (LookupViewController.selectedAttractions > 0) && (LookupViewController.selectedAttractions < 11) && (LookupViewController.haveLocation) {
             self.doneButton.isEnabled = true
         }
     }
@@ -51,7 +51,7 @@ class LookupViewController: UIViewController, LocationObserver, LookupModelObser
     func locationDetermined(location: CLLocationCoordinate2D) {
         LookupViewController.haveLocation = true
 
-        if (self.viewIfLoaded?.window != nil) && (LookupViewController.selectedAttractions > 0) {
+        if (self.viewIfLoaded?.window != nil) && (LookupViewController.selectedAttractions > 0) && (LookupViewController.selectedAttractions < 11) {
             self.doneButton.isEnabled = true
         }
     }
@@ -59,7 +59,7 @@ class LookupViewController: UIViewController, LocationObserver, LookupModelObser
     func didUpdateSelectedRows(selected: Int) {
         LookupViewController.selectedAttractions = selected
         
-        if (LookupViewController.selectedAttractions > 0) && (LookupViewController.haveLocation) {
+        if (LookupViewController.selectedAttractions > 0) && (LookupViewController.selectedAttractions < 11) && (LookupViewController.haveLocation) {
             self.doneButton.isEnabled = true
         }
         else {

@@ -273,10 +273,10 @@
 				6ECD61F4203E755800E6068F /* MapRefreshButton.swift */,
 				6E71ED3E202621FE00EC17B9 /* MapViewController.swift */,
 				6EA3A44620407987004E5B2B /* QueryOptionsTableViewController.swift */,
+				6EF807382048EE5B00FABFB5 /* SavedBlipTableViewCell.swift */,
 				6E9E5683204282640076C88F /* SavedBlipTableViewController.swift */,
 				6E97D28F2023CD6100DD8368 /* SignInViewController.swift */,
 				6E97D28C2023CD6000DD8368 /* ViewController.swift */,
-				6EF807382048EE5B00FABFB5 /* SavedBlipTableViewCell.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
