@@ -8,6 +8,7 @@
 
 import UIKit
 import Cosmos
+import GooglePlaces
 
 class AttributesTableViewController: UITableViewController {
     @IBOutlet weak var radiusTextField: UITextField!
@@ -18,6 +19,8 @@ class AttributesTableViewController: UITableViewController {
     private var radius: Int = 0
     private var priceRange: Int = 0
 
+    var placesClient: GMSPlacesClient!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -27,6 +30,8 @@ class AttributesTableViewController: UITableViewController {
         
         starView.settings.fillMode = .precise
         starView.settings.minTouchRating = 0.0
+        
+        placesClient = GMSPlacesClient.shared()
     }
 
     @IBAction func openNowChanged(_ sender: UISwitch) {
@@ -35,6 +40,24 @@ class AttributesTableViewController: UITableViewController {
     
     @IBAction func priceRangeChanged(_ sender: UISegmentedControl) {
         priceRange = sender.selectedSegmentIndex
+    }
+    
+    @IBAction func attemptCityAutocomplete(_ sender: UITextField) {
+        let filter = GMSAutocompleteFilter()
+        filter.type = .city
+        
+        placesClient.autocompleteQuery(sender.text!, bounds: nil, filter: filter) { (results, error) in
+            if let error = error {
+                print("Autocomplete error \(error)")
+                return
+            }
+            
+            if let results = results {
+                for result in results {
+                    print("Result \(result.attributedFullText) with placeID \(result.placeID)")
+                }
+            }
+        }
     }
     
     func getOpenNowValue() -> Bool {
@@ -67,6 +90,6 @@ class AttributesTableViewController: UITableViewController {
 
     // Needs to be equal to the number of rows in the table view, else the row isn't shown
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 4
+        return 5
     }
 }
