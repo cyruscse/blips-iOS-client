@@ -20,7 +20,8 @@ class AttributesTableViewController: UITableViewController {
     private var radius: Int = 0
     private var priceRange: Int = 0
     private var citySearchVC: CitySearchTableViewController?
-
+    
+    var cityCoordinates: CLLocationCoordinate2D!
     var placesClient: GMSPlacesClient!
     var bounds: GMSCoordinateBounds!
 
@@ -37,10 +38,26 @@ class AttributesTableViewController: UITableViewController {
         placesClient = GMSPlacesClient.shared()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
-        cityLabel.text = citySearchVC?.selectedCity
+        if citySearchVC?.selectedCity != cityLabel.text && citySearchVC?.selectedCity != nil {
+            cityLabel.text = citySearchVC?.selectedCity
+            
+            placesClient.lookUpPlaceID(citySearchVC!.cityPlaceID, callback: { (place, error) in
+                if let error = error {
+                    print("Place lookup failed for city \(self.citySearchVC!.selectedCity) \(error)")
+                    return
+                }
+                
+                guard let place = place else {
+                    print("No details for city \(self.citySearchVC!.selectedCity)")
+                    return
+                }
+                
+                self.cityCoordinates = place.coordinate
+            })
+        }
     }
 
     @IBAction func openNowChanged(_ sender: UISwitch) {

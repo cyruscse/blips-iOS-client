@@ -16,6 +16,7 @@ class CitySearchTableViewController: UITableViewController, UISearchResultsUpdat
     var placesClient: GMSPlacesClient!
     var autoCompletedPlaces = [GMSAutocompletePrediction]()
     var selectedCity: String!
+    var cityPlaceID: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,6 +100,7 @@ class CitySearchTableViewController: UITableViewController, UISearchResultsUpdat
         }
         
         selectedCity = cell.cityLabel.text
+        cityPlaceID = autoCompletedPlaces[indexPath.row].placeID
         searchController.searchBar.endEditing(true)
         
         self.navigationController?.popViewController(animated: true)
