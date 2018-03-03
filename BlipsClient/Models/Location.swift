@@ -36,7 +36,6 @@ class Location: NSObject, CLLocationManagerDelegate {
                 break
             
             case .restricted, .denied:
-                print("Fallback to custom search...")
                 break
             
             case .authorizedWhenInUse, .authorizedAlways:

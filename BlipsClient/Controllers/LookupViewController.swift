@@ -69,10 +69,13 @@ class LookupViewController: UIViewController, LookupModelObserver, AttractionTab
     }
     
     // LocationObserver Methods
-    func locationDetermined(location: CLLocationCoordinate2D) {
+    func locationDetermined(location: CLLocationCoordinate2D, notifyVC: Bool) {
         LookupViewController.haveLocation = true
                 
-        attributesVC?.setCityCoordinates(coordinates: location)
+        if notifyVC == true {
+            attributesVC?.setCityCoordinates(coordinates: location)
+        }
+        
         self.userLocation = location
         
         if (self.viewIfLoaded?.window != nil) && (LookupViewController.selectedAttractions > 0) && (LookupViewController.selectedAttractions < 11) {
@@ -97,6 +100,7 @@ class LookupViewController: UIViewController, LookupModelObserver, AttractionTab
             attractionsVC?.setAttractionTypes(attrToProperName: attrToProperName, properNameToAttr: properNameToAttr, prioritySortedAttractions: prioritySortedAttractions)
         } else if let destinationVC = segue.destination as? AttributesTableViewController {
             attributesVC = destinationVC
+            attributesVC?.lookupVC = self
             attributesVC?.setCityCoordinates(coordinates: userLocation)
         }
         

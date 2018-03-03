@@ -24,6 +24,7 @@ class AttributesTableViewController: UITableViewController {
     var cityCoordinates: CLLocationCoordinate2D!
     var placesClient: GMSPlacesClient!
     var bounds: GMSCoordinateBounds!
+    var lookupVC: LookupViewController!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +61,7 @@ class AttributesTableViewController: UITableViewController {
                 }
                 
                 self.cityCoordinates = place.coordinate
+                self.lookupVC.locationDetermined(location: self.cityCoordinates, notifyVC: false)
             })
         }
     }

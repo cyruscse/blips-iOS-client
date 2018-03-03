@@ -124,7 +124,7 @@ class LookupModel: UserHistoryObserver, LocationObserver {
     }
     
     func locationDetermined(location: CLLocationCoordinate2D) {
-        lookupVC?.locationDetermined(location: location)
+        lookupVC?.locationDetermined(location: location, notifyVC: true)
     }
 
     // Callback function for Attraction Type reply
