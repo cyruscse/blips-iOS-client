@@ -107,7 +107,6 @@ class CitySearchTableViewController: UITableViewController, UISearchResultsUpdat
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("segue")
         searchController.isActive = false
     }
 }

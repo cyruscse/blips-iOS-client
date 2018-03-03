@@ -36,6 +36,10 @@ class AttributesTableViewController: UITableViewController {
         starView.settings.minTouchRating = 0.0
         
         placesClient = GMSPlacesClient.shared()
+        
+        if (cityCoordinates != nil) && (citySearchVC?.selectedCity == nil) {
+            cityLabel.text = "Current Location"
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -90,6 +94,14 @@ class AttributesTableViewController: UITableViewController {
     
     func getMinimumRating() -> Double {
         return starView.rating
+    }
+    
+    func setCityCoordinates(coordinates: CLLocationCoordinate2D?) {
+        cityCoordinates = coordinates
+        
+        if cityLabel != nil {
+            cityLabel.text = "Current Location"
+        }
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {

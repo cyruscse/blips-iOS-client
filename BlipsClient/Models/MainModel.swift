@@ -66,11 +66,11 @@ class MainModel {
         // in order to set a prioritized list on app load
         lookupModel.addLookupObserver(observer: signInModel.getAccount())
         lookupModel.addLookupObserver(observer: lookupVC)
-    
-        // Set lookupVC as an Observer of locManager so it knows when to
-        // start allowing blip requests (i.e. enable "Done" button)
-        locManager.addLocationObserver(observer: lookupVC)
-        locManager.forceUpdateObservers()
+        lookupModel.lookupVC = lookupVC
+        
+        if locManager.location != nil {
+            lookupVC.locationDetermined(location: locManager.location)
+        }
     }
     
     // MapModel methods
@@ -118,6 +118,7 @@ class MainModel {
         signInModel.setLookupModel(lookupModel: lookupModel)
         signInModel.addUserAccountObserver(observer: mapModel)
         locManager.addLocationObserver(observer: mapModel)
+        locManager.addLocationObserver(observer: lookupModel)
         locManager.getLocation(callback: { (coordinate) in self.locManager.getLocationCallback(coordinate: coordinate) })
         lookupModel.syncWithServer()
     }

@@ -10,8 +10,9 @@
 // it requests the list of attraction types from the server. When LookupVC is segued in, it receives its data from here
 
 import Foundation
+import MapKit
 
-class LookupModel: UserHistoryObserver {
+class LookupModel: UserHistoryObserver, LocationObserver {
     let attributesTag = "attributes"
     let attractionTypeTag = "attraction_types"
 
@@ -28,6 +29,8 @@ class LookupModel: UserHistoryObserver {
     
     private var lookupObservers = [LookupModelObserver]()
     private var serverSyncComplete = false
+    
+    var lookupVC: LookupViewController?
     
     func addLookupObserver(observer: LookupModelObserver) {
         lookupObservers.append(observer)
@@ -118,6 +121,10 @@ class LookupModel: UserHistoryObserver {
         }
         
         attractionTypes.append(contentsOf: attractionSet.sorted())
+    }
+    
+    func locationDetermined(location: CLLocationCoordinate2D) {
+        lookupVC?.locationDetermined(location: location)
     }
 
     // Callback function for Attraction Type reply

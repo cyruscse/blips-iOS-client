@@ -9,7 +9,7 @@
 import UIKit
 import CoreLocation
 
-class LookupViewController: UIViewController, LocationObserver, LookupModelObserver, AttractionTableObserver {
+class LookupViewController: UIViewController, LookupModelObserver, AttractionTableObserver {
     @IBOutlet weak var doneButton: UIBarButtonItem!
     
     private static var haveLocation: Bool = false
@@ -19,7 +19,7 @@ class LookupViewController: UIViewController, LocationObserver, LookupModelObser
     private var prioritySortedAttractions = [String]()
     private var attractionsVC: AttractionsTableViewController?
     private var attributesVC: AttributesTableViewController?
-    private var userLocation: CLLocationCoordinate2D!
+    private var userLocation: CLLocationCoordinate2D?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,8 +71,8 @@ class LookupViewController: UIViewController, LocationObserver, LookupModelObser
     // LocationObserver Methods
     func locationDetermined(location: CLLocationCoordinate2D) {
         LookupViewController.haveLocation = true
-        
-        attributesVC?.cityCoordinates = location
+                
+        attributesVC?.setCityCoordinates(coordinates: location)
         self.userLocation = location
         
         if (self.viewIfLoaded?.window != nil) && (LookupViewController.selectedAttractions > 0) && (LookupViewController.selectedAttractions < 11) {
@@ -97,7 +97,7 @@ class LookupViewController: UIViewController, LocationObserver, LookupModelObser
             attractionsVC?.setAttractionTypes(attrToProperName: attrToProperName, properNameToAttr: properNameToAttr, prioritySortedAttractions: prioritySortedAttractions)
         } else if let destinationVC = segue.destination as? AttributesTableViewController {
             attributesVC = destinationVC
-            attributesVC?.cityCoordinates = userLocation
+            attributesVC?.setCityCoordinates(coordinates: userLocation)
         }
         
         super.prepare(for: segue, sender: sender)
