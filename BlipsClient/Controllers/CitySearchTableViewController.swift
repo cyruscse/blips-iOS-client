@@ -9,7 +9,7 @@
 import UIKit
 import GooglePlaces
 
-class CitySearchTableViewController: UITableViewController, UISearchResultsUpdating {
+class CitySearchTableViewController: UITableViewController, UISearchResultsUpdating, UISearchControllerDelegate {
     let searchController = UISearchController(searchResultsController: nil)
     let filter = GMSAutocompleteFilter()
     
@@ -27,12 +27,27 @@ class CitySearchTableViewController: UITableViewController, UISearchResultsUpdat
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Find City"
+        searchController.delegate = self
         navigationItem.searchController = searchController
         definesPresentationContext = true
         
         filter.type = .city
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        searchController.isActive = true
+    }
+    
+    func didPresentSearchController(_ searchController: UISearchController) {       
+        let delay = DispatchTime.now() + 0.1
+        
+        DispatchQueue.main.asyncAfter(deadline: delay) {
+            searchController.searchBar.becomeFirstResponder()
+        }
+    }
+
     // MARK: - UISearchResultsUpdating methods
     func updateSearchResults(for searchController: UISearchController) {
         if searchController.searchBar.text!.count == 0 {
