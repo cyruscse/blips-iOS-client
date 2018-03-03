@@ -42,7 +42,7 @@ class AttributesTableViewController: UITableViewController {
         priceRange = sender.selectedSegmentIndex
     }
     
-    @IBAction func attemptCityAutocomplete(_ sender: UITextField) {
+    /*@IBAction func attemptCityAutocomplete(_ sender: UITextField) {
         let filter = GMSAutocompleteFilter()
         filter.type = .city
         
@@ -58,7 +58,7 @@ class AttributesTableViewController: UITableViewController {
                 }
             }
         }
-    }
+    }*/
     
     func getOpenNowValue() -> Bool {
         return openNow
