@@ -465,6 +465,7 @@
                         </connections>
                     </tableView>
                     <connections>
+                        <outlet property="cityLabel" destination="hxC-QJ-7gg" id="xCy-DJ-0cQ"/>
                         <outlet property="radiusTextField" destination="5TU-NL-fvB" id="Mgm-KM-gqO"/>
                         <outlet property="starView" destination="CmA-cX-D04" id="zT0-TI-xfJ"/>
                     </connections>
@@ -1251,13 +1252,30 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="5gl-8w-KMr">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CitySearchCell" id="5gl-8w-KMr" customClass="CitySearchTableViewCell" customModule="BlipsClient" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="5gl-8w-KMr" id="2QN-oD-YSl">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I1w-N9-x5S">
+                                            <rect key="frame" x="16" y="11" width="288" height="22"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="I1w-N9-x5S" firstAttribute="leading" secondItem="2QN-oD-YSl" secondAttribute="leadingMargin" id="1Mx-vz-Q7D"/>
+                                        <constraint firstItem="I1w-N9-x5S" firstAttribute="top" secondItem="2QN-oD-YSl" secondAttribute="topMargin" id="4j1-4f-CC6"/>
+                                        <constraint firstItem="I1w-N9-x5S" firstAttribute="trailing" secondItem="2QN-oD-YSl" secondAttribute="trailingMargin" id="Zkw-rK-6rX"/>
+                                        <constraint firstItem="I1w-N9-x5S" firstAttribute="bottom" secondItem="2QN-oD-YSl" secondAttribute="bottomMargin" id="gGI-sS-9mk"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="cityLabel" destination="I1w-N9-x5S" id="FJ2-uz-fuh"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>

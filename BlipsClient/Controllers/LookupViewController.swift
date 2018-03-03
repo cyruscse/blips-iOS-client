@@ -47,14 +47,6 @@ class LookupViewController: UIViewController, LocationObserver, LookupModelObser
     func getMinimumRating() -> Double {
         return (attributesVC?.getMinimumRating())!
     }
-
-    func locationDetermined(location: CLLocationCoordinate2D) {
-        LookupViewController.haveLocation = true
-
-        if (self.viewIfLoaded?.window != nil) && (LookupViewController.selectedAttractions > 0) && (LookupViewController.selectedAttractions < 11) {
-            self.doneButton.isEnabled = true
-        }
-    }
     
     func didUpdateSelectedRows(selected: Int) {
         LookupViewController.selectedAttractions = selected
@@ -64,6 +56,15 @@ class LookupViewController: UIViewController, LocationObserver, LookupModelObser
         }
         else {
             self.doneButton.isEnabled = false
+        }
+    }
+    
+    // LocationObserver Methods
+    func locationDetermined(location: CLLocationCoordinate2D) {
+        LookupViewController.haveLocation = true
+        
+        if (self.viewIfLoaded?.window != nil) && (LookupViewController.selectedAttractions > 0) && (LookupViewController.selectedAttractions < 11) {
+            self.doneButton.isEnabled = true
         }
     }
     
@@ -83,8 +84,7 @@ class LookupViewController: UIViewController, LocationObserver, LookupModelObser
             attractionsVC = destinationVC
             attractionsVC?.addAttractionTableObserver(observer: self)
             attractionsVC?.setAttractionTypes(attrToProperName: attrToProperName, properNameToAttr: properNameToAttr, prioritySortedAttractions: prioritySortedAttractions)
-        }
-        else if let destinationVC = segue.destination as? AttributesTableViewController {
+        } else if let destinationVC = segue.destination as? AttributesTableViewController {
             attributesVC = destinationVC
         }
         
