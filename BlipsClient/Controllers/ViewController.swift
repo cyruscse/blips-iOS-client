@@ -89,6 +89,11 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         bottomPadding = window?.safeAreaInsets.bottom
         safeAreaHeight = (mapVC.frame.height - bottomPadding!)
         
+        mapVC.showsPointsOfInterest = false
+        mapVC.showsTraffic = false
+        mapVC.showsBuildings = false
+        mapVC.showsUserLocation = true
+        
         blipTableVC.animationTimer = self.animationTimer
         grabberView.animationTimer = self.animationTimer
         toggleTable.animationTimer = self.animationTimer
