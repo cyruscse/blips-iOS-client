@@ -28,17 +28,18 @@ class MapViewController: MKMapView, MapModelObserver {
     // MapModelObserver methods
     
     func annotationsUpdated(annotations: [MKAnnotation], updateType: UpdateType) {
-        self.removeAnnotations(myAnnotations)
-        self.myAnnotations = annotations
-        self.addAnnotations(myAnnotations)
+        removeAnnotations(myAnnotations)
+        myAnnotations = annotations
+        addAnnotations(myAnnotations)
     }
     
     func locationUpdated(location: CLLocationCoordinate2D, latitudinalMeters: CLLocationDistance, longitudinalMeters: CLLocationDistance) {
         currentLocation = MKCoordinateRegionMakeWithDistance(location, latitudinalMeters, longitudinalMeters)
-        self.setRegion(currentLocation, animated: true)
+        setRegion(currentLocation, animated: true)
     }
     
     func focusOnBlip(blip: Blip) {
-        self.selectAnnotation(blip, animated: true)
+        setCenter(blip.coordinate, animated: true)
+        selectAnnotation(blip, animated: true)
     }
 }
