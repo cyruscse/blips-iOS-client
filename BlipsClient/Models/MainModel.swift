@@ -69,7 +69,7 @@ class MainModel {
         lookupModel.lookupVC = lookupVC
         
         if locManager.location != nil {
-            lookupVC.locationDetermined(location: locManager.location, notifyVC: true)
+            lookupVC.locationDetermined(location: locManager.location, haveDeviceLocation: true)
         }
     }
     

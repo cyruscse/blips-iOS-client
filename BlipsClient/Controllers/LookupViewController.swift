@@ -14,6 +14,8 @@ class LookupViewController: UIViewController, LookupModelObserver, AttractionTab
     
     private static var haveLocation: Bool = false
     private static var selectedAttractions: Int = 0
+    static var haveDeviceLocation: Bool = false
+    
     private var attrToProperName = [String: String]()
     private var properNameToAttr = [String: String]()
     private var prioritySortedAttractions = [String]()
@@ -69,11 +71,13 @@ class LookupViewController: UIViewController, LookupModelObserver, AttractionTab
     }
     
     // LocationObserver Methods
-    func locationDetermined(location: CLLocationCoordinate2D, notifyVC: Bool) {
+    func locationDetermined(location: CLLocationCoordinate2D, haveDeviceLocation: Bool) {
         LookupViewController.haveLocation = true
-                
-        if notifyVC == true {
+
+        if haveDeviceLocation == true {
+            LookupViewController.haveDeviceLocation = true
             attributesVC?.setCityCoordinates(coordinates: location)
+            attributesVC?.haveUserLocation = true
         }
         
         self.userLocation = location
@@ -101,7 +105,12 @@ class LookupViewController: UIViewController, LookupModelObserver, AttractionTab
         } else if let destinationVC = segue.destination as? AttributesTableViewController {
             attributesVC = destinationVC
             attributesVC?.lookupVC = self
-            attributesVC?.setCityCoordinates(coordinates: userLocation)
+            
+            if LookupViewController.haveDeviceLocation {
+                attributesVC?.setCityCoordinates(coordinates: userLocation)
+            }
+            
+            attributesVC?.haveUserLocation = LookupViewController.haveDeviceLocation
         }
         
         super.prepare(for: segue, sender: sender)

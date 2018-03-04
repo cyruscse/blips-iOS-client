@@ -15,8 +15,10 @@ class CitySearchTableViewController: UITableViewController, UISearchResultsUpdat
     
     var placesClient: GMSPlacesClient!
     var autoCompletedPlaces = [GMSAutocompletePrediction]()
+    var autoCompletedPlacesStrings = [String]()
     var selectedCity: String!
     var cityPlaceID: String!
+    var haveUserLocation: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,11 +42,19 @@ class CitySearchTableViewController: UITableViewController, UISearchResultsUpdat
         searchController.isActive = true
     }
     
-    func didPresentSearchController(_ searchController: UISearchController) {       
+    func didPresentSearchController(_ searchController: UISearchController) {
         let delay = DispatchTime.now() + 0.1
         
         DispatchQueue.main.asyncAfter(deadline: delay) {
             searchController.searchBar.becomeFirstResponder()
+        }
+    }
+    
+    func addCurrentLocationEntry() {
+        if self.viewIfLoaded?.window != nil {
+            haveUserLocation = true
+            autoCompletedPlacesStrings.insert("Current Location", at: 0)
+            tableView.reloadData()
         }
     }
 
@@ -52,6 +62,12 @@ class CitySearchTableViewController: UITableViewController, UISearchResultsUpdat
     func updateSearchResults(for searchController: UISearchController) {
         if searchController.searchBar.text!.count == 0 {
             autoCompletedPlaces = [GMSAutocompletePrediction]()
+            autoCompletedPlacesStrings = [String]()
+            
+            if haveUserLocation == true {
+                autoCompletedPlacesStrings.append("Current Location")
+            }
+            
             tableView.reloadData()
             
             return
@@ -65,6 +81,12 @@ class CitySearchTableViewController: UITableViewController, UISearchResultsUpdat
             
             if let results = results {
                 self.autoCompletedPlaces = results
+                self.autoCompletedPlacesStrings = [String]()
+                self.autoCompletedPlacesStrings.append("Current Location")
+                
+                let autoCompStrings = results.map { $0.attributedFullText.string }
+                self.autoCompletedPlacesStrings.append(contentsOf: autoCompStrings)
+                
                 self.tableView.reloadData()
             }
         }
@@ -94,7 +116,7 @@ class CitySearchTableViewController: UITableViewController, UISearchResultsUpdat
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return autoCompletedPlaces.count
+        return autoCompletedPlacesStrings.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -104,7 +126,7 @@ class CitySearchTableViewController: UITableViewController, UISearchResultsUpdat
             fatalError("Dequeued cell wasn't \(cellIdentifier)")
         }
 
-        cell.cityLabel.text = autoCompletedPlaces[indexPath.row].attributedFullText.string
+        cell.cityLabel.text = autoCompletedPlacesStrings[indexPath.row]
 
         return cell
     }
@@ -114,8 +136,18 @@ class CitySearchTableViewController: UITableViewController, UISearchResultsUpdat
             fatalError("Cell wasn't CitySearchTableViewCell")
         }
         
+        var autoCompletedPlacesIndex = indexPath.row
+        
+        if autoCompletedPlacesStrings.count > autoCompletedPlaces.count {
+            autoCompletedPlacesIndex -= 1
+        }
+        
         selectedCity = cell.cityLabel.text
-        cityPlaceID = autoCompletedPlaces[indexPath.row].placeID
+        
+        if autoCompletedPlacesIndex != -1 {
+            cityPlaceID = autoCompletedPlaces[autoCompletedPlacesIndex].placeID
+        }
+        
         searchController.searchBar.endEditing(true)
         
         self.navigationController?.popViewController(animated: true)

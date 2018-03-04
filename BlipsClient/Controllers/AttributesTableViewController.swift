@@ -21,6 +21,7 @@ class AttributesTableViewController: UITableViewController {
     private var priceRange: Int = 0
     private var citySearchVC: CitySearchTableViewController?
     
+    var haveUserLocation: Bool = false
     var cityCoordinates: CLLocationCoordinate2D!
     var placesClient: GMSPlacesClient!
     var bounds: GMSCoordinateBounds!
@@ -61,7 +62,7 @@ class AttributesTableViewController: UITableViewController {
                 }
                 
                 self.cityCoordinates = place.coordinate
-                self.lookupVC.locationDetermined(location: self.cityCoordinates, notifyVC: false)
+                self.lookupVC.locationDetermined(location: self.cityCoordinates, haveDeviceLocation: false)
             })
         }
     }
@@ -100,6 +101,7 @@ class AttributesTableViewController: UITableViewController {
     
     func setCityCoordinates(coordinates: CLLocationCoordinate2D?) {
         cityCoordinates = coordinates
+        citySearchVC?.addCurrentLocationEntry()
         
         if cityLabel != nil {
             cityLabel.text = "Current Location"
@@ -119,6 +121,7 @@ class AttributesTableViewController: UITableViewController {
         if let destinationVC = segue.destination as? CitySearchTableViewController {
             citySearchVC = destinationVC
             destinationVC.placesClient = placesClient
+            destinationVC.haveUserLocation = haveUserLocation
         }
         
         super.prepare(for: segue, sender: sender)
