@@ -16,6 +16,8 @@ class LookupTableViewController: UITableViewController, LookupModelObserver, Att
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var starView: CosmosView!
     
+    private let currentLocationStr = "Current Location"
+    
     private let defaultRadius = 5000
     private var radius: Int = 0
     
@@ -31,6 +33,7 @@ class LookupTableViewController: UITableViewController, LookupModelObserver, Att
     var prioritySortedAttractions = [String]()
     var userTypeQueryCount: Int = 0
     
+    var deviceLocation: CLLocationCoordinate2D?
     var cityCoordinates: CLLocationCoordinate2D!
     var placesClient: GMSPlacesClient!
     var bounds: GMSCoordinateBounds!
@@ -49,7 +52,7 @@ class LookupTableViewController: UITableViewController, LookupModelObserver, Att
         placesClient = GMSPlacesClient.shared()
         
         if (cityCoordinates != nil) && (citySearchVC?.selectedCity == nil) {
-            cityLabel.text = "Current Location"
+            cityLabel.text = currentLocationStr
         }
     }
     
@@ -60,6 +63,11 @@ class LookupTableViewController: UITableViewController, LookupModelObserver, Att
         
         if citySearchVC?.selectedCity != cityLabel.text && citySearchVC?.selectedCity != nil {
             cityLabel.text = citySearchVC?.selectedCity
+            
+            if citySearchVC?.selectedCity == currentLocationStr {
+                locationDetermined(location: deviceLocation!, haveDeviceLocation: true)
+                return
+            }
             
             placesClient.lookUpPlaceID(citySearchVC!.cityPlaceID, callback: { (place, error) in
                 if let error = error {
@@ -83,6 +91,7 @@ class LookupTableViewController: UITableViewController, LookupModelObserver, Att
         haveLookupLocation = true
         
         if haveDeviceLocation == true {
+            deviceLocation = location
             haveUserLocation = true
             setCityCoordinates(coordinates: location)
         }
@@ -140,7 +149,7 @@ class LookupTableViewController: UITableViewController, LookupModelObserver, Att
         citySearchVC?.addCurrentLocationEntry()
         
         if cityLabel != nil {
-            cityLabel.text = "Current Location"
+            cityLabel.text = currentLocationStr
         }
     }
     
