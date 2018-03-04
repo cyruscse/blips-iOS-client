@@ -225,9 +225,16 @@ class SignInModel {
                     let status = value as! [String]
                     
                     if (status.first != okTag) {
-                        let alert = AnywhereUIAlertController(title: "Login Failed", message: "The server rejected your login request.", preferredStyle: .alert);
-                        alert.show();
-                        print("bad login")
+                        let alert = UIAlertController(title: "Login Failed", message: "The server rejected your login request.", preferredStyle: .alert);
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                        
+                        var rootVC = UIApplication.shared.keyWindow?.rootViewController
+                        
+                        if let navigationVC = rootVC as? UINavigationController {
+                            rootVC = navigationVC.viewControllers.first
+                        }
+                        
+                        rootVC?.present(alert, animated: true, completion: nil)
                         
                         return
                     }
@@ -262,9 +269,16 @@ class SignInModel {
                             case priceRangeTag:
                                 priceRangeValue = setting as! Int
                             default:
-                                let alert = AnywhereUIAlertController(title: "Login Failed", message: "The server returned invalid data.", preferredStyle: .alert);
-                                alert.show();
-                                print("login failed")
+                                let alert = UIAlertController(title: "Login Failed", message: "The server returned invalid data.", preferredStyle: .alert);
+                                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                                
+                                var rootVC = UIApplication.shared.keyWindow?.rootViewController
+                                
+                                if let navigationVC = rootVC as? UINavigationController {
+                                    rootVC = navigationVC.viewControllers.first
+                                }
+                                
+                                rootVC?.present(alert, animated: true, completion: nil)
                                 
                                 return
                             }
@@ -272,9 +286,16 @@ class SignInModel {
                     }
                     
                     if enabledValue == nil || typeGrabLengthValue == nil || openNowValue == nil || ratingValue == nil || priceRangeValue == nil {
-                        let alert = AnywhereUIAlertController(title: "Login Failed", message: "The server didn't return all required data.", preferredStyle: .alert);
-                        alert.show();
-                        print("login missing data")
+                        let alert = UIAlertController(title: "Login Failed", message: "The server didn't return all required data.", preferredStyle: .alert);
+                        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                        
+                        var rootVC = UIApplication.shared.keyWindow?.rootViewController
+                        
+                        if let navigationVC = rootVC as? UINavigationController {
+                            rootVC = navigationVC.viewControllers.first
+                        }
+                        
+                        rootVC?.present(alert, animated: true, completion: nil)
                         
                         return
                     }
@@ -287,10 +308,16 @@ class SignInModel {
                         if let blip = Blip(json: entry) {
                             savedBlips.append(blip)
                         } else {
-                            let alert = AnywhereUIAlertController(title: "Blip Retrieval Failed", message: "The server didn't send blips in the correct format.", preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in }))
-                            alert.show()
-                            print("bad blip format")
+                            let alert = UIAlertController(title: "Blip Retrieval Failed", message: "The server didn't send blips in the correct format.", preferredStyle: .alert)
+                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                            
+                            var rootVC = UIApplication.shared.keyWindow?.rootViewController
+                            
+                            if let navigationVC = rootVC as? UINavigationController {
+                                rootVC = navigationVC.viewControllers.first
+                            }
+                            
+                            rootVC?.present(alert, animated: true, completion: nil)
                             
                             return
                         }
@@ -325,9 +352,16 @@ class SignInModel {
                 if (key == statusTag) {
                     if let strValue = value as? String {
                         if strValue != okTag {
-                            let alert = AnywhereUIAlertController(title: "Server Sync Failed", message: "Client information couldn't be synced to the server.", preferredStyle: .alert);
-                            alert.show();
-                            print("couldn't sync to server")
+                            let alert = UIAlertController(title: "Server Sync Failed", message: "Client information couldn't be synced to the server.", preferredStyle: .alert);
+                            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                            
+                            var rootVC = UIApplication.shared.keyWindow?.rootViewController
+                            
+                            if let navigationVC = rootVC as? UINavigationController {
+                                rootVC = navigationVC.viewControllers.first
+                            }
+                            
+                            rootVC?.present(alert, animated: true, completion: nil)
                             
                             return
                         }

@@ -139,10 +139,16 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
                 currentAnnotations.append(blip)
                 blip.requestPhotoMetadata()
             } else {
-                let alert = AnywhereUIAlertController(title: "Blip Display Failed", message: "The server didn't send blips in the correct format.", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in }))
-                alert.show()
-                print("bad blips")
+                let alert = UIAlertController(title: "Blip Display Failed", message: "The server didn't send blips in the correct format.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                
+                var rootVC = UIApplication.shared.keyWindow?.rootViewController
+                
+                if let navigationVC = rootVC as? UINavigationController {
+                    rootVC = navigationVC.viewControllers.first
+                }
+                
+                rootVC?.present(alert, animated: true, completion: nil)
                 
                 return
             }
@@ -171,10 +177,16 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
                 parseBlips(serverDict: blipsArr)
             }
             else {
-                let alert = AnywhereUIAlertController(title: "Query Failed", message: status[0], preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in }))
-                alert.show()
-                print("query failed")
+                let alert = UIAlertController(title: "Query Failed", message: "The server was unable to handle your request.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                
+                var rootVC = UIApplication.shared.keyWindow?.rootViewController
+                
+                if let navigationVC = rootVC as? UINavigationController {
+                    rootVC = navigationVC.viewControllers.first
+                }
+                
+                rootVC?.present(alert, animated: true, completion: nil)
             }
         } catch ServerInterfaceError.JSONParseFailed(description: let error) {
             print(error)
