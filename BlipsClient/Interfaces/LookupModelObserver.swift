@@ -9,6 +9,6 @@
 import Foundation
 
 protocol LookupModelObserver {
-    func setAttractionTypes(attrToProperName: [String: String], properNameToAttr: [String: String], prioritySortedAttractions: [String])
+    func setAttractionTypes(attrToProperName: [String: String], properNameToAttr: [String: String], prioritySortedAttractions: [String], userTypeQueryCount: Int)
     func gotGoogleClientKey(key: String)
 }

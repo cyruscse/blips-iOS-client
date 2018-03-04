@@ -206,8 +206,8 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
         requestBlips(attributes: topTypesStrings, openNow: account.autoQueryOptions.autoQueryOpenNow, radius: 10000, priceRange: account.autoQueryOptions.autoQueryPriceRange, minimumRating: account.autoQueryOptions.autoQueryRating, latitude: currentLocation!.latitude, longitude: currentLocation!.longitude)
     }
     
-    func manualRequestBlips(lookupVC: LookupViewController, latitude: Double, longitude: Double) {
-        requestBlips(attributes: lookupVC.getSelectedAttractions(), openNow: lookupVC.getOpenNowValue(), radius: lookupVC.getRadiusValue(), priceRange: lookupVC.getPriceRange(), minimumRating: lookupVC.getMinimumRating(), latitude: latitude, longitude: longitude)
+    func manualRequestBlips(lookupVC: LookupTableViewController, latitude: Double, longitude: Double) {
+        requestBlips(attributes: lookupVC.selectedAttractionTypes, openNow: lookupVC.openNow, radius: lookupVC.getRadiusValue(), priceRange: lookupVC.priceRange, minimumRating: lookupVC.getMinimumRating(), latitude: latitude, longitude: longitude)
     }
     
     func mapRefreshBlipRequest(location: CLLocationCoordinate2D, radius: Int) {

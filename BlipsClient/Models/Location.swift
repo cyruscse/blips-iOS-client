@@ -16,8 +16,9 @@ import CoreLocation
 class Location: NSObject, CLLocationManagerDelegate {
     let manager = CLLocationManager()
     private var locationCallback: (CLLocationCoordinate2D) -> ()
-    private var location: CLLocationCoordinate2D!
     private var locationObservers = [LocationObserver]()
+    
+    var location: CLLocationCoordinate2D!
     
     override init() {
         self.locationCallback = {_ in }
@@ -35,7 +36,6 @@ class Location: NSObject, CLLocationManagerDelegate {
                 break
             
             case .restricted, .denied:
-                print("Fallback to custom search...")
                 break
             
             case .authorizedWhenInUse, .authorizedAlways:
@@ -81,15 +81,12 @@ class Location: NSObject, CLLocationManagerDelegate {
         updateObservers()
     }
     
-    // Called by MainModel, check explanation in MainModel.swift
-    func forceUpdateObservers() {
-        if self.location != nil {
-            updateObservers()
-        }
-    }
-    
     func addLocationObserver(observer: LocationObserver) {
         locationObservers.append(observer)
+        
+        if location != nil {
+            observer.locationDetermined(location: location)
+        }
     }
     
     func getLatitude() -> Double {

@@ -52,25 +52,25 @@ class MainModel {
     
     // On LookupVC confirming a lookup request, delegate the request to MapModel
     // Also update the user's attraction history through SignInModel
-    func relayBlipLookup(lookupVC: LookupViewController) {
-        mapModel.manualRequestBlips(lookupVC: lookupVC, latitude: locManager.getLatitude(), longitude: locManager.getLongitude())
-        signInModel.updateAttractionHistory(selections: lookupVC.getSelectedAttractions())
+    func relayBlipLookup(lookupVC: LookupTableViewController) {
+        mapModel.manualRequestBlips(lookupVC: lookupVC, latitude: lookupVC.cityCoordinates.latitude, longitude: lookupVC.cityCoordinates.longitude)
+        signInModel.updateAttractionHistory(selections: lookupVC.selectedAttractionTypes)
     }
     
     func relaySavedBlipLookup(savedVC: SavedBlipTableViewController) {
         mapModel.placeBlips(blips: savedVC.selectedBlips)
     }
     
-    func registerLookupVC(lookupVC: LookupViewController) {
+    func registerLookupVC(lookupVC: LookupTableViewController) {
         // Account needs to know when Attraction Types are available
         // in order to set a prioritized list on app load
         lookupModel.addLookupObserver(observer: signInModel.getAccount())
         lookupModel.addLookupObserver(observer: lookupVC)
-    
-        // Set lookupVC as an Observer of locManager so it knows when to
-        // start allowing blip requests (i.e. enable "Done" button)
-        locManager.addLocationObserver(observer: lookupVC)
-        locManager.forceUpdateObservers()
+        lookupModel.lookupVC = lookupVC
+        
+        if locManager.location != nil {
+            lookupVC.locationDetermined(location: locManager.location, haveDeviceLocation: true)
+        }
     }
     
     // MapModel methods
@@ -118,6 +118,7 @@ class MainModel {
         signInModel.setLookupModel(lookupModel: lookupModel)
         signInModel.addUserAccountObserver(observer: mapModel)
         locManager.addLocationObserver(observer: mapModel)
+        locManager.addLocationObserver(observer: lookupModel)
         locManager.getLocation(callback: { (coordinate) in self.locManager.getLocationCallback(coordinate: coordinate) })
         lookupModel.syncWithServer()
     }

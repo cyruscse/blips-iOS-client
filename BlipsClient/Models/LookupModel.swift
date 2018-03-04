@@ -10,14 +10,16 @@
 // it requests the list of attraction types from the server. When LookupVC is segued in, it receives its data from here
 
 import Foundation
+import MapKit
 
-class LookupModel: UserHistoryObserver {
+class LookupModel: UserHistoryObserver, LocationObserver {
     let attributesTag = "attributes"
     let attractionTypeTag = "attraction_types"
 
     // Attraction Types contains the list of attractions, sorted by user history
     private var attractionTypes = [String]()
     private var properNames = [String]()
+    private var userTypeQueryCount: Int = 0
     
     private var clientGoogleKey: String = ""
     
@@ -28,6 +30,8 @@ class LookupModel: UserHistoryObserver {
     
     private var lookupObservers = [LookupModelObserver]()
     private var serverSyncComplete = false
+    
+    var lookupVC: LookupTableViewController?
     
     func addLookupObserver(observer: LookupModelObserver) {
         lookupObservers.append(observer)
@@ -45,7 +49,7 @@ class LookupModel: UserHistoryObserver {
         serverSyncComplete = true
         
         for observer in lookupObservers {
-            observer.setAttractionTypes(attrToProperName: self.attrToProperName, properNameToAttr: self.properNameToAttr, prioritySortedAttractions: attractionTypes)
+            observer.setAttractionTypes(attrToProperName: attrToProperName, properNameToAttr: properNameToAttr, prioritySortedAttractions: attractionTypes, userTypeQueryCount: userTypeQueryCount)
         }
     }
     
@@ -111,6 +115,7 @@ class LookupModel: UserHistoryObserver {
         
         attractionTypes = []
         properNames = []
+        userTypeQueryCount = attractionHistory.count
         
         for entry in attractionHistory {
             attractionSet.remove(entry.attraction)
@@ -118,6 +123,10 @@ class LookupModel: UserHistoryObserver {
         }
         
         attractionTypes.append(contentsOf: attractionSet.sorted())
+    }
+    
+    func locationDetermined(location: CLLocationCoordinate2D) {
+        lookupVC?.locationDetermined(location: location, haveDeviceLocation: true)
     }
 
     // Callback function for Attraction Type reply

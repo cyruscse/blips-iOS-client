@@ -192,13 +192,11 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
     //MARK: Navigation
     @IBAction func unwindToBlipMap(sender: UIStoryboardSegue) {
-        if let sourceViewController = sender.source as? LookupViewController {
-            mainModel.relayBlipLookup(lookupVC: sourceViewController)
-        }
-        if let savedBlipsVC = sender.source as? SavedBlipTableViewController {
+        if let lookupVC = sender.source as? LookupTableViewController {
+            mainModel.relayBlipLookup(lookupVC: lookupVC)
+        } else if let savedBlipsVC = sender.source as? SavedBlipTableViewController {
             mainModel.relaySavedBlipLookup(savedVC: savedBlipsVC)
-        }
-        if let _ = sender.source as? AccountViewController {
+        } else if let _ = sender.source as? AccountViewController {
             mainModel.clearMapVC(retainAnnotations: false)
         }
     }
@@ -235,7 +233,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let destinationNC = segue.destination as? UINavigationController {
-            if let lookupVC = destinationNC.topViewController as? LookupViewController {
+            if let lookupVC = destinationNC.topViewController as? LookupTableViewController {
                 mainModel.clearMapVC(retainAnnotations: true)
                 mainModel.registerLookupVC(lookupVC: lookupVC)
             }

@@ -19,6 +19,7 @@ class AccountViewController: UIViewController, UserAccountObserver {
         super.viewDidLoad()
 
         actionSheetButton.isEnabled = userSignedIn
+        navigationItem.title = "Account"
     }
 
     func userLoggedIn(account: User) {

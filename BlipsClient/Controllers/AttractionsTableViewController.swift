@@ -14,39 +14,45 @@ class AttractionsTableViewController: UITableViewController {
     private var properNameToAttr: [String: String] = [String: String]()
     private var selectedAttractions: [String] = [String]()
     private var observers: [AttractionTableObserver] = [AttractionTableObserver]()
-    
-    func setAttractionTypes(attrToProperName: [String : String], properNameToAttr: [String : String], prioritySortedAttractions: [String]) {
-        self.attrToProperName = attrToProperName
-        self.properNameToAttr = properNameToAttr
-        self.prioritySortedAttractions = prioritySortedAttractions
-    }
-    
-    func addAttractionTableObserver(observer: AttractionTableObserver) {
-        self.observers.append(observer)
-    }
-    
-    func updateAttractionTableObservers(numRows: Int) {
-        for observer in observers {
-            observer.didUpdateSelectedRows(selected: numRows)
-        }
-    }
-
-    func getSelectedAttractions() -> [String] {
-        return self.selectedAttractions
-    }
+    private var userTypeQueryCount: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.tableView.allowsMultipleSelection = true
-        self.tableView.rowHeight = 44.0
+
+        tableView.allowsMultipleSelection = true
+        tableView.rowHeight = 44.0
+        navigationItem.title = "Lookup Types"
     }
 
     override func numberOfSections(in tableView: UITableView) -> Int {
+        if userTypeQueryCount != 0 {
+            return 2
+        }
+        
         return 1
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if userTypeQueryCount == 0 {
+            return nil
+        }
+        
+        if section == 0 {
+            return "Suggested Types"
+        }
+        
+        return "All Types"
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return userTypeQueryCount
+        }
+        
+        if userTypeQueryCount > 0 {
+            return prioritySortedAttractions.count - userTypeQueryCount
+        }
+ 
         return prioritySortedAttractions.count
     }
 
@@ -57,10 +63,16 @@ class AttractionsTableViewController: UITableViewController {
             fatalError("Dequeued cell wasn't AttractionsTableViewCell")
         }
         
-        let attraction = attrToProperName[prioritySortedAttractions[indexPath.row]]
+        var index = indexPath.row
+        
+        if indexPath.section == 1 {
+            index += userTypeQueryCount
+        }
+        
+        let attraction = attrToProperName[prioritySortedAttractions[index]]
         
         // Check if this row had been selected, add a checkmark if it was selected before
-        if (selectedAttractions.contains(prioritySortedAttractions[indexPath.row])) {
+        if (selectedAttractions.contains(prioritySortedAttractions[index])) {
             cell.accessoryType = .checkmark
         }
         else {
@@ -78,10 +90,21 @@ class AttractionsTableViewController: UITableViewController {
             fatalError("Cell wasn't AttractionsTableViewCell")
         }
         
+        if selectedAttractions.count == 10 {
+            // should pop an error here (First need to fix AnywhereAlertController)
+            return
+        }
+        
+        var index = indexPath.row
+        
+        if indexPath.section == 1 {
+            index += userTypeQueryCount
+        }
+        
         // Set checkmark for row and add this attraction to the array of selected attractions
         cell.accessoryType = .checkmark
-        selectedAttractions.append(prioritySortedAttractions[indexPath.row])
-        updateAttractionTableObservers(numRows: selectedAttractions.count)
+        selectedAttractions.append(prioritySortedAttractions[index])
+        updateAttractionTableObservers()
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -94,6 +117,25 @@ class AttractionsTableViewController: UITableViewController {
         if let index = selectedAttractions.index(of: properNameToAttr[cell.attractionName.text!]!) {
             selectedAttractions.remove(at: index)
         }
-        updateAttractionTableObservers(numRows: selectedAttractions.count)
+        
+        updateAttractionTableObservers()
+    }
+    
+    func setAttractionTypes(attrToProperName: [String : String], properNameToAttr: [String : String], prioritySortedAttractions: [String], selectedAttractions: [String], userTypeQueryCount: Int) {
+        self.attrToProperName = attrToProperName
+        self.properNameToAttr = properNameToAttr
+        self.prioritySortedAttractions = prioritySortedAttractions
+        self.selectedAttractions = selectedAttractions
+        self.userTypeQueryCount = userTypeQueryCount
+    }
+    
+    func addAttractionTableObserver(observer: AttractionTableObserver) {
+        self.observers.append(observer)
+    }
+    
+    func updateAttractionTableObservers() {
+        for observer in observers {
+            observer.didUpdateSelectedRows(selected: selectedAttractions)
+        }
     }
 }
