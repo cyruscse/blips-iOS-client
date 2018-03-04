@@ -19,6 +19,7 @@ class LookupModel: UserHistoryObserver, LocationObserver {
     // Attraction Types contains the list of attractions, sorted by user history
     private var attractionTypes = [String]()
     private var properNames = [String]()
+    private var userTypeQueryCount: Int = 0
     
     private var clientGoogleKey: String = ""
     
@@ -30,7 +31,7 @@ class LookupModel: UserHistoryObserver, LocationObserver {
     private var lookupObservers = [LookupModelObserver]()
     private var serverSyncComplete = false
     
-    var lookupVC: LookupViewController?
+    var lookupVC: LookupTableViewController?
     
     func addLookupObserver(observer: LookupModelObserver) {
         lookupObservers.append(observer)
@@ -48,7 +49,7 @@ class LookupModel: UserHistoryObserver, LocationObserver {
         serverSyncComplete = true
         
         for observer in lookupObservers {
-            observer.setAttractionTypes(attrToProperName: self.attrToProperName, properNameToAttr: self.properNameToAttr, prioritySortedAttractions: attractionTypes)
+            observer.setAttractionTypes(attrToProperName: attrToProperName, properNameToAttr: properNameToAttr, prioritySortedAttractions: attractionTypes, userTypeQueryCount: userTypeQueryCount)
         }
     }
     
@@ -114,6 +115,7 @@ class LookupModel: UserHistoryObserver, LocationObserver {
         
         attractionTypes = []
         properNames = []
+        userTypeQueryCount = attractionHistory.count
         
         for entry in attractionHistory {
             attractionSet.remove(entry.attraction)

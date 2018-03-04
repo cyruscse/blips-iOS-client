@@ -9,5 +9,5 @@
 import Foundation
 
 protocol AttractionTableObserver {
-    func didUpdateSelectedRows(selected: Int)
+    func didUpdateSelectedRows(selected: [String])
 }

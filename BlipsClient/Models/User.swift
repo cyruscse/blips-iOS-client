@@ -205,7 +205,7 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver, BlipD
     
     // LookupModelObserver Methods
     
-    func setAttractionTypes(attrToProperName: [String : String], properNameToAttr: [String : String], prioritySortedAttractions: [String]) {
+    func setAttractionTypes(attrToProperName: [String : String], properNameToAttr: [String : String], prioritySortedAttractions: [String], userTypeQueryCount: Int) {
         updateHistoryListeners()
     }
     
