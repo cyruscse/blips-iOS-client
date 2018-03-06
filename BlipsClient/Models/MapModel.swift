@@ -131,6 +131,21 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
         currentAnnotations.removeAll()
         lastAnnotations.removeAll()
         
+        if serverDict.count == 0 {
+            let alert = UIAlertController(title: "No Blips Found", message: "Try querying with a larger search radius or more attraction types.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            
+            var rootVC = UIApplication.shared.keyWindow?.rootViewController
+            
+            if let navigationVC = rootVC as? UINavigationController {
+                rootVC = navigationVC.viewControllers.first
+            }
+            
+            rootVC?.present(alert, animated: true, completion: nil)
+            
+            return
+        }
+        
         for entry in serverDict {
             let dictEntry = (entry as NSDictionary).mutableCopy() as! NSMutableDictionary
             let blipEntry = dictEntry as? [String: Any] ?? [:]
