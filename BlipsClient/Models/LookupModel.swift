@@ -17,7 +17,8 @@ class LookupModel: UserHistoryObserver, LocationObserver {
     let attractionTypeTag = "attraction_types"
 
     // Attraction Types contains the list of attractions, sorted by user history
-    private var attractionTypes = [String]()
+    private var allAttractionTypes = [String]()
+    private var priorityAttractionTypes = [String]()
     private var properNames = [String]()
     private var userTypeQueryCount: Int = 0
     
@@ -49,7 +50,7 @@ class LookupModel: UserHistoryObserver, LocationObserver {
         serverSyncComplete = true
         
         for observer in lookupObservers {
-            observer.setAttractionTypes(attrToProperName: attrToProperName, properNameToAttr: properNameToAttr, prioritySortedAttractions: attractionTypes, userTypeQueryCount: userTypeQueryCount)
+            observer.setAttractionTypes(attrToProperName: attrToProperName, properNameToAttr: properNameToAttr, prioritySortedAttractions: priorityAttractionTypes, userTypeQueryCount: userTypeQueryCount)
         }
     }
     
@@ -84,7 +85,7 @@ class LookupModel: UserHistoryObserver, LocationObserver {
                     return
                 }
              
-                self.attractionTypes.append(typeName)
+                allAttractionTypes.append(typeName)
             }
             
             if (key == "ProperName") {
@@ -93,17 +94,17 @@ class LookupModel: UserHistoryObserver, LocationObserver {
                     return
                 }
                 
-                self.properNames.append(properName)
+                properNames.append(properName)
             }
         }
 
         // Set up the translation tables
-        for (index, element) in attractionTypes.enumerated() {
+        for (index, element) in allAttractionTypes.enumerated() {
             attrToProperName[element] = properNames[index]
         }
         
         for (index, element) in properNames.enumerated() {
-            properNameToAttr[element] = attractionTypes[index]
+            properNameToAttr[element] = allAttractionTypes[index]
         }
     }
 
@@ -111,18 +112,18 @@ class LookupModel: UserHistoryObserver, LocationObserver {
     // Attraction types are sorted by query frequency (types that haven't been queried are sorted alphabetically)
     // Part of the UserHistoryObserver protocol
     func historyUpdated(attractionHistory: [AttractionHistory]) {
-        var attractionSet: Set<String> = Set(attractionTypes)
+        var attractionSet: Set<String> = Set(allAttractionTypes)
         
-        attractionTypes = []
+        priorityAttractionTypes = []
         properNames = []
         userTypeQueryCount = attractionHistory.count
         
         for entry in attractionHistory {
             attractionSet.remove(entry.attraction)
-            attractionTypes.append(entry.attraction)
+            priorityAttractionTypes.append(entry.attraction)
         }
         
-        attractionTypes.append(contentsOf: attractionSet.sorted())
+        priorityAttractionTypes.append(contentsOf: attractionSet.sorted())
     }
     
     func locationDetermined(location: CLLocationCoordinate2D) {
@@ -146,6 +147,10 @@ class LookupModel: UserHistoryObserver, LocationObserver {
                         parseAttractionTypes(entries: entry)
                     }
                 }
+            }
+            
+            if (priorityAttractionTypes.count == 0) {
+                priorityAttractionTypes = allAttractionTypes
             }
 
             notifyAttractionTypesReady()
