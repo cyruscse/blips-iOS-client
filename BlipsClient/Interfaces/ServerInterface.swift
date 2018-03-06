@@ -6,7 +6,7 @@
 //  Copyright © 2017 Cyrus Sadeghi. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 enum ServerInterfaceError: Error {
     case badJSONRequest(description: String)
@@ -43,10 +43,32 @@ class ServerInterface {
         
         let task = session.dataTask(with: request as URLRequest, completionHandler : { data, response, error in
             guard error == nil else {
+                let alert = UIAlertController(title: "Server Request Failed", message: error?.localizedDescription, preferredStyle: .alert);
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                
+                var rootVC = UIApplication.shared.keyWindow?.rootViewController
+                
+                if let navigationVC = rootVC as? UINavigationController {
+                    rootVC = navigationVC.viewControllers.first
+                }
+                
+                rootVC?.present(alert, animated: true, completion: nil)
+                
                 return
             }
             
             guard let data = data else {
+                let alert = UIAlertController(title: "Server Request Failed", message: "Other Failure (bad data)", preferredStyle: .alert);
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                
+                var rootVC = UIApplication.shared.keyWindow?.rootViewController
+                
+                if let navigationVC = rootVC as? UINavigationController {
+                    rootVC = navigationVC.viewControllers.first
+                }
+                
+                rootVC?.present(alert, animated: true, completion: nil)
+                
                 return
             }
             
@@ -60,9 +82,31 @@ class ServerInterface {
         do {
             try ServerInterface.postServer(jsonRequest: request, callback: { (data) in callback(data) })
         } catch ServerInterfaceError.badJSONRequest(description: let error) {
-            print(error)
+            let alert = UIAlertController(title: "Server Request Failed", message: error, preferredStyle: .alert);
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            
+            var rootVC = UIApplication.shared.keyWindow?.rootViewController
+            
+            if let navigationVC = rootVC as? UINavigationController {
+                rootVC = navigationVC.viewControllers.first
+            }
+            
+            rootVC?.present(alert, animated: true, completion: nil)
+            
+            return
         } catch {
-            print("Generic request failed")
+            let alert = UIAlertController(title: "Server Request Failed", message: "Other Failure", preferredStyle: .alert);
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            
+            var rootVC = UIApplication.shared.keyWindow?.rootViewController
+            
+            if let navigationVC = rootVC as? UINavigationController {
+                rootVC = navigationVC.viewControllers.first
+            }
+            
+            rootVC?.present(alert, animated: true, completion: nil)
+            
+            return
         }
     }
 }
