@@ -39,6 +39,7 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver, BlipD
     var lastQuery: CustomLookup!
     var signInModel: SignInModel!
     var savedBlips: [Blip]!
+    var loggingOut = false
     
     init(firstName: String, lastName: String, imageURL: URL, email: String, userID: Int, attractionHistory: [String: Int], guest: Bool, autoQueryOptions: AutoQueryOptions, savedBlips: [Blip]) {
         self.firstName = firstName
@@ -134,6 +135,10 @@ class User: NSObject, NSCoding, LookupModelObserver, QueryOptionsObserver, BlipD
     }
     
     func saveUser() {
+        if loggingOut {
+            return
+        }
+        
         let isSuccessfulSave = NSKeyedArchiver.archiveRootObject(self, toFile: User.ArchiveURL.path)
         
         if isSuccessfulSave == false {

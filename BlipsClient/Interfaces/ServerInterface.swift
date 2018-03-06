@@ -47,7 +47,6 @@ class ServerInterface {
             }
             
             guard let data = data else {
-                // what is this case for? look this up
                 return
             }
             

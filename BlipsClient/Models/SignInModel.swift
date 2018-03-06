@@ -45,7 +45,7 @@ class SignInModel {
     private var userAccountObservers = [UserAccountObserver]()
     
     init() {
-        self.userLoaded(loaded: NSKeyedUnarchiver.unarchiveObject(withFile: User.ArchiveURL.path) as? User ?? nil)
+        userLoaded(loaded: NSKeyedUnarchiver.unarchiveObject(withFile: User.ArchiveURL.path) as? User ?? nil)
     }
 
     func addUserAccountObserver(observer: UserAccountObserver) {
@@ -73,7 +73,7 @@ class SignInModel {
             account.addUserHistoryObserver(observer: lookupModel)
         }
         
-        self.loggedIn = true
+        loggedIn = true
         
         for observer in userAccountObservers {
             observer.userLoggedIn(account: account)
@@ -91,12 +91,16 @@ class SignInModel {
     func userLoaded(loaded: User?) {
         if (loaded == nil) {
             guestUserLogin()
-        }
-        else {
-            self.account = loaded
-            self.account.signInModel = self
-            self.loggedIn = true
+        } else {
+            account = loaded
+            account.signInModel = self
+            loggedIn = true
             
+            // Perform a server login if the user is loaded from disk
+            if account.isGuest() == false {
+                serverLogin()
+            }
+ 
             notifyUserLoggedIn()
         }
     }
@@ -108,11 +112,11 @@ class SignInModel {
     }
     
     func mergeGuestHistory() {
-        self.account.mergeAttractionHistory(toMerge: self.replacedGuest.getAttractionHistory(), savedToMerge: self.replacedGuest.savedBlips)
-        self.account.setAutoQueryOptions(options: self.replacedGuest.autoQueryOptions)
-        self.setServerHistory(history: self.account.getAttractionHistory())
-        self.updateServerAutoQueryOptions(enabled: self.account.autoQueryOptions.autoQueryEnabled, typeGrabLength: self.account.autoQueryOptions.autoQueryTypeGrabLength, openNow: self.account.autoQueryOptions.autoQueryOpenNow, rating: self.account.autoQueryOptions.autoQueryRating, priceRange: self.account.autoQueryOptions.autoQueryPriceRange)
-        self.replacedGuest = nil
+        account.mergeAttractionHistory(toMerge: replacedGuest.getAttractionHistory(), savedToMerge: replacedGuest.savedBlips)
+        account.setAutoQueryOptions(options: replacedGuest.autoQueryOptions)
+        setServerHistory(history: account.getAttractionHistory())
+        updateServerAutoQueryOptions(enabled: account.autoQueryOptions.autoQueryEnabled, typeGrabLength: account.autoQueryOptions.autoQueryTypeGrabLength, openNow: account.autoQueryOptions.autoQueryOpenNow, rating: account.autoQueryOptions.autoQueryRating, priceRange: account.autoQueryOptions.autoQueryPriceRange)
+        replacedGuest = nil
     }
     
     func userLoggedIn(account: User) {
@@ -128,7 +132,7 @@ class SignInModel {
         }
         
         account.signInModel = self
-        self.loggedIn = true
+        loggedIn = true
         self.account = account
         
         retrieveSavedBlipMetadata()
@@ -137,14 +141,9 @@ class SignInModel {
     }
     
     func userLoggedOut(deleteUser: Bool) {
-        self.loggedIn = false
+        loggedIn = false
+        account.loggingOut = true
         
-        GIDSignIn.sharedInstance().signOut()
-        
-        for observer in userAccountObservers {
-            observer.userLoggedOut()
-        }
-
         if FileManager().fileExists(atPath: User.ArchiveURL.path) {
             do {
                 try FileManager().removeItem(atPath: User.ArchiveURL.path)
@@ -153,26 +152,32 @@ class SignInModel {
             }
         }
         
+        GIDSignIn.sharedInstance().signOut()
+        
+        for observer in userAccountObservers {
+            observer.userLoggedOut()
+        }
+        
         if deleteUser == true {
             deleteServerUser(id: account.getID())
         }
         
-        self.account.clearAttractionHistoryAndSettings()
-        self.account = nil
+        account.clearAttractionHistoryAndSettings()
+        account = nil
         
         guestUserLogin()
     }
     
     func isUserLoggedIn() -> Bool {
-        return self.loggedIn
+        return loggedIn
     }
     
     func getAccount() -> User {
-        return self.account
+        return account
     }
     
     func userIsGuest() -> Bool {
-        return self.account.isGuest()
+        return account.isGuest()
     }
     
     func addUserHistoryObserver(observer: UserHistoryObserver) {
