@@ -45,11 +45,11 @@ class AttractionsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return userTypeQueryCount
-        }
-        
         if userTypeQueryCount > 0 {
+            if section == 0 {
+                return userTypeQueryCount
+            }
+            
             return prioritySortedAttractions.count - userTypeQueryCount
         }
  

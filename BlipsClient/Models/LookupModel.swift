@@ -142,8 +142,7 @@ class LookupModel: UserHistoryObserver, LocationObserver {
                     
                     if (key == attributesTag) {
                         parseAttributes(entries: entry)
-                    }
-                    else if (key == attractionTypeTag) {
+                    } else if (key == attractionTypeTag) {
                         parseAttractionTypes(entries: entry)
                     }
                 }
