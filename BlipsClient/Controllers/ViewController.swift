@@ -24,10 +24,12 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
     private var blipTableVCasVC: BlipTableViewController?
 
     private let animationTimer: Double = 0.25
+    private var tableConstraintOffset: CGFloat!
     private var maximumTableSize: CGFloat!
     private var safeAreaHeight: CGFloat!
     private var bottomPadding: CGFloat!
     private var refreshButtonEnabled: Bool = true
+    private var grabberToggleHeightCombined: CGFloat!
 
     func relayUserLogin(account: User) {
         mainModel.relayUserLogin(account: account)
@@ -48,7 +50,6 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
     
     func annotationsUpdated(annotations: [MKAnnotation], updateType: UpdateType) {
         let tableView = blipTableVCasVC?.view as! UITableView
-        self.blipTableVCYPlacement.constant = 0.0
         self.maximumTableSize = 0.0
         
         if updateType == UpdateType.SavedBlip {
@@ -68,14 +69,15 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
                 return
             }
 
-            let tableHeight = CGFloat(annotations.count) * tableView.rowHeight
-            self.maximumTableSize = self.safeAreaHeight / 2 - tableHeight
-            
-            if self.maximumTableSize > CGFloat(0.0) {
-                self.blipTableVCYPlacement.constant -= self.maximumTableSize
+            self.maximumTableSize = CGFloat(annotations.count) * tableView.rowHeight
+                        
+            if self.maximumTableSize > (self.mapVC.frame.height / 2) {
+                self.tableConstraintOffset = -(self.grabberToggleHeightCombined)
             } else {
-                self.blipTableVCYPlacement.constant -= self.bottomPadding
+                self.tableConstraintOffset = -(self.mapVC.frame.height / 2 - self.maximumTableSize)
             }
+            
+            self.blipTableVCYPlacement.constant = self.tableConstraintOffset
         }
     }
     
@@ -105,6 +107,8 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         mainModel.registerMapModelObserver(observer: blipTableVC)
         mainModel.registerMapModelObserver(observer: toggleTable)
         mainModel.registerMapModelObserver(observer: self)
+        
+        grabberToggleHeightCombined = blipTableVC.frame.minY - toggleTable.frame.minY
     }
     
     //MARK: Map Accessory Animations
@@ -112,8 +116,22 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
         let translation = recognizer.translation(in: self.blipTableVC)
 
         if let view = recognizer.view {
-            if (((toggleTable.frame.minY + translation.y) < mapVC.frame.minY) || (view.frame.maxY > mapVC.frame.maxY) ||
-                ((maximumTableSize + mapVC.frame.midY) >= (blipTableVC.frame.minY - (bottomPadding * 3) + translation.y))) {
+            // Half of the height of the map view
+            let mapViewMidHeight = mapVC.frame.height / 2
+            
+            // blipTableVCYPlacement is the constraint that sets the table's height
+            // When the table is halfway up the screen, it is equal to 0. In the top half, it's negative,
+            // in the bottom half it is positive. tablePlaceConstraintRelative gets the actual position
+            // of the table, with respect to the map (by adding the constraint value to the midpoint of the map view)
+            let tablePlaceConstraintRelative = mapViewMidHeight + blipTableVCYPlacement.constant
+            
+            // Prevent the table from being resized past its maximum size
+            if (tablePlaceConstraintRelative - translation.y) >= maximumTableSize {
+                return
+            }
+            
+            // Prevent the table from being resized above the map view (i.e. off screen)
+            if (toggleTable.frame.minY + translation.y) < mapVC.frame.minY {
                 return
             }
             
@@ -148,11 +166,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             blipTableVC.makeInVisible()
             grabberView.makeInVisible()
         } else {
-            if abs(maximumTableSize) > (mapVC.frame.height / 2) {
-                blipTableVCYPlacement.constant = 0.0
-            } else {
-                blipTableVCYPlacement.constant = (maximumTableSize + bottomPadding)
-            }
+            blipTableVCYPlacement.constant = tableConstraintOffset
             
             blipTableVC.makeVisible()
             grabberView.makeVisible()
@@ -175,7 +189,11 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             return
         }
         
-        let location = percentage * (mapVC.frame.height / 2)
+        var location = percentage * (mapVC.frame.height / 2)
+        
+        if maximumTableSize < (mapVC.frame.height / 2) {
+            location = tableConstraintOffset
+        }
         
         self.view.layoutIfNeeded()
         blipTableVCYPlacement.constant = location
