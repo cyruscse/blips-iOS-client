@@ -82,7 +82,10 @@ class CitySearchTableViewController: UITableViewController, UISearchResultsUpdat
             if let results = results {
                 self.autoCompletedPlaces = results
                 self.autoCompletedPlacesStrings = [String]()
-                self.autoCompletedPlacesStrings.append("Current Location")
+                
+                if self.haveUserLocation {
+                    self.autoCompletedPlacesStrings.append("Current Location")
+                }
                 
                 let autoCompStrings = results.map { $0.attributedFullText.string }
                 self.autoCompletedPlacesStrings.append(contentsOf: autoCompStrings)
