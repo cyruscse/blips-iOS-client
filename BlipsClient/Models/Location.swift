@@ -57,7 +57,17 @@ class Location: NSObject, CLLocationManagerDelegate {
     
     // Automatically called by the Location API if the location can't be determined
     internal func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("error")
+        switch manager.desiredAccuracy {
+            case kCLLocationAccuracyBest:
+                manager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+                getLocation(callback: { (coordinate) in
+                    self.getLocationCallback(coordinate: coordinate)
+                })
+            case kCLLocationAccuracyThreeKilometers:
+                return
+            default:
+                return
+        }
     }
     
     // Request the device's location, call the passed callback function on completion
