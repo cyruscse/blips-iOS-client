@@ -70,7 +70,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             }
 
             self.maximumTableSize = CGFloat(annotations.count) * tableView.rowHeight
-                        
+            
             if self.maximumTableSize > (self.mapVC.frame.height / 2) {
                 self.tableConstraintOffset = -(self.grabberToggleHeightCombined)
             } else {
@@ -140,7 +140,7 @@ class ViewController: UIViewController, UIPopoverPresentationControllerDelegate,
             if view.frame.maxY >= (mapVC.frame.maxY * 0.95) {
                 blipTableVC.asyncHide()
                 grabberView.asyncHide()
-                blipTableVCYPlacement.constant = -(mapVC.frame.height / 2 + toggleTable.frame.height / 2)
+                blipTableVCYPlacement.constant = -((mapVC.frame.height / 2) + (toggleTable.frame.height / 3))
                 
                 if toggleTable.viewsVisible == true {
                     toggleTable.rotateButtonImage()
