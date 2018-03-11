@@ -39,7 +39,14 @@ class MapViewController: MKMapView, MapModelObserver {
     }
     
     func focusOnBlip(blip: Blip) {
-        setCenter(blip.coordinate, animated: true)
+        if region.span.latitudeDelta > 50.0 || region.span.longitudeDelta > 50.0 {
+            let coordinateRegion = MKCoordinateRegionMakeWithDistance(blip.coordinate, 5000.0, 5000.0)
+            
+            setRegion(coordinateRegion, animated: true)
+        } else {
+            setCenter(blip.coordinate, animated: true)
+        }
+        
         selectAnnotation(blip, animated: true)
     }
 }

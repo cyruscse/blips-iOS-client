@@ -29,6 +29,10 @@ class MapAccessoryView: UIView, MapModelObserver {
     }
     
     private func fadeShowView() {
+        if lastAlpha == nil {
+            lastAlpha = 1.0
+        }
+        
         self.isHidden = false
         self.isUserInteractionEnabled = true
         

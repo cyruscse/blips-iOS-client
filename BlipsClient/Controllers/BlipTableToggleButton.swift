@@ -17,6 +17,10 @@ class BlipTableToggleButton: UIButton, MapModelObserver {
     var animationTimer: Double!
     
     func fadeShowView() {
+        if lastAlpha == nil {
+            lastAlpha = 1.0
+        }
+        
         self.isHidden = false
         self.isUserInteractionEnabled = true
         

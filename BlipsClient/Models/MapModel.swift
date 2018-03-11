@@ -276,6 +276,16 @@ class MapModel: NSObject, UserAccountObserver, LocationObserver, MKMapViewDelega
             return
         }
         
+        if lastQueryLocation == nil {
+            lastQueryLocation = mapView.region.center
+        }
+        
+        if account.lastQuery == nil {
+            mainVC.hideRefreshButton()
+            
+            return
+        }
+        
         if distanceBetweenLocations(coordinate1: lastQueryLocation, coordinate2: mapView.centerCoordinate) > Double(account.lastQuery.getRadius()) {
             mainVC.showRefreshButton()
         } else {
