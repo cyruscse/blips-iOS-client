@@ -148,7 +148,7 @@ class LookupTableViewController: UITableViewController, LookupModelObserver, Att
         cityCoordinates = coordinates
         citySearchVC?.addCurrentLocationEntry()
         
-        if cityLabel != nil {
+        if cityLabel != nil && cityLabel.text == "" {
             cityLabel.text = currentLocationStr
         }
     }
