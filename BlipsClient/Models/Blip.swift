@@ -47,6 +47,8 @@ class Blip: NSObject, MKAnnotation, NSCoding {
         else {
             return nil
         }
+        
+        let information = json["description"] as? String ?? ""
 
         self.title = name
         self.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
@@ -56,7 +58,7 @@ class Blip: NSObject, MKAnnotation, NSCoding {
         self.placeID = placeID
         // Force unwrapping this is fine, String contents are set by the time this happens
         self.icon = URL(string: (Blip.iconURLPrefix + iconSuffix))!
-        self.information = ""
+        self.information = information
         self.city = cityName
         self.country = countryName
     }
