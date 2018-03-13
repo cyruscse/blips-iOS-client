@@ -122,8 +122,9 @@ class SignInModel {
     func userLoggedIn(account: User) {
         if loggedIn == true && self.account.isGuest() == true {
             var guestQueried = false
+            let guestAccountNumQueries = self.account.getAttractionHistoryCount()
             
-            if account.getAttractionHistoryCount() != 0 {
+            if guestAccountNumQueries > 0 {
                 guestQueried = true
             }
             
