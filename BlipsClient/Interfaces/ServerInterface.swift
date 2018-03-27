@@ -26,7 +26,7 @@ class ServerInterface {
     }
     
     static func postServer(jsonRequest: [String: Any], callback: @escaping (Data) -> ()) throws {
-        let serverURL:URL = URL(string: "http://www.blipsserver-env.us-east-2.elasticbeanstalk.com")!
+        let serverURL:URL = URL(string: "")!    // AWS hosted Blips Server URL removed (as server has been shut down). Update this to point to new location if server is hosted again in the future
         let session = URLSession.shared
         
         var request = URLRequest(url: serverURL)
